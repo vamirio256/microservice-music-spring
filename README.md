@@ -1,1 +1,1 @@
-# microservice-music-spring
+# spring-soundcloud-clone
