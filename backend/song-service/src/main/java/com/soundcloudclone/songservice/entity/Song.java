@@ -1,4 +1,4 @@
-package com.soundcloudclone.songservice.model;
+package com.soundcloudclone.songservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +21,4 @@ public class Song {
     private String artist;
     private String songUrl;
     private String coverUrl;
-    private long fileSize;
 }

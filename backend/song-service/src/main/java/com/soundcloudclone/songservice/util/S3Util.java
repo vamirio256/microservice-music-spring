@@ -1,48 +1,54 @@
 package com.soundcloudclone.songservice.util;
 
-import com.soundcloudclone.songservice.config.S3Config;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class S3Util {
-    private static String BUCKET;
-    private static S3Client s3Client;
+    //    private static String BUCKET;
+//    private static String REGION;
+//    public S3Util(@Value("${aws.s3.bucket}") String bucket, @Value("${aws.s3.region}") String region) {
+//        BUCKET = bucket;
+//        REGION = region;
+//    }
+    private final S3Client s3Client;
+    private final GetObjectRequest.Builder getObjectRequestBuilder;
+    private final PutObjectRequest.Builder putObjectRequestBuilder;
 
-    public S3Util(@Value("${aws.s3.bucket}") String bucket) {
-        BUCKET = bucket;
-    }
-
-    @Autowired
-    public void setS3Client(S3Client s3ClientBuilder) {
-        S3Util.s3Client = s3ClientBuilder;
-    }
-
-    public static String uploadFile(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+    public String uploadFile(MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID().toString();
         PutObjectResponse response = s3Client
                 .putObject(
-                        PutObjectRequest.builder()
-                                .bucket(BUCKET)
+                        putObjectRequestBuilder
                                 .key(fileName)
                                 .contentType(file.getContentType())
                                 .contentLength(file.getSize())
                                 .build(),
                         RequestBody.fromBytes(file.getBytes())
                 );
-        log.info(response.toString());
-        return "https://" + BUCKET + "s3.amazonaws.com/" + fileName;
+        return fileName;
+    }
+
+    public byte[] streamFile(String objectURL) {
+        GetObjectRequest getObjectRequest = getObjectRequestBuilder
+                .key(objectURL)
+                .build();
+        ResponseBytes<GetObjectResponse> objectResponse = s3Client.getObjectAsBytes(getObjectRequest);
+        return objectResponse.asByteArray();
     }
 }

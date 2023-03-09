@@ -9,15 +9,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="music-service" />
         <module name="song-service" />
+        <module name="authorize-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="authorize-service" target="17" />
       <module name="music-service" target="17" />
       <module name="song-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="authorize-service" options="-parameters" />
       <module name="music-service" options="-parameters" />
       <module name="song-service" options="-parameters" />
     </option>
