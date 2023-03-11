@@ -2,25 +2,30 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="oauth2-authorization-server" />
-        <module name="playlist-service" />
         <module name="spring-security-client" />
         <module name="audio-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="playlist-service (1)" target="16" />
+      <module name="playlist-service (2)" target="16" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="audio-service" options="-parameters" />
-      <module name="backend" options="" />
+      <module name="backend" options="-parameters" />
       <module name="oauth2-authorization-server" options="-parameters" />
-      <module name="playlist-service" options="-parameters" />
+      <module name="playlist-service (1)" options="-parameters" />
+      <module name="playlist-service (2)" options="-parameters" />
       <module name="spring-security-client" options="-parameters" />
     </option>
   </component>

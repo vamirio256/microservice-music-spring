@@ -1,4 +1,4 @@
-package com.soundcloudclone.songservice.config;
+package com.soundcloudclone.audioservice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

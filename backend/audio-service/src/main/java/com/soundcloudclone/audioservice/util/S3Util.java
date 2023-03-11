@@ -1,4 +1,4 @@
-package com.soundcloudclone.songservice.util;
+package com.soundcloudclone.audioservice.util;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

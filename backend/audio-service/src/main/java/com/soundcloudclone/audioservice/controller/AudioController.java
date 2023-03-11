@@ -1,8 +1,8 @@
-package com.soundcloudclone.songservice.controller;
+package com.soundcloudclone.audioservice.controller;
 
-import com.soundcloudclone.songservice.dto.SongRequestDTO;
-import com.soundcloudclone.songservice.dto.SongResponseDTO;
-import com.soundcloudclone.songservice.service.SongService;
+import com.soundcloudclone.audioservice.dto.AudioRequestDTO;
+import com.soundcloudclone.audioservice.dto.AudioResponseDTO;
+import com.soundcloudclone.audioservice.service.AudioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -16,15 +16,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/song")
+@RequestMapping("/api/audio")
 @RequiredArgsConstructor
-public class SongController {
+public class AudioController {
 
-    private final SongService songService;
+    private final AudioService audioService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> streamSong(@PathVariable Long id) {
-        byte[] byteArray = songService.streamSong(id);
+    public ResponseEntity<Resource> streamAudio(@PathVariable Long id) {
+        byte[] byteArray = audioService.streamAudio(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentLength(byteArray.length);
@@ -35,9 +35,9 @@ public class SongController {
     }
 
     @PostMapping
-    public ResponseEntity<SongResponseDTO> uploadSong(@ModelAttribute SongRequestDTO songRequestDTO) throws IOException {
-        SongResponseDTO songResponseDTO = songService.uploadSong(songRequestDTO);
+    public ResponseEntity<AudioResponseDTO> uploadAudio(@ModelAttribute AudioRequestDTO audioRequestDTO) throws IOException {
+        AudioResponseDTO audioResponseDTO = audioService.uploadAudio(audioRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(songResponseDTO);
+                .body(audioResponseDTO);
     }
 }

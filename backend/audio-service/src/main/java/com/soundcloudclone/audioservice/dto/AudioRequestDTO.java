@@ -1,4 +1,4 @@
-package com.soundcloudclone.songservice.dto;
+package com.soundcloudclone.audioservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SongRequestDTO {
+public class AudioRequestDTO {
     private String title;
     private String artist;
-    private MultipartFile songFile;
+    private MultipartFile audioFile;
     private MultipartFile coverFile;
 }
