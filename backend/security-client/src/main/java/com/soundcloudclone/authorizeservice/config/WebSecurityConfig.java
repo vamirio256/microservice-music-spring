@@ -17,12 +17,10 @@ public class WebSecurityConfig {
             "/resendVerifyToken"
     };
 
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
     }
 
-    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors()
                 .and()

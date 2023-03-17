@@ -16,14 +16,20 @@
     <modules>
         <module>api-gateway</module>
         <module>oauth2-authorization-server</module>
-        <module>spring-security-client</module>
+        <module>security-client</module>
         <module>audio-service</module>
+        <module>shared-module</module>
+        <module>user-service</module>
+        <module>playlist-service</module>
+        <module>search-service</module>
+        <module>notification-service</module>
+        <module>discovery-server</module>
     </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-cloud.version>2021.0.2</spring-cloud.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -43,6 +49,11 @@
                 <version>2.15.0</version>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-netflix-eureka-client</artifactId>
+                <version>3.1.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -51,6 +62,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.9</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -63,6 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
                 <configuration>
                     <source>16</source>
                     <target>16</target>
