@@ -30,7 +30,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="audio-service" options="-parameters" />
-      <module name="backend" options="" />
+      <module name="backend" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="oauth2-authorization-server" options="-parameters" />
