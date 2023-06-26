@@ -1,15 +1,18 @@
 package com.zyan.backend.playlist;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
+import com.zyan.backend.track.TrackRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlaylistServiceImpl implements PlaylistService{
 
     private final PlaylistRepository playlistRepository;
+    private final TrackRepository trackRepository;
 
-    public PlaylistServiceImpl(PlaylistRepository playlistRepository) {
+    public PlaylistServiceImpl(PlaylistRepository playlistRepository, TrackRepository trackRepository) {
         this.playlistRepository = playlistRepository;
+        this.trackRepository = trackRepository;
     }
 
     @Override
@@ -31,6 +34,6 @@ public class PlaylistServiceImpl implements PlaylistService{
 
     @Override
     public void deletePlaylist(int id) {
-
+        playlistRepository.deleteById(id);
     }
 }

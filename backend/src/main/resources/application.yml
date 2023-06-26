@@ -22,11 +22,11 @@ spring:
       client:
         registration:
           google:
-            client-id:
-            client-secret:
+            client-id: 224832482994-s83lolfpg135t42kjrm57j9mq9fqk1ho.apps.googleusercontent.com
+            client-secret: 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
           facebook:
-            client-id:
-            client-secret:
+            client-id: 1333281894211704
+            client-secret: a832e441b28b99d7ee4101695d18f093
   main:
     allow-bean-definition-overriding: true
   servlet:
