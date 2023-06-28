@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
@@ -15,6 +16,11 @@ public class ZyanBackEndApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ZyanBackEndApplication.class, args);
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
@@ -33,9 +39,9 @@ public class ZyanBackEndApplication {
 	private void ApplyAdmin(UserService userService, PasswordEncoder passwordEncoder) {
 		User user = User.builder()
 				.name("admin")
-				.email("admin@gmail.com")
+//				.email("admin@gmail.com")
 				.password(passwordEncoder.encode("admin"))
-				.roles("ADMIN")
+//				.roles("ADMIN")
 				.build();
 		userService.saveUser(user);
 	}

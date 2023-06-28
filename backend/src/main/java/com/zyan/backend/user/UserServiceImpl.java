@@ -45,14 +45,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto currentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String email = auth.getPrincipal();
-        return new UserDto();
-    }
-
-    @Override
-    public void checkIfUserExists(Integer userId) throws Exception {
+    public void checkIfUserExists(int userId) throws Exception {
         if(userRepository.findById(userId).isEmpty()){
             throw new ResourceNotFoundException("User with id [%s] not found".formatted(userId));
         }

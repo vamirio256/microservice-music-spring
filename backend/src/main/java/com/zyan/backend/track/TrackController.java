@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/track")
+@RequestMapping("/api/v1/tracks")
 public class TrackController {
 
     private final TrackService trackService;
@@ -33,7 +33,7 @@ public class TrackController {
     @PostMapping(
             value = "{userId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Track> uploadTrack(@PathVariable("userId") Integer userId,
+    public ResponseEntity<Track> uploadTrack(@PathVariable("userId") int userId,
                                       @RequestPart("track") Track track,
                                       @RequestPart("cover") MultipartFile cover,
                                       @RequestPart("audio") MultipartFile audio){

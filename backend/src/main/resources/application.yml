@@ -3,11 +3,17 @@ server:
     include-message: always
   port: 8080
 
+logging:
+  level:
+    org.springframework.security: debug
+
 spring:
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/soundcloud_clone
-    username: quan
-    password: Vamario256
+    url: jdbc:mysql://localhost:3306/${MYSQL_SCHEMA}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -22,11 +28,11 @@ spring:
       client:
         registration:
           google:
-            client-id: 224832482994-s83lolfpg135t42kjrm57j9mq9fqk1ho.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_SECRECT}
+            client-secret: ${GOOGLE_CLIENT_ID}
           facebook:
-            client-id: 1333281894211704
-            client-secret: a832e441b28b99d7ee4101695d18f093
+            client-id: ${FACEBOOK_CLIENT_SECRECT}
+            client-secret: ${FACEBOOK_CLIENT_ID}
   main:
     allow-bean-definition-overriding: true
   servlet:
@@ -35,7 +41,14 @@ spring:
       max-request-size: 10MB
 
 aws:
-  region: ap-southeast-1
+  region: ${AWS_REGION}
   s3:
     buckets:
-      customer: vamirio-soundcloud-clone
+      customer: ${AWS_BUCKET}
+
+access-token:
+  private: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
+  public: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
+refresh-token:
+  private: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
+  public: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}

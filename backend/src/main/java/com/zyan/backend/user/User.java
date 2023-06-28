@@ -1,14 +1,12 @@
 package com.zyan.backend.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Data
 @AllArgsConstructor
@@ -20,19 +18,30 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
+
+    @NonNull
     @Column(name = "name")
     private String name;
-    @Column(nullable = false,
-            unique = true)
-    private String email;
+
+//    @NonNull
+//    @Column(nullable = false,
+//            unique = true)
+//    private String email;
+
+    @NonNull
     @Column(nullable = false)
     private String password;
-    private String roles;
+//    private String roles;
+
+    public User(String username, String password) {
+        setName(username);
+        setPassword(password);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     @Override
