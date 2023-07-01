@@ -15,13 +15,12 @@ public class PlaylistController {
 
 
     @GetMapping(value = "{playlistId}")
-    public ResponseEntity<Playlist> getPlaylist(@PathVariable("playlistId")Integer id){
+    public ResponseEntity getPlaylist(@PathVariable("playlistId")Integer id){
         return ResponseEntity.ok(playlistService.getPlaylist(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Playlist> createPlaylist(@RequestBody Playlist playlist){
-        System.out.println(playlist);
+    public ResponseEntity createPlaylist(@RequestBody Playlist playlist){
         return ResponseEntity.ok(playlistService.createPlaylist(playlist));
     }
 }

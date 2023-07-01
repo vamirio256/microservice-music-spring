@@ -3,7 +3,7 @@ package com.zyan.backend;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
 import com.zyan.backend.user.User;
-import com.zyan.backend.user.UserService;
+import com.zyan.backend.user.UserManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +27,7 @@ public class ZyanBackEndApplication {
 	CommandLineRunner runner(
 			S3Service s3Service,
 			S3Bucket s3Bucket,
-			UserService userService,
+			UserManager userManager,
             PasswordEncoder passwordEncoder
 	){
 		return args -> {
@@ -36,14 +36,14 @@ public class ZyanBackEndApplication {
 		};
 	}
 
-	private void ApplyAdmin(UserService userService, PasswordEncoder passwordEncoder) {
+	private void ApplyAdmin(UserManager userManager, PasswordEncoder passwordEncoder) {
 		User user = User.builder()
 				.name("admin")
 //				.email("admin@gmail.com")
 				.password(passwordEncoder.encode("admin"))
 //				.roles("ADMIN")
 				.build();
-		userService.saveUser(user);
+		userManager.createUser(user);
 	}
 
 	private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket s3Bucket) {

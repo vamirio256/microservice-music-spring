@@ -27,12 +27,13 @@ public class User implements UserDetails {
 //    @NonNull
 //    @Column(nullable = false,
 //            unique = true)
-//    private String email;
+    private String email;
+
 
     @NonNull
     @Column(nullable = false)
     private String password;
-//    private String roles;
+    private UserRole roles;
 
     public User(String username, String password) {
         setName(username);

@@ -41,7 +41,7 @@ public class UserManager implements UserDetailsManager {
 
     @Override
     public boolean userExists(String username) {
-        return false;
+        return userRepository.findByName(username).isPresent();
     }
 
     @Override
@@ -49,4 +49,5 @@ public class UserManager implements UserDetailsManager {
         return userRepository.findByName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username %s not found".formatted(username)));
     }
+
 }

@@ -6,10 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface TrackService {
-    Track uploadTrack(int userId, Track track, MultipartFile cover, MultipartFile audio);
+    Track uploadTrack(String username, Track track, MultipartFile cover, MultipartFile audio);
 
     byte[] getTrackCover(Integer trackId);
     void deleteTrack(int trackId);
 
-    InputStreamResource streamTrackAudio(Integer id);
+    byte[] streamTrackAudio(Integer id);
 }

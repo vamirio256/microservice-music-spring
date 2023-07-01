@@ -5,7 +5,6 @@ import com.zyan.backend.security.dto.TokenDTO;
 import com.zyan.backend.security.dto.SignUpDTO;
 import com.zyan.backend.user.User;
 import com.zyan.backend.user.UserRepository;
-import com.zyan.backend.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +15,14 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Slf4j
+//@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserDetailsManager userDetailsManager;
