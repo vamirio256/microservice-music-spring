@@ -61,7 +61,7 @@ public class WebSecurityConfig {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .anyRequest()
+                .requestMatchers("/api/**")
                 .authenticated()
                 .and()
                 .sessionManagement()
@@ -71,7 +71,7 @@ public class WebSecurityConfig {
                 .build();
 //                .httpBasic().disable()
 //                .oauth2ResourceServer((oauth2) -> oauth2
-//                        .jwt((jwt)-> jwt.jwtAuthenticationConverter(jwtToUserConverter)))
+    //                        .jwt((jwt)-> jwt.jwtAuthenticationConverter(jwtToUserConverter)))
 //                .sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .exceptionHandling((exceptions)-> exceptions
 //                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
