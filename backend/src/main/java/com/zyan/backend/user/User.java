@@ -21,23 +21,22 @@ public class User implements UserDetails {
     private int id;
 
     @NonNull
-    @Column(name = "name")
-    private String name;
-
-//    @NonNull
-//    @Column(nullable = false,
-//            unique = true)
-    private String email;
-
+    private String username;
 
     @NonNull
-    @Column(nullable = false)
+    private String email;
+
+    @NonNull
     private String password;
     private UserRole roles;
 
-    public User(String username, String password) {
-        setName(username);
-        setPassword(password);
+    public UserDTO mapUserToUserDTO(){
+        return UserDTO.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .roles(roles)
+                .build();
     }
 
     @Override
@@ -52,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     @Override

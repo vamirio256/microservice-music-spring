@@ -16,9 +16,9 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("{userId}")
-    @PreAuthorize("#user.id == #userid")
-    public ResponseEntity user (@AuthenticationPrincipal User user, @PathVariable("userId") int id){
-        return ResponseEntity.ok(UserDTO.from(userRepository.findById(id).orElseThrow()));
-    }
+//    @GetMapping("{userId}")
+//    @PreAuthorize("#user.id == #userid")
+//    public ResponseEntity user (@AuthenticationPrincipal User user, @PathVariable("userId") int id){
+//        return ResponseEntity.ok(UserDTO.from(userRepository.findById(id).orElseThrow()));
+//    }
 }

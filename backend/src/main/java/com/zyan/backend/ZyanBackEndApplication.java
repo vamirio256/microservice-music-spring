@@ -38,7 +38,7 @@ public class ZyanBackEndApplication {
 
 	private void ApplyAdmin(UserManager userManager, PasswordEncoder passwordEncoder) {
 		User user = User.builder()
-				.name("admin")
+				.username("admin")
 //				.email("admin@gmail.com")
 				.password(passwordEncoder.encode("admin"))
 //				.roles("ADMIN")

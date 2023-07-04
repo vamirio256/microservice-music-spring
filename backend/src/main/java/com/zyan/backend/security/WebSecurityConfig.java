@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,18 +29,10 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -46,17 +40,15 @@ import java.util.List;
 public class WebSecurityConfig {
 
     private final UserRepository userRepository;
-    private final JwtToUserConverter jwtToUserConverter;
-    private final KeyUtils keyUtils;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserDetailsManager userDetailsManager;
+    private final JwtFilter jwtFilter;
 
-    public WebSecurityConfig(UserRepository userRepository, JwtToUserConverter jwtToUserConverter, KeyUtils keyUtils, BCryptPasswordEncoder passwordEncoder, UserDetailsManager userDetailsManager) {
+    public WebSecurityConfig(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, UserDetailsManager userDetailsManager, JwtFilter jwtFilter) {
         this.userRepository = userRepository;
-        this.jwtToUserConverter = jwtToUserConverter;
-        this.keyUtils = keyUtils;
         this.passwordEncoder = passwordEncoder;
         this.userDetailsManager = userDetailsManager;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -65,22 +57,26 @@ public class WebSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/authenticate", "/sign-up")
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic().disable()
-                .oauth2ResourceServer((oauth2) -> oauth2
-                        .jwt((jwt)-> jwt.jwtAuthenticationConverter(jwtToUserConverter)))
-                .sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling((exceptions)-> exceptions
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                )
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+//                .httpBasic().disable()
+//                .oauth2ResourceServer((oauth2) -> oauth2
+//                        .jwt((jwt)-> jwt.jwtAuthenticationConverter(jwtToUserConverter)))
+//                .sessionManagement((session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .exceptionHandling((exceptions)-> exceptions
+//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                )
     }
 
 //    @Bean
@@ -95,63 +91,7 @@ public class WebSecurityConfig {
 //    }
 
     @Bean
-    @Primary
-    JwtDecoder JwtAccessTokenDecoder(){
-        return NimbusJwtDecoder.withPublicKey(keyUtils.getAccessTokenPublicKey()).build();
-    }
-
-    @Bean
-    @Primary
-    JwtEncoder jwtAccessTokenEncoder(){
-        JWK jwk = new RSAKey.Builder(keyUtils.getAccessTokenPublicKey())
-                .privateKey(keyUtils.getAccessTokenPrivateKey())
-                .build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet((jwk)));
-        return new NimbusJwtEncoder(jwks);
-    }
-
-    @Bean
-    @Qualifier("jwtRefreshTokenDecoder")
-    JwtDecoder jwtRefreshTokenDecoder(){
-        return NimbusJwtDecoder.withPublicKey(keyUtils.getRefreshTokenPublicKey()).build();
-    }
-
-    @Bean
-    @Qualifier("jwtRefreshTokenEncoder")
-    JwtEncoder jwtRefreshTokenEncoder(){
-        JWK jwk = new RSAKey.Builder(keyUtils.getRefreshTokenPublicKey())
-                .privateKey(keyUtils.getRefreshTokenPrivateKey())
-                .build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet((jwk)));
-        return new NimbusJwtEncoder(jwks);
-    }
-
-    @Bean
-    @Qualifier("jwtRefreshTokenAuthenticationProvider")
-    JwtAuthenticationProvider jwtRefreshTokenAuthenticationProvider(){
-        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(jwtRefreshTokenDecoder());
-        provider.setJwtAuthenticationConverter(jwtToUserConverter);
-        return provider;
-    }
-
-    @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userDetailsManager);
-        return provider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
-                .build();
-        UserDetails user = User.withUsername("user")
-                .password("user")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
+    public AuthenticationManager authenticationManager (AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }
