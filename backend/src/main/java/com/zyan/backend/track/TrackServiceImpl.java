@@ -3,9 +3,8 @@ package com.zyan.backend.track;
 import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
-import com.zyan.backend.user.UserManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,23 +19,23 @@ public class TrackServiceImpl implements TrackService {
     private final TrackRepository trackRepository;
     private final S3Service s3Service;
     private final S3Bucket s3Bucket;
-    private final UserManager userManager;
+    private final UserDetailsService userDetailsService;
 
-    public TrackServiceImpl(TrackRepository trackRepository, S3Service s3Service, S3Bucket s3Bucket, UserManager userManager) {
+    public TrackServiceImpl(TrackRepository trackRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
         this.trackRepository = trackRepository;
         this.s3Service = s3Service;
         this.s3Bucket = s3Bucket;
-        this.userManager = userManager;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
     @Transactional
-    public Track uploadTrack(String username, Track track, MultipartFile cover, MultipartFile audio){
+    public Track uploadTrack(String email, Track track, MultipartFile cover, MultipartFile audio) {
 
-        if(!userManager.userExists(username))
-            throw new ResourceNotFoundException("user with name %s not found".formatted(username));
+        if (userDetailsService.loadUserByUsername(email) != null)
+            throw new ResourceNotFoundException("user with email %s not found".formatted(email));
 
-        log.info("username: {}",username);
+        log.info("email: {}", email);
 
         String trackAudioId = UUID.randomUUID().toString();
         String trackCoverId = UUID.randomUUID().toString();
@@ -65,7 +64,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public byte[] getTrackCover(Integer trackId){
+    public byte[] getTrackCover(Integer trackId) {
         var track = trackRepository.findById(trackId)
                 .orElseThrow(() -> new ResourceNotFoundException("track with id [%s] not found".formatted(trackId)));
 
