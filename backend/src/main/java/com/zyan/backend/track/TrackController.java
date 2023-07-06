@@ -1,13 +1,12 @@
 package com.zyan.backend.track;
 
-import org.springframework.core.io.InputStreamResource;
+import com.zyan.backend.user.UserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.util.List;
+import javax.print.attribute.standard.Media;
 
 @RestController
 @RequestMapping("/tracks")
@@ -21,15 +20,14 @@ public class TrackController {
     }
 
     @GetMapping(value = "/cover/{id}")
-    public ResponseEntity<byte[]> getTrackCover(@PathVariable("id") int id){
-
+    public ResponseEntity<byte[]> getTrackCover(@PathVariable("id") int id) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(trackService.getTrackCover(id));
     }
 
     @GetMapping(value = "/audio/{id}")
-    public ResponseEntity streamTrackAudio(@PathVariable("id") int id){
+    public ResponseEntity<byte[]> streamTrackAudio(@PathVariable("id") int id) {
         byte[] audio = trackService.streamTrackAudio(id);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -38,17 +36,26 @@ public class TrackController {
     }
 
     @PostMapping(
-            value = "{userId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Track> uploadTrack(@PathVariable("userId") String username,
-                                      @RequestPart("track") Track track,
-                                      @RequestPart("cover") MultipartFile cover,
-                                      @RequestPart("audio") MultipartFile audio){
-        return ResponseEntity.ok(trackService.uploadTrack(username, track, cover, audio));
+    public ResponseEntity<Track> uploadTrack(@RequestPart("user") UserDTO userDTO,
+                                             @RequestPart("track") Track track,
+                                             @RequestPart("cover") MultipartFile cover,
+                                             @RequestPart("audio") MultipartFile audio) {
+        return ResponseEntity.ok(trackService.uploadTrack(userDTO, track, cover, audio));
     }
 
-    @DeleteMapping(value="{id}")
-    public ResponseEntity<String> deleteTrack(@PathVariable("id") int id){
+    @PutMapping(
+        consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<Track> updateTrack(@RequestPart("user") UserDTO userDTO,
+                                             @RequestPart("track") Track track,
+                                             @RequestPart("cover") MultipartFile cover,
+                                             @RequestPart("audio") MultipartFile audio) {
+        return ResponseEntity.ok(trackService.updateTrack(userDTO, track, cover, audio));
+    }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<String> deleteTrack(@PathVariable("id") int id) {
         trackService.deleteTrack(id);
         return ResponseEntity.ok("Successfully deleted track with id [%s]".formatted(id));
     }

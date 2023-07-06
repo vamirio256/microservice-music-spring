@@ -3,6 +3,7 @@ package com.zyan.backend.track;
 import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
+import com.zyan.backend.user.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -30,12 +32,10 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public Track uploadTrack(String email, Track track, MultipartFile cover, MultipartFile audio) {
+    public Track uploadTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio) {
 
-        if (userDetailsService.loadUserByUsername(email) != null)
-            throw new ResourceNotFoundException("user with email %s not found".formatted(email));
-
-        log.info("email: {}", email);
+        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
+            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
 
         String trackAudioId = UUID.randomUUID().toString();
         String trackCoverId = UUID.randomUUID().toString();
@@ -99,6 +99,24 @@ public class TrackServiceImpl implements TrackService {
                 s3Bucket.getCustomer(),
                 "track-audio/%s".formatted(track.getAudioId())
         );
+    }
+
+    @Override
+    @Transactional
+    public Track updateTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio) {
+
+        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
+            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
+
+        Track updatedTrack = trackRepository.findById(track.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(track.getId())));
+
+        updatedTrack.builder()
+                .name(track.getName())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        return trackRepository.save(updatedTrack);
     }
 }
 

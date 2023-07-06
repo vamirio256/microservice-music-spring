@@ -1,5 +1,6 @@
 package com.zyan.backend.user;
 
+import com.zyan.backend.track.Track;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +33,17 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Track> tracks;
+
+    @ManyToMany
+    @JoinTable(name = "users_follows",
+    joinColumns = @JoinColumn(name="follower_id"),
+    inverseJoinColumns = @JoinColumn(name = "followed_id"))
+    private Collection<User> followedUsers;
+
+    @ManyToMany(mappedBy = "followedUsers")
+    private Collection<User> followers;
 
     public UserDTO mapUserToUserDTO(){
         return UserDTO.builder()
