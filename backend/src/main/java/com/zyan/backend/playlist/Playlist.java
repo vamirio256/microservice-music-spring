@@ -1,11 +1,14 @@
 package com.zyan.backend.playlist;
 
+import com.zyan.backend.track.Track;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +24,8 @@ public class Playlist {
     private String name;
     private boolean isPublic;
     private String coverUrl;
+    private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "playlist")
+    Collection<PlaylistTrack> playlistTracks;
 }

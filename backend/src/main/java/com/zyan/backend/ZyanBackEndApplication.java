@@ -3,11 +3,12 @@ package com.zyan.backend;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
 import com.zyan.backend.user.User;
-import com.zyan.backend.user.UserManager;
+import com.zyan.backend.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,15 +20,10 @@ public class ZyanBackEndApplication {
 	}
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
 	CommandLineRunner runner(
 			S3Service s3Service,
 			S3Bucket s3Bucket,
-			UserManager userManager,
+			UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
 	){
 		return args -> {
@@ -36,14 +32,14 @@ public class ZyanBackEndApplication {
 		};
 	}
 
-	private void ApplyAdmin(UserManager userManager, PasswordEncoder passwordEncoder) {
+	private void ApplyAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		User user = User.builder()
-				.name("admin")
+				.username("admin")
 //				.email("admin@gmail.com")
 				.password(passwordEncoder.encode("admin"))
 //				.roles("ADMIN")
 				.build();
-		userManager.createUser(user);
+		userRepository.save(user);
 	}
 
 	private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket s3Bucket) {
