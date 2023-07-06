@@ -3,14 +3,15 @@ package com.zyan.backend.track;
 import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
-import com.zyan.backend.user.UserManager;
+import com.zyan.backend.user.UserDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -20,23 +21,21 @@ public class TrackServiceImpl implements TrackService {
     private final TrackRepository trackRepository;
     private final S3Service s3Service;
     private final S3Bucket s3Bucket;
-    private final UserManager userManager;
+    private final UserDetailsService userDetailsService;
 
-    public TrackServiceImpl(TrackRepository trackRepository, S3Service s3Service, S3Bucket s3Bucket, UserManager userManager) {
+    public TrackServiceImpl(TrackRepository trackRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
         this.trackRepository = trackRepository;
         this.s3Service = s3Service;
         this.s3Bucket = s3Bucket;
-        this.userManager = userManager;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
     @Transactional
-    public Track uploadTrack(String username, Track track, MultipartFile cover, MultipartFile audio){
+    public Track uploadTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio) {
 
-        if(!userManager.userExists(username))
-            throw new ResourceNotFoundException("user with name %s not found".formatted(username));
-
-        log.info("username: {}",username);
+        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
+            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
 
         String trackAudioId = UUID.randomUUID().toString();
         String trackCoverId = UUID.randomUUID().toString();
@@ -65,7 +64,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public byte[] getTrackCover(Integer trackId){
+    public byte[] getTrackCover(Integer trackId) {
         var track = trackRepository.findById(trackId)
                 .orElseThrow(() -> new ResourceNotFoundException("track with id [%s] not found".formatted(trackId)));
 
@@ -100,6 +99,24 @@ public class TrackServiceImpl implements TrackService {
                 s3Bucket.getCustomer(),
                 "track-audio/%s".formatted(track.getAudioId())
         );
+    }
+
+    @Override
+    @Transactional
+    public Track updateTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio) {
+
+        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
+            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
+
+        Track updatedTrack = trackRepository.findById(track.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(track.getId())));
+
+        updatedTrack.builder()
+                .name(track.getName())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        return trackRepository.save(updatedTrack);
     }
 }
 

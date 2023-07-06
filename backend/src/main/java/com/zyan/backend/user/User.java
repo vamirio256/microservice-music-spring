@@ -1,12 +1,15 @@
 package com.zyan.backend.user;
 
+import com.zyan.backend.track.Track;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,28 +24,39 @@ public class User implements UserDetails {
     private int id;
 
     @NonNull
-    @Column(name = "name")
-    private String name;
-
-//    @NonNull
-//    @Column(nullable = false,
-//            unique = true)
-    private String email;
-
+    private String username;
 
     @NonNull
-    @Column(nullable = false)
-    private String password;
-    private UserRole roles;
+    private String email;
 
-    public User(String username, String password) {
-        setName(username);
-        setPassword(password);
+    @NonNull
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Track> tracks;
+
+    @ManyToMany
+    @JoinTable(name = "users_follows",
+    joinColumns = @JoinColumn(name="follower_id"),
+    inverseJoinColumns = @JoinColumn(name = "followed_id"))
+    private Collection<User> followedUsers;
+
+    @ManyToMany(mappedBy = "followedUsers")
+    private Collection<User> followers;
+
+    public UserDTO mapUserToUserDTO(){
+        return UserDTO.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .roles(role)
+                .build();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.EMPTY_LIST;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -52,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override

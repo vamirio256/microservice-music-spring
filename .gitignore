@@ -18,6 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
+backend/src/main/resources/application-dev.yml
+backend/access-refresh-token-keys
 
 ### NetBeans ###
 /nbproject/private/

@@ -1,4 +1,4 @@
-package com.zyan.backend.security.dto;
+package com.zyan.backend.security;
 
 import lombok.*;
 

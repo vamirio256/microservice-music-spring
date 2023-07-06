@@ -1,24 +1,30 @@
 package com.zyan.backend.user;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("{userId}")
-    @PreAuthorize("#user.id == #userid")
-    public ResponseEntity user (@AuthenticationPrincipal User user, @PathVariable("userId") int id){
-        return ResponseEntity.ok(UserDTO.from(userRepository.findById(id).orElseThrow()));
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable int userId){
+        return ResponseEntity.ok(userService.findById(userId));
+    }
+
+    @PostMapping("/{followerId}/follow/{followedId}")
+    public ResponseEntity<String> followUser(
+            @PathVariable int followerId,
+            @PathVariable int followedId){
+        userService.followUser(followerId, followedId);
+        return ResponseEntity.ok("User with id %s now following user with id %s".formatted(followerId, followedId));
     }
 }
