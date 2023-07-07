@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,21 +31,38 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
+      <Form onSubmit={handleLogin}>
+        <Form.Control
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <input
+        />
+        <Form.Control
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <button type="submit">Login</button>
-      </form>
+        />
+        <Button type="submit" variant="primary">
+          Submit
+        </Button>
+        {/* <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          className="px-2 py-2 w-full rounded focus:outline-none"
+          onChange={(e) => setUsername(e.target.value)}
+        ></input> */}
+        {/* <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          className="px-2 py-2 w-full rounded focus:outline-none"
+          onChange={(e) => setPassword(e.target.value)}
+        ></input> */}
+        {/* <button type="submit">Submit</button> */}
+      </Form>
     </div>
   );
 };

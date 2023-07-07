@@ -1,20 +1,24 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
+
 import HomePage from "./pages/HomePage";
 import Login from "./containers/Login";
 import UserPage from "./pages/UserPage";
 import PlayControl from "./layouts/PlayControl";
 import TopBar from "./layouts/TopBar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App({children}) {
+function App({ children }) {
   const accessToken = localStorage.getItem("accessToken");
 
   return (
     <div className="flex flex-col align-middle justify-center">
-      <TopBar>{children}</TopBar>
+      {/* <TopBar>{children}</TopBar>
+      <HomePage />
+      <Login /> */}
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+
         {accessToken ? (
           <Route path="/user" element={<UserPage />} />
         ) : (

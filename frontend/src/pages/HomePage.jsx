@@ -47,7 +47,6 @@ const HomePage = () => {
         <TrackCard track={track} />
         <TrackCard track={track} />
       </div>
-      <Login />
     </div>
   );
 };
