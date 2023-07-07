@@ -12,40 +12,40 @@ const HomePage = () => {
     title: "World",
   });
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
-  const accessToken = localStorage.getItem("accessToken");
+  // const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
+  // const accessToken = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        console.log("Bearer " + accessToken);
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + accessToken,
-          },
-        });
-        if (response.ok) {
-          const blob = await response.blob();
-          setTrack({ ...track, image: URL.createObjectURL(blob) });
-        }
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchImage = async () => {
+  //     try {
+  //       console.log("Bearer " + accessToken);
+  //       const response = await fetch(url, {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: "Bearer " + accessToken,
+  //         },
+  //       });
+  //       if (response.ok) {
+  //         const blob = await response.blob();
+  //         setTrack({ ...track, image: URL.createObjectURL(blob) });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching image:", error);
+  //     }
+  //   };
 
-    fetchImage();
-  }, []);
+  //   fetchImage();
+  // }, []);
 
   return (
     <div className="">
       <div className="grid grid-cols-5 grid-rows-2 gap-x-4 gap-y-6">
+        {/* <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
-        <TrackCard track={track} />
-        <TrackCard track={track} />
+        <TrackCard track={track} /> */}
       </div>
     </div>
   );
