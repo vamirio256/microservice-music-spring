@@ -24,7 +24,7 @@ function App({ children }) {
         ) : (
           <Route index element={<Navigate to="/login" replace />} />
         )}
-        <Route path="*" element={<div>No match</div>} />
+        <Route path="*" element={<HomePage/>} />
       </Routes>
     </div>
   );
