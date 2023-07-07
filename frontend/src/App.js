@@ -5,7 +5,6 @@ import Login from "./containers/Login";
 import UserPage from "./pages/UserPage";
 import PlayControl from "./layouts/PlayControl";
 import TopBar from "./layouts/TopBar";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App({ children }) {
   const accessToken = localStorage.getItem("accessToken");
