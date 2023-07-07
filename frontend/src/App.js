@@ -10,7 +10,7 @@ function App({ children }) {
   const accessToken = localStorage.getItem("accessToken");
 
   return (
-    <div className="flex flex-col align-middle justify-center">
+    <div>
       <TopBar />
       <Routes>
         <Route path="/home" element={<HomePage />} />
@@ -21,7 +21,7 @@ function App({ children }) {
         ) : (
           <Route index element={<Navigate to="/login" replace />} />
         )} */}
-        <Route path="*" element={<HomePage/>} />
+        <Route path="*" element={<HomePage />} />
       </Routes>
     </div>
   );

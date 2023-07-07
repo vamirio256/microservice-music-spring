@@ -1,33 +1,22 @@
 import React from "react";
+import { BiLogoSoundcloud } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 const TopBarItem = ({ icon: Icon, label, active, href }) => {
+  const hr = "w-[0.4px] bg-black h-full border-none";
+  const background_color = !active ? "bg-[#333]" : "bg-black";
+
   return (
-    <Link
-      href={href}
-      classname={twMerge(
-        `
-    flex
-    flex-row
-    w-auto
-    items-center
-    h-full
-    gap-x-4
-    text-md
-    font-medium
-    cursor-pointer
-    hover:text-white
-    transition
-    text-neutral-400
-    px-1
-  `,
-        active && "text-white"
-      )}
-    >
-      <Icon size={26} />
-      <p className="truncate w-full">{label}</p>
-    </Link>
+    <div className="flex flex-row h-full">
+      <Link
+        to={href}
+        className={`flex px-2 text-slate-300 hover:text-white ${background_color} w-full h-full justify-center items-center px-5`}
+      >
+        {Icon ? <BiLogoSoundcloud color="white" size={50} /> : label}
+      </Link>
+      <hr className={hr} />
+    </div>
   );
 };
 

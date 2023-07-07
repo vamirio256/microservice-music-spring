@@ -16,36 +16,35 @@ const HomePage = () => {
   const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        console.log("Bearer " + accessToken);
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + accessToken,
-          },
-        });
-        if (response.ok) {
-          const blob = await response.blob();
-          setTrack({ ...track, image: URL.createObjectURL(blob) });
-        }
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      }
-    };
-
-    fetchImage();
+    // const fetchImage = async () => {
+    //   try {
+    //     console.log("Bearer " + accessToken);
+    //     const response = await fetch(url, {
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: "Bearer " + accessToken,
+    //       },
+    //     });
+    //     if (response.ok) {
+    //       const blob = await response.blob();
+    //       setTrack({ ...track, image: URL.createObjectURL(blob) });
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching image:", error);
+    //   }
+    // };
+    // fetchImage();
   }, []);
 
   return (
     <div className="">
       <div className="grid grid-cols-5 grid-rows-2 gap-x-4 gap-y-6">
+        {/* <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
-        <TrackCard track={track} />
-        <TrackCard track={track} />
+        <TrackCard track={track} /> */}
       </div>
     </div>
   );
