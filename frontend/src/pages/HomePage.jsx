@@ -12,29 +12,30 @@ const HomePage = () => {
     title: "World",
   });
 
-  const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
-  const accessToken = localStorage.getItem("accessToken");
+  // const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
+  // const accessToken = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    // const fetchImage = async () => {
-    //   try {
-    //     console.log("Bearer " + accessToken);
-    //     const response = await fetch(url, {
-    //       method: "GET",
-    //       headers: {
-    //         Authorization: "Bearer " + accessToken,
-    //       },
-    //     });
-    //     if (response.ok) {
-    //       const blob = await response.blob();
-    //       setTrack({ ...track, image: URL.createObjectURL(blob) });
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching image:", error);
-    //   }
-    // };
-    // fetchImage();
-  }, []);
+  // useEffect(() => {
+  //   const fetchImage = async () => {
+  //     try {
+  //       console.log("Bearer " + accessToken);
+  //       const response = await fetch(url, {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: "Bearer " + accessToken,
+  //         },
+  //       });
+  //       if (response.ok) {
+  //         const blob = await response.blob();
+  //         setTrack({ ...track, image: URL.createObjectURL(blob) });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching image:", error);
+  //     }
+  //   };
+
+  //   fetchImage();
+  // }, []);
 
   return (
     <div className="">

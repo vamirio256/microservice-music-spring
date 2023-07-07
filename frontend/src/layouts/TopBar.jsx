@@ -1,10 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiLogoSoundcloud, BiSearch, BiSolidSearch } from "react-icons/bi";
 import TopBarItem from "../components/TopBarItem";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 const TopBar = () => {
+  const [loginModal, setLoginModal] = useState(false);
+
   const pathname = useLocation().pathname;
 
   const routes = useMemo(() => [
