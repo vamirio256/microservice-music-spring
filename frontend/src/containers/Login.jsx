@@ -8,7 +8,7 @@ const Login = ({ toggleModal }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/login`;
+      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/authenticate`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -21,8 +21,9 @@ const Login = ({ toggleModal }) => {
         }),
       });
       const token = await response.json();
-      localStorage.setItem("accessToken", token.accessToken);
-      localStorage.setItem("refreshToken", token.refreshToken);
+      localStorage.setItem("token", token);
+      // localStorage.setItem("refreshToken", token.refreshToken);
+      console.log(token);
     } catch (err) {
       console.error(err);
     }
@@ -54,7 +55,11 @@ const Login = ({ toggleModal }) => {
           className={`${style} p-3 border-[1px] border-[#e5e5e5] focus:outline-none`}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        <button className={`${style} text-white bg-[#f50]`} type="submit">
+        <button
+          className={`${style} text-white bg-[#f50]`}
+          type="submit"
+          onClick={handleLogin}
+        >
           Submit
         </button>
       </form>

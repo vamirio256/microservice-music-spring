@@ -1,7 +1,6 @@
 import React from "react";
 
 const TrackCard = ({ className, track }) => {
-  
 
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">

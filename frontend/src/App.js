@@ -7,7 +7,7 @@ import PlayControl from "./layouts/PlayControl";
 import TopBar from "./layouts/TopBar";
 
 function App({ children }) {
-  const accessToken = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("token");
 
   return (
     <div className="flex flex-col align-middle items-stretch justify-center">
