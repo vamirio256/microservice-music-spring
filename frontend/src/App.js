@@ -11,18 +11,16 @@ function App({ children }) {
 
   return (
     <div className="flex flex-col align-middle justify-center">
-      {/* <TopBar>{children}</TopBar>
-      <HomePage />
-      <Login /> */}
+      <TopBar />
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
 
-        {accessToken ? (
+        {/* {accessToken ? (
           <Route path="/user" element={<UserPage />} />
         ) : (
           <Route index element={<Navigate to="/login" replace />} />
-        )}
+        )} */}
         <Route path="*" element={<HomePage/>} />
       </Routes>
     </div>

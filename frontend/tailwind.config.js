@@ -12,11 +12,5 @@ module.exports = {
         lading_web: "url('/src/images/cover_landing_web.jpg')",
       },
     },
-  },
-  plugins: [],
-  prefix: "tw-",
-
-  corePlugins: {
-    preflight: false,
-  },
+  }
 };
