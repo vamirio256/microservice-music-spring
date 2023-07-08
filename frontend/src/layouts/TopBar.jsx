@@ -36,9 +36,6 @@ const TopBar = () => {
       href: "/library",
     },
   ]);
-  const toggleLogin = () => {
-    setLoginModal(!loginModal);
-  };
   const hr = "w-[0.4px] bg-black h-full";
 
   return (
@@ -74,6 +71,7 @@ const TopBar = () => {
           >
             Sign in
           </button>
+
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
