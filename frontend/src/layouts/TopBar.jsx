@@ -36,7 +36,6 @@ const TopBar = () => {
       href: "/library",
     },
   ]);
-  const hr = "w-[0.4px] bg-black h-full";
 
   return (
     <>

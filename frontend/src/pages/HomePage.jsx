@@ -4,10 +4,11 @@ import trackCover from "../images/temp_track_cover.jfif";
 import landingWeb from "../images/cover_landing_web.jpg";
 import Login from "../containers/Login";
 import { useEffect, useState } from "react";
+import image from "../images/temp_track_cover.jfif"
 
 const HomePage = () => {
   const [track, setTrack] = useState({
-    image: "",
+    image: image,
     artist: "Hello",
     title: "World",
   });
@@ -40,12 +41,12 @@ const HomePage = () => {
   return (
     <div className="">
       <div className="grid grid-cols-5 grid-rows-2 gap-x-4 gap-y-6">
-        {/* <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
         <TrackCard track={track} />
-        <TrackCard track={track} /> */}
+        <TrackCard track={track} />
+        <TrackCard track={track} />
       </div>
     </div>
   );
