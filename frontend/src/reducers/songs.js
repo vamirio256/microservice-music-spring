@@ -1,4 +1,5 @@
-const songsReducer = (state = null, action) => {
+import { songsdata } from "../contexts/dummy_data";
+const songsReducer = (state = songsdata, action) => {
   switch (action.type) {
     case "ADDSONG":
       state.push(action.song);

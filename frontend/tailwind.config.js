@@ -12,6 +12,9 @@ module.exports = {
       backgroundImage: {
         lading_web: "url('/src/images/cover_landing_web.jpg')",
       },
+      zIndex: {
+        max: "999",
+      },
     },
   },
 };

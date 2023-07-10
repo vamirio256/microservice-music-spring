@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { BsThreeDots } from "react-icons/bs";
 
-const TrackCard = ({ className, track }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+import { MdPlaylistAdd } from "react-icons/md";
 
-  const toggleIsPlaying = () => {
-    setIsPlaying(!isPlaying);
-  };
-
+const TrackCard = ({ className, track, openModal }) => {
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">
@@ -32,8 +27,13 @@ const TrackCard = ({ className, track }) => {
             </div>
           </div>
           {/* Favorite button */}
-          <FaHeart className="absolute right-4/5 bottom-0.5 text-white" />
-          <BsThreeDots className="absolute right-0.5 bottom-0.5 text-white" />
+          <FaHeart className="absolute right-7 bottom-2 text-white" />
+          {/* add to playlist button */}
+
+          <MdPlaylistAdd
+            className="absolute right-2 bottom-2 text-white"
+            onClick={openModal}
+          />
         </div>
         <h2 className="mt-2 mb-1 text-sm font-normal text-gray-600 group-hover:text-black">
           {track.title}

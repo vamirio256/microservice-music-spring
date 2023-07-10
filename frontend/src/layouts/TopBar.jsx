@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from "react";
-import { HiHome } from "react-icons/hi";
-import { BiLogoSoundcloud, BiSearch, BiSolidSearch } from "react-icons/bi";
-import TopBarItem from "../components/TopBarItem";
-import { Link, useLocation } from "react-router-dom";
+import React, { useMemo } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-
+import { BiLogoSoundcloud } from "react-icons/bi";
+import { useLocation } from "react-router-dom";
+import TopBarItem from "../components/TopBarItem";
+// test
 import Modal from "react-modal";
 import Login from "../containers/Login";
 const TopBar = () => {
@@ -63,14 +62,15 @@ const TopBar = () => {
             color="gray"
             size={20}
           />
-
+          {/* login */}
           <button
-            className="text-white rounded-sm border-solid border-[0.5px] border-slate-200 p-1 border-w ml-auto"
+            className="text-white rounded-sm border-solid border-[0.5px] border-slate-200 p-1 border-w ml-auto bg-primary"
             onClick={openModal}
           >
             Sign in
           </button>
 
+          {/* login modal */}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
@@ -96,7 +96,6 @@ const TopBar = () => {
           </Modal>
         </div>
       </div>
-      {/* {loginModal && <Login />}x */}
     </>
   );
 };

@@ -10,6 +10,7 @@ export const UploadPage = () => {
   }
   return (
     <div className={"flex justify-center flex-col items-center"}>
+      {/* upload */}
       <div
         className={
           !upload_display ? "hidden" : "w-[800px] mt-10 shadow-xl p-10"
@@ -55,11 +56,13 @@ export const UploadPage = () => {
           more about lossless HD.
         </div>
       </div>
+      {/* add image  */}
       <div
         className={`w-[800px] mt-10 shadow-xl p-10 flex ${
           upload_display ? "hidden" : undefined
         }`}
       >
+        {/* image */}
         <div>
           <label
             ref={ref}
@@ -79,6 +82,7 @@ export const UploadPage = () => {
             onChange={loadfile}
           />
         </div>
+        {/* right infor */}
         <div className="pl-5 w-8/12">
           <div>
             Title <span className="text-red-500">*</span>
@@ -102,12 +106,12 @@ export const UploadPage = () => {
           </div>
           <div className="mt-5 text-right">
             <button
-              className="mr-4 bg-white text-black"
+              className="secondary-button"
               onClick={() => set_upload_display(true)}
             >
               Cancel
             </button>
-            <button>Save</button>
+            <button className="primary-button">Save</button>
           </div>
         </div>
       </div>
