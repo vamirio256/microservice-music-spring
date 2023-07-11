@@ -1,28 +1,16 @@
 import TrackCard from "../components/TrackCard";
-
 import React, { useState } from "react";
 import image from "../images/temp_track_cover.jfif";
-
-import { A11y, Navigation, Pagination, Scrollbar } from "swiper";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import "../CSS/SwiperCSS.css";
-import { HorizontalCard } from "../components/HorizontalCard";
+import { HomePageSideTrackCard, HorizontalCard } from "../components/HomePageSideTrackCard";
 import Modal from "react-modal";
 import PlaylistPopup from "../containers/PlaylistPopup";
+import TrackHorizontalSwipe from "../components/HomePageTrackHorizontalSwipe";
+import HomePageTrackHorizontalSwipe from "../components/HomePageTrackHorizontalSwipe";
+import apple_store from "../images/apple_store.png";
+import google_play from "../images/google_play.png";
+
 
 const HomePage = () => {
-  const [track, setTrack] = useState({
-    image: image,
-    artist: "Hello",
-    title: "World",
-  });
-
   // const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
   // const accessToken = localStorage.getItem("accessToken");
 
@@ -66,71 +54,46 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex pl-8 pr-8">
       {/* home leftside */}
-      <div className="w-8/12 border-r-2 border-solid">
-        <div className="grid grid-cols-5 grid-rows-2 gap-x-4 gap-y-6">
-          <TrackCard track={track} openModal={openModal} />
-          <TrackCard track={track} openModal={openModal} />
-          <TrackCard track={track} openModal={openModal} />
-          <TrackCard track={track} openModal={openModal} />
-        </div>
-
-        {/* slide */}
-        <div className="mt-10">
-          <Swiper
-            // install Swiper modules
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={10}
-            slidesPerView={4}
-            navigation
-            loop={true}
-            autoHeight={true}
-            breakpoints={{
-              768: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-              },
-              1024: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
-            }}
-          >
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TrackCard track={track} />
-            </SwiperSlide>
-          </Swiper>
-        </div>
+      <div className="w-8/12 border-r-[1px] border-solid pt-8 pr-8">
+        <HomePageTrackHorizontalSwipe />
+        <HomePageTrackHorizontalSwipe />
+        <HomePageTrackHorizontalSwipe />
+        <HomePageTrackHorizontalSwipe />
       </div>
+
       {/* sidebar */}
-
-      <div className="w-4/12 p-5">
+      <div className="w-4/12 pl-8 pt-8 text-[#999] text-[14px]">
+        <div>
+          <hr className="" />
+        </div>
         {/* card item */}
-        <HorizontalCard /> <HorizontalCard /> <HorizontalCard />
-        <HorizontalCard /> <HorizontalCard />
+        <HomePageSideTrackCard />
+        <HomePageSideTrackCard /> 
+        <HomePageSideTrackCard /> 
+        <HomePageSideTrackCard /> 
+
+        <div className="grid grid-cols-2 gap-1">
+          <a className="cursor-pointer">
+          <img src = {apple_store}/>
+          </a>
+          <a className="cursor-pointer">
+          <img src = {google_play}/>
+          </a>l
+        </div>
+
+        <div className="text-xs">
+          <p>
+            Legal ⁃ Privacy ⁃ Cookie Policy ⁃ Consent Manager ⁃ Imprint ⁃ Artist
+            Resources ⁃ Blog ⁃ Charts ⁃
+          </p>
+          <p>
+            <span>Language:</span> English (US)
+          </p>
+        </div>
       </div>
+
       {/* model */}
       <Modal
         isOpen={modalIsOpen}

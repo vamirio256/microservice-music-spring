@@ -17,17 +17,21 @@ const TopBar = () => {
   }
   const pathname = useLocation().pathname;
 
-  const routes = useMemo(() => [
+  const leftRoutes = useMemo(() => [
     {
       icon: BiLogoSoundcloud,
       active: pathname === "/",
       href: "/",
     },
-
     {
       label: "Home",
       active: pathname === "/",
       href: "/",
+    },
+    {
+      label: "Feed",
+      active: pathname === "/feed",
+      href: "/feed",
     },
     {
       label: "Library",
@@ -36,11 +40,24 @@ const TopBar = () => {
     },
   ]);
 
+  const rightRoutes = useMemo(() => [
+    {
+      label: "For Artists",
+      active: pathname === "/artist",
+      href: "/artist",
+    },
+    {
+      label: "Upload",
+      active: pathname === "/upload",
+      href: "/upload",
+    },
+  ]);
+
   return (
-    <>
-      <div className="flex w-full justify-content bg-[#333]">
+    <div className="flex w-full justify-center items-center bg-[#333] text-sm">
+      <div className="w-[1240px]">
         <div className={`container bg-red h-12 flex m-auto items-center`}>
-          {routes.map((ele, index) => {
+          {leftRoutes.map((ele, index) => {
             return (
               <TopBarItem
                 key={index}
@@ -62,6 +79,17 @@ const TopBar = () => {
             color="gray"
             size={20}
           />
+          {rightRoutes.map((ele, index) => {
+            return (
+              <TopBarItem
+                key={index}
+                label={ele.label}
+                icon={ele.icon}
+                href={ele.href}
+                active={ele.active}
+              />
+            );
+          })}
           {/* login */}
           <button
             className="text-white rounded-sm border-solid border-[0.5px] border-slate-200 p-1 border-w ml-auto bg-primary"
@@ -96,7 +124,7 @@ const TopBar = () => {
           </Modal>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 const TopBarItem = ({ icon: Icon, label, active, href }) => {
-  const hr = "w-[0.4px] bg-black h-full border-none";
   const background_color = !active ? "bg-[#333]" : "bg-black";
 
   return (
@@ -15,7 +14,6 @@ const TopBarItem = ({ icon: Icon, label, active, href }) => {
       >
         {Icon ? <BiLogoSoundcloud color="white" size={50} /> : label}
       </Link>
-      <hr className={hr} />
     </div>
   );
 };

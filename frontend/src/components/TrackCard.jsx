@@ -35,11 +35,11 @@ const TrackCard = ({ className, track, openModal }) => {
             onClick={openModal}
           />
         </div>
-        <h2 className="mt-2 mb-1 text-sm font-normal text-gray-600 group-hover:text-black">
+        <h2 className="mt-2 mb-1 text-sm font-normal text-gray-600 font-extralight group-hover:text-black truncate ">
           {track.title}
         </h2>
       </div>
-      <p className="text-xs text-gray-400">{track.artist}</p>
+      <p className="text-xs text-gray-400 truncatel">{track.artist}</p>
     </div>
   );
 };
