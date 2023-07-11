@@ -7,11 +7,14 @@ module.exports = {
       colors: {
         primary: "#f50",
         searchbar_gray: "#f2f2f2",
+        orange: "#f50",
       },
       backgroundImage: {
         lading_web: "url('/src/images/cover_landing_web.jpg')",
       },
+      zIndex: {
+        max: "999",
+      },
     },
   },
-  plugins: [],
 };

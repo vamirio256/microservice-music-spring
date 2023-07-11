@@ -1,26 +1,33 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
+
 import HomePage from "./pages/HomePage";
 import Login from "./containers/Login";
 import UserPage from "./pages/UserPage";
-import PlayControl from "./layouts/PlayControl";
-import TopBar from "./layouts/TopBar";
 
-function App({children}) {
-  const accessToken = localStorage.getItem("accessToken");
+import TopBar from "./layouts/TopBar";
+import { UploadPage } from "./pages/UploadPage";
+import MediaControl from "./layouts/MediaControl";
+
+function App({ children }) {
+  const token = localStorage.getItem("token");
 
   return (
-    <div className="flex flex-col align-middle justify-center">
-      <TopBar>{children}</TopBar>
+    <div className="flex flex-col align-middle items-stretch justify-center">
+      <TopBar />
+      {/* <PlayControl/> */}
+      <MediaControl />
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route path="/home" element={<HomePage />} />
-        {accessToken ? (
+        <Route path="/login" element={<Login />} />
+        <Route path="/upload" element={<UploadPage />} />
+        <Route path="/user" element={<UserPage />} />
+
+        {/* {accessToken ? (
           <Route path="/user" element={<UserPage />} />
         ) : (
           <Route index element={<Navigate to="/login" replace />} />
-        )}
-        <Route path="*" element={<div>No match</div>} />
+        )} */}
+        <Route path="*" element={<HomePage />} />
       </Routes>
     </div>
   );
