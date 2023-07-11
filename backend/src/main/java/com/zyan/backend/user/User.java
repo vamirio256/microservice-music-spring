@@ -1,8 +1,12 @@
 package com.zyan.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zyan.backend.playlist.PlaylistTrack;
 import com.zyan.backend.track.Track;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -33,17 +38,15 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Track> tracks;
+    private Set<Track> tracks;
 
-    @ManyToMany
-    @JoinTable(name = "users_follows",
-    joinColumns = @JoinColumn(name="follower_id"),
-    inverseJoinColumns = @JoinColumn(name = "followed_id"))
-    private Collection<User> followedUsers;
+    @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Follow> followed;
 
-    @ManyToMany(mappedBy = "followedUsers")
-    private Collection<User> followers;
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Follow> following;
 
     public UserDTO mapUserToUserDTO(){
         return UserDTO.builder()

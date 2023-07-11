@@ -1,27 +1,34 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
-import jakarta.annotation.PostConstruct;
+import com.zyan.backend.exception.MethodArgumentTypeMismatchException;
+import com.zyan.backend.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+//    private final Map<Integer, Set<Integer>> followingMap;
+//    private final Map<Integer, Set<Integer>> followedMap;
+
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @PostConstruct
+    //    @PostConstruct
     public void createAdmin() {
-        if(userRepository.findByRole(UserRole.ADMIN).isEmpty()) {
+        if (userRepository.findByRole(UserRole.ADMIN).isEmpty()) {
             User admin = User.builder()
                     .username("admin")
                     .email("admin@gmail.com")
@@ -33,6 +40,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(RegisterRequestDTO request) {
+        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
+        if(existUser.isPresent()){
+            throw new EntityExistsException("User with email '%s' already exist".formatted(request.getEmail()));
+        }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -54,12 +66,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void followUser(int followerId, int followedId) {
-
+    public void followUser(int followedId) {
+//        SecurityContextHolder.getContext().getAuthentication().
+//
+//
+//        if (followerId == followedId) {
+//            throw new MethodArgumentTypeMismatchException("Follower and followd user can not be the same");
+//        }
+//
+//        User follower = userRepository.findById(followerId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followerId)));
+//        User followed = userRepository.findById(followedId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followedId)));
+//        follower.getFollowedUsers().add(followed);
+//        followed.getFollowers().add(follower);
+//
+//        userRepository.save(follower);
+//        userRepository.save(followed);
     }
 
     @Override
-    public Optional<User> findById(int userId) {
-        return userRepository.findById(userId);
+    public UserDTO findById(int userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return user.get().mapUserToUserDTO();
+        } else {
+            throw new ResourceNotFoundException("User with id '%s' not found".formatted(userId));
+        }
+    }
+
+    @Override
+    public void unfollowUser(int followedId) {
+
+//        User follower = userRepository.findById(followerId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followerId)));
+//        User followed = userRepository.findById(followedId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followedId)));
+//        follower.getFollowedUsers().remove(followed);
+//        followed.getFollowers().remove(follower);
+//
+//        userRepository.save(follower);
+//        userRepository.save(followed);
     }
 }

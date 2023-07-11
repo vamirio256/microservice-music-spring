@@ -12,7 +12,9 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
-    void followUser(int followerId, int followedId);
+    void followUser(int followedId);
 
-    Optional<User> findById(int userId);
+    UserDTO findById(int userId);
+
+    void unfollowUser(int followedId);
 }

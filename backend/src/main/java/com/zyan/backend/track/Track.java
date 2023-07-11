@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -31,10 +32,11 @@ public class Track {
     private String audioId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean isPublic;
     @OneToMany(mappedBy = "track")
-    Collection<PlaylistTrack> playlistTracks;
+    private Set<PlaylistTrack> playlistTracks;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private User user;
 }

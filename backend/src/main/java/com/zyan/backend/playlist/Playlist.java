@@ -9,6 +9,7 @@ import lombok.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -27,5 +28,5 @@ public class Playlist {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "playlist")
-    Collection<PlaylistTrack> playlistTracks;
+    Set<PlaylistTrack> playlistTracks;
 }

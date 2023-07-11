@@ -1,10 +1,14 @@
 package com.zyan.backend.track;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
+import com.zyan.backend.exception.UnauthenticatedUserException;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
+import com.zyan.backend.user.User;
 import com.zyan.backend.user.UserDTO;
+import com.zyan.backend.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +23,14 @@ import java.util.UUID;
 public class TrackServiceImpl implements TrackService {
 
     private final TrackRepository trackRepository;
+    private final UserRepository userRepository;
     private final S3Service s3Service;
     private final S3Bucket s3Bucket;
     private final UserDetailsService userDetailsService;
 
-    public TrackServiceImpl(TrackRepository trackRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
+    public TrackServiceImpl(TrackRepository trackRepository, UserRepository userRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
         this.trackRepository = trackRepository;
+        this.userRepository = userRepository;
         this.s3Service = s3Service;
         this.s3Bucket = s3Bucket;
         this.userDetailsService = userDetailsService;
@@ -32,10 +38,19 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public Track uploadTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio) {
+    public Track uploadTrack(Track track, MultipartFile cover, MultipartFile audio) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
-            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
+        if (email.isEmpty()) {
+            throw new UnauthenticatedUserException("Unauthenticated user");
+        }
+
+        log.info("email: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("user with email '%s' not found".formatted(email)));
+
+//        if (userDetailsService.loadUserByUsername(user.getEmail()) != null)
+//            throw new ResourceNotFoundException("user with email '%s' not found".formatted(user.getEmail()));
 
         String trackAudioId = UUID.randomUUID().toString();
         String trackCoverId = UUID.randomUUID().toString();
@@ -57,6 +72,7 @@ public class TrackServiceImpl implements TrackService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        track.setUser(user);
         track.setAudioId(trackAudioId);
         track.setCoverId(trackCoverId);
         return trackRepository.save(track);
@@ -111,12 +127,16 @@ public class TrackServiceImpl implements TrackService {
         Track updatedTrack = trackRepository.findById(track.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(track.getId())));
 
-        updatedTrack.builder()
-                .name(track.getName())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        updatedTrack.setName(track.getName());
+        updatedTrack.setUpdatedAt(LocalDateTime.now());
 
         return trackRepository.save(updatedTrack);
+    }
+
+    @Override
+    public Track getTrack(int id) {
+        return trackRepository.findByIdWithUser(id)
+                .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(id)));
     }
 }
 
