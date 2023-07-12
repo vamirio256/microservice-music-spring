@@ -6,12 +6,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "../CSS/SwiperCSS.css";
-import image from "../images/temp_track_cover.jfif";
-import TrackCard from "./TrackCard";
+import "../../CSS/SwiperCSS.css";
+import image from "../../images/temp_track_cover.jfif";
+import TrackCard from "../../components/TrackCard";
 
 
-const HomePageTrackHorizontalSwipe = () => {
+const HorizontalTrackSwiper = ({title}) => {
   const [track, setTrack] = useState({
     image: image,
     artist: "Related tracks",
@@ -19,7 +19,8 @@ const HomePageTrackHorizontalSwipe = () => {
   });
 
   return (
-    <div className="mb-10">
+    <div className="mb-8">
+      <h2 className="mb-8 font-thin text-xl">{title}</h2>
       <Swiper
         // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -69,4 +70,4 @@ const HomePageTrackHorizontalSwipe = () => {
   );
 };
 
-export default HomePageTrackHorizontalSwipe;
+export default HorizontalTrackSwiper;

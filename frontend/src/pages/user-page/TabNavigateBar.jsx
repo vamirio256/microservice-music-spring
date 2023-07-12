@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom/dist";
 
-const UserPageNavigateBar = () => {
+const TabNavigateBar = () => {
   const pathname = useLocation().pathname;
 
   const routes = useMemo(() => [
@@ -53,4 +53,4 @@ const NavigateBarItem = ({ key, label, href, active }) => {
   );
 };
 
-export default UserPageNavigateBar;
+export default TabNavigateBar;

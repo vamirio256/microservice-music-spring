@@ -1,7 +1,7 @@
 import React from "react";
 import { BsHeart, BsPlay } from "react-icons/bs";
 
-export const HomePageSideTrackCard = () => {
+export const SideBarTrackCard = () => {
   return (
     <div className="flex mb-2">
       {/* image right */}

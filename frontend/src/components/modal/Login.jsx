@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom/dist";
+import Modal from "react-modal";
 
-const Login = ({ toggleModal }) => {
+const Login = ({ modalIsOpen, closeModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const style = "w-full h-[40px] rounded-[3px] mt-2.5";
-
+  const navigate = useNavigate();
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -21,16 +23,42 @@ const Login = ({ toggleModal }) => {
         }),
       });
       const token = await response.json();
-      localStorage.setItem("token", token);
-      // localStorage.setItem("refreshToken", token.refreshToken);
-      console.log(token);
+      sessionStorage.setItem("token", JSON.stringify(token));
+      const tokenString = sessionStorage.getItem("token");
+      console.log(tokenString);
+
+      if (tokenString) {
+        navigate("/home");
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
+  const style = "w-full h-[40px] rounded-[3px] mt-2.5";
+
   return (
-    <div>
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={closeModal}
+      contentLabel="Example Modal"
+      style={{
+        overlay: {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        content: {
+          inset: "0",
+          position: "relative",
+          width: "450px",
+          height: "500px",
+        },
+      }}
+    >
+      <button onClick={closeModal} className="ml-auto mr-0 block">
+        x
+      </button>
       <form>
         <button className={`${style} text-white bg-[#3578e5]`}>
           Continue with Facebook
@@ -63,8 +91,12 @@ const Login = ({ toggleModal }) => {
           Submit
         </button>
       </form>
-    </div>
+    </Modal>
   );
 };
+
+{
+  /* login modal */
+}
 
 export default Login;

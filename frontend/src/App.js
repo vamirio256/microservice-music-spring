@@ -1,38 +1,43 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
-import HomePage from "./pages/HomePage";
-import Login from "./containers/Login";
+import Login from "./components/modal/Login";
+import HomePage from "./pages/home-page/HomePage";
 
-import TopBar from "./layouts/TopBar";
-import { UploadPage } from "./pages/UploadPage";
-import MediaControl from "./layouts/MediaControl";
-import UserPage from "./pages/UserPage";
-import UserPageOld from "./pages/UserPageOld";
+import { useEffect, useState } from "react";
+import UnauthenticatedHomePage from "./pages/home-page/UnauthenticatedHomePage";
+import MediaControl from "./layouts/media-control/MediaControl";
+import TopBar from "./layouts/topbar/TopBar";
+import { UploadPage } from "./pages/upload-page/UploadPage";
+import UserPage from "./pages/user-page/UserPage";
 
-function App({ children }) {
-  const token = localStorage.getItem("token");
+function App() {
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    setToken(sessionStorage.getItem("token"));
+  }, [token]);
 
   return (
     <div className="flex flex-col h-[100vh]">
-      <TopBar />
-        <div className="flex justify-center flex-1 bg-[#F2F2F2]">
-          <div className="w-[1240px] bg-white pd-8">
-          <Routes>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/upload" element={<UploadPage />} />
-            <Route path="/user/*" element={<UserPage />} />
-
-            {/* {accessToken ? (
-          <Route path="/user" element={<UserPage />} />
-        ) : (
-          <Route index element={<Navigate to="/login" replace />} />
-        )} */}
-            <Route path="*" element={<HomePage />} />
-          </Routes>
+      {!token ? (
+        <UnauthenticatedHomePage />
+      ) : (
+        <>
+          <TopBar />
+          <div className="flex justify-center flex-1 bg-[#F2F2F2]">
+            <div className="w-[1240px] bg-white pd-8">
+              <Routes>
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/upload" element={<UploadPage />} />
+                <Route path="/user/*" element={<UserPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<HomePage />} />
+              </Routes>
+            </div>
           </div>
-        </div>
-      <MediaControl />s
+          <MediaControl />
+        </>
+      )}
     </div>
   );
 }
