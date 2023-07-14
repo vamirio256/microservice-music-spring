@@ -1,11 +1,8 @@
 import React, { useMemo } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import { BiLogoSoundcloud } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
-// test
-import Modal from "react-modal";
-import Login from "../../components/modal/Login";
+import SearchBar from "./SearchBar";
 const TopBar = () => {
   const pathname = useLocation().pathname;
 
@@ -34,7 +31,7 @@ const TopBar = () => {
 
   const rightRoutes = useMemo(() => [
     {
-      label: "For Artists",
+      label: "For artists",
       active: pathname === "/artist",
       href: "/artist",
     },
@@ -46,7 +43,7 @@ const TopBar = () => {
   ]);
 
   return (
-    <div className="flex w-full justify-center items-center bg-[#333] text-sm">
+    <div className="flex w-full justify-center items-center bg-[#333] text-sm sticky top-0 z-10">
       <div className="w-[1240px]">
         <div className={`container bg-red h-12 flex m-auto items-center`}>
           {leftRoutes.map((ele, index) => {
@@ -61,16 +58,10 @@ const TopBar = () => {
             );
           })}
           {/* search */}
-          <input
-            type="text"
-            placeholder="Search"
-            className="px-2 py-1 w-96 ml-5 h-8 rounded-md focus:outline-none"
-          />
-          <AiOutlineSearch
-            className="right-6 relative"
-            color="gray"
-            size={20}
-          />
+          <SearchBar />
+          {/* premium button */}
+          <TopBarItem label={"Try premium pro"}/>
+
           {rightRoutes.map((ele, index) => {
             return (
               <TopBarItem

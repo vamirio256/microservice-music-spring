@@ -11,16 +11,14 @@ import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 
 function App() {
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
-  }, [token]);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  
   return (
     <div className="flex flex-col h-[100vh]">
-      {!token ? (
-        <UnauthenticatedHomePage />
+      {!isAuthenticated ? (
+        <Routes>
+          <Route path="*" element={<UnauthenticatedHomePage setIsAuthenticated={setIsAuthenticated}/>} />
+        </Routes>
       ) : (
         <>
           <TopBar />
@@ -30,7 +28,6 @@ function App() {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/upload" element={<UploadPage />} />
                 <Route path="/user/*" element={<UserPage />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </div>

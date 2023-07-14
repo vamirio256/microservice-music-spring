@@ -16,6 +16,7 @@ const HorizontalTrackSwiper = ({title}) => {
     image: image,
     artist: "Related tracks",
     title: "SSK - Nhat Ky Ngoai Tu",
+    imageUrl: `${process.env.REACT_APP_AWS_BASE_URL}/track-covers/c3fe3519-cd7c-45f5-9152-8717e37dece6`
   });
 
   return (
@@ -28,17 +29,16 @@ const HorizontalTrackSwiper = ({title}) => {
         slidesPerView={4}
         navigation
         loop={true}
-        autoHeight={true}
-        breakpoints={{
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 10,
-          },
-        }}
+        // breakpoints={{
+        //   768: {
+        //     slidesPerView: 3,
+        //     spaceBetween: 30,
+        //   },
+        //   1024: {
+        //     slidesPerView: 4,
+        //     spaceBetween: 10,
+        //   },
+        // }}
       >
         <SwiperSlide>
           <TrackCard track={track} />
@@ -55,15 +55,7 @@ const HorizontalTrackSwiper = ({title}) => {
         <SwiperSlide>
           <TrackCard track={track} />
         </SwiperSlide>
-        <SwiperSlide>
-          <TrackCard track={track} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TrackCard track={track} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TrackCard track={track} />
-        </SwiperSlide>
+
       </Swiper>
       <hr className="mt-8 block h-[1px]" />
     </div>

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
 import Modal from "react-modal";
 
-const Login = ({ modalIsOpen, closeModal }) => {
+const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -24,12 +24,9 @@ const Login = ({ modalIsOpen, closeModal }) => {
       });
       const token = await response.json();
       sessionStorage.setItem("token", JSON.stringify(token));
-      const tokenString = sessionStorage.getItem("token");
-      console.log(tokenString);
-
-      if (tokenString) {
-        navigate("/home");
-      }
+      console.log(token);
+      setIsAuthenticated(true);
+      navigate("/home");
     } catch (err) {
       console.error(err);
     }
@@ -59,7 +56,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
       <button onClick={closeModal} className="ml-auto mr-0 block">
         x
       </button>
-      <form>
+      <form onSubmit={handleLogin}>
         <button className={`${style} text-white bg-[#3578e5]`}>
           Continue with Facebook
         </button>

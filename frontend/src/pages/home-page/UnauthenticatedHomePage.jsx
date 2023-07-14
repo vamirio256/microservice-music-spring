@@ -2,7 +2,7 @@ import React from "react";
 import never_stop_listening from "../..//images/never_stop_listening.jpg";
 import Login from "../../components/modal/Login";
 
-const UnauthenticatedHomePage = () => {
+const UnauthenticatedHomePage = ({setIsAuthenticated}) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -14,15 +14,15 @@ const UnauthenticatedHomePage = () => {
 
   return (
     <div className="flex justify-center flex-1 bg-[#F2F2F2] m-0 p-0">
-      <Login closeModal={closeModal} modalIsOpen={modalIsOpen} />
+      <Login closeModal={closeModal} modalIsOpen={modalIsOpen} setIsAuthenticated={setIsAuthenticated}/>
       <div className="w-[1240px] bg-white">
         <div className="border-t-2 border-t-[#f50] bg-lading_web h-[450px] text-white bg-no-repeat bg-cover relative">
           {/* login and register button */}
           <div className="absolute top-5 right-8 text-sm">
-            <button className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3 ">
+            <button className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3 " onClick={openModal}>
               Sign in
             </button>
-            <button className="bg-[#f50] py-1 px-3 rounded-sm mr-3">
+            <button className="bg-[#f50] py-1 px-3 rounded-sm mr-3" onClick={openModal}>
               Create account
             </button>
           </div>
@@ -35,7 +35,7 @@ const UnauthenticatedHomePage = () => {
                 Discover, stream, and share a constantly expanding mix of music
                 from emerging and major artists around the world.
               </p>
-              <button className="bg-[#f50] px-2 py-2 rounded-sm">
+              <button className="bg-[#f50] px-2 py-2 rounded-sm" onClick={openModal}>
                 Sign up for free
               </button>
             </div>
