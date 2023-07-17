@@ -11,10 +11,15 @@ import image from "../../images/temp_track_cover.jfif";
 import VolumeControl from "./VolumeControl";
 import PlaybackTimeLine from "./PlaybackTimeLine";
 import { formatDuration } from "../../utils/formatDuration";
+import { useDispatch, useSelector } from "react-redux";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
-  const [isPLaying, setIsPlaying] = useState(false);
+  // const [isPLaying, setIsPlaying] = useState(false);
+
+  // playing redux
+  const dispatch = useDispatch();
+  const isPlaying = useSelector((state) => state.isPlayingReducer);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [audioSrc, setAudioSrc] = useState("");
@@ -28,12 +33,14 @@ const MediaControl = () => {
   });
 
   const toggleAudio = () => {
-    if (isPLaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
+    if (isPlaying) {
+      // audioRef.current?.pause();
+      dispatch({ type: "SETPLAYING", play: false });
+      // setIsPlaying(false);
     } else {
-      void audioRef.current?.play();
-      setIsPlaying(true);
+      // void audioRef.current?.play();
+      dispatch({ type: "SETPLAYING", play: true });
+      // setIsPlaying(true);
     }
   };
 
@@ -75,6 +82,14 @@ const MediaControl = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current?.play();
+    } else {
+      audioRef.current?.pause();
+    }
+  }, [isPlaying]);
+
   const buttonStyle = "text-xl ml-3";
 
   return (
@@ -85,8 +100,9 @@ const MediaControl = () => {
           <button>
             <BsFillSkipStartFill className={`${buttonStyle}`} />
           </button>
+          {/* play btn */}
           <button onClick={toggleAudio}>
-            {!isPLaying ? (
+            {!isPlaying ? (
               <BsFillPlayFill className={`${buttonStyle}`} />
             ) : (
               <BsFillPauseFill className={`${buttonStyle}`} />
