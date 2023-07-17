@@ -4,10 +4,13 @@ import {
   BsFillSkipStartFill,
   BsFillPauseFill,
   BsFillPlayFill,
+  BsShuffle,
+  BsRepeat,
 } from "react-icons/bs";
 import image from "../../images/temp_track_cover.jfif";
 import VolumeControl from "./VolumeControl";
 import PlaybackTimeLine from "./PlaybackTimeLine";
+import { formatDuration } from "../../utils/formatDuration";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -72,26 +75,56 @@ const MediaControl = () => {
     }
   }, []);
 
-  const style = "";
+  const buttonStyle = "text-xl ml-3";
+
   return (
-    <div className="fixed bottom-0 w-full h-[48px] z-10 bg-[#f2f2f2] border border-t text-xs">
-      <div className="w-[1240px] flex flex-row justify-center items-center">
+    <div className="sticky bottom-0 w-full z-10 bg-[#f2f2f2] border-[#ccc] border-t text-xs flex justify-center">
+      <div className="w-[1240px] flex flex-row justify-between items-center h-[48px]">
+        {/* control button */}
         <div className="flex flex-row">
-          <BsFillSkipStartFill className={`${style}`} />
-          <button onClick={toggleAudio}>
-            {!isPLaying ? <BsFillPlayFill /> : <BsFillPauseFill />}
+          <button>
+            <BsFillSkipStartFill className={`${buttonStyle}`} />
           </button>
-          <BsFillSkipEndFill />
+          <button onClick={toggleAudio}>
+            {!isPLaying ? (
+              <BsFillPlayFill className={`${buttonStyle}`} />
+            ) : (
+              <BsFillPauseFill className={`${buttonStyle}`} />
+            )}
+          </button>
+          <button>
+            <BsFillSkipEndFill className={`${buttonStyle}`} />
+          </button>
+          <button>
+            <BsShuffle
+              className={`${buttonStyle}`}
+              style={{ fontSize: "1.15rem" }}
+            />
+          </button>
+          <button>
+            <BsRepeat
+              className={`${buttonStyle}`}
+              style={{ fontSize: "1.15rem" }}
+            />
+          </button>
         </div>
+
         {/* track control */}
         <div className="flex justify-center items-center">
-          <p>{currentTime.toFixed(2)}</p>
+          {/* current time */}
+          <p className="text-xs mr-4 text-[#f50]">
+            {formatDuration(currentTime.toFixed(2))}
+          </p>
+
           <PlaybackTimeLine
             duration={duration}
             currentTime={currentTime}
             handleTimeline={handleTimeline}
           />
-          <p>{duration.toFixed(2)}</p>
+
+          {/* total duration */}
+          <p>{formatDuration(duration.toFixed(2))}</p>
+
           <audio ref={audioRef} src={audioSrc} />
         </div>
         {/* volume control */}

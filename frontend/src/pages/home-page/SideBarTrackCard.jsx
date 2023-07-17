@@ -8,7 +8,7 @@ export const SideBarTrackCard = () => {
       <div>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
-          className="object-cover w-[60px] h-[60px]"
+          className="object-cover w-[50px] h-[50px] border-[0.5px] border-[#ccc]"
         />
       </div>
 

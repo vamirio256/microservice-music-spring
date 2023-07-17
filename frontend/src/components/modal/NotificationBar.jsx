@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const NotificationBar = () => {
+const NotificationBar = ({ isShow, message }) => {
   const [showNotification, setShowNotification] = useState(false);
+
+  // const notificationTimeout = setTimeout(() => {
+  //   if (document.visibilityState === "visible") {
+  //     // Close the notification if the document is currently visible
+  //     notification.close();
+  //   }
+  // }, 3000);
 
   useEffect(() => {
     if (showNotification) {
       const timeout = setTimeout(() => {
         setShowNotification(false);
       }, 3000);
-      
+
       return () => clearTimeout(timeout);
     }
   }, [showNotification]);
@@ -18,15 +25,14 @@ const NotificationBar = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleShowNotification}>Show Notification</button>
-      {showNotification && (
+    <>
+      {isShow && (
         <div className="fixed bottom-[10px] left-[10px] bg-[#f5] p-3 rounded-md shadow-md">
-          {/* Notification content */}
-          This is a notification message.
+          {message ? message : `This service is in developing`}
+          qweqweqweqwe
         </div>
       )}
-    </div>
+    </>
   );
 };
 

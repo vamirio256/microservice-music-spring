@@ -48,7 +48,7 @@ const TrackCard = ({ className, track, openModal }) => {
             <img
               src={imageSrc}
               alt={track.title}
-              className="w-full h-full object-cover duration-300 ease-in-out 
+              className="w-full h-full object-cover border-[1px] border-[#ccc] duration-300 ease-in-out 
             group-hover:scale-105 group-hover:opacity-80"
             />
           </div>
