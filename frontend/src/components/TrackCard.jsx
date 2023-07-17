@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { BsFillPauseFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 
 import { MdPlaylistAdd } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 const TrackCard = ({ className, track, openModal }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [audioSrc, setAudioSrc] = useState("");
+  const dispatch = useDispatch();
+  const isPlaying = useSelector((state) => state.isPlayingReducer);
 
   const arrayBufferToBase64 = (buffer) => {
-    let binary = '';
+    let binary = "";
     const bytes = new Uint8Array(buffer);
     const len = bytes.byteLength;
     for (let i = 0; i < len; i++) {
@@ -20,10 +24,10 @@ const TrackCard = ({ className, track, openModal }) => {
 
   const fetchImage = async () => {
     try {
-      const response = await fetch(track.imageUrl,{
+      const response = await fetch(track.imageUrl, {
         method: "GET",
         headers: {
-          "Access-Control-Allow-Origin": "*" 
+          "Access-Control-Allow-Origin": "*",
         },
       });
       const byteArray = await response.arrayBuffer();
@@ -39,7 +43,15 @@ const TrackCard = ({ className, track, openModal }) => {
   useEffect(() => {
     fetchImage();
   }, []);
-
+  const toggleAudio = () => {
+    if (isPlaying) {
+      dispatch({ type: "SETPLAYING", play: false });
+      // setIsPlaying(false);
+    } else {
+      dispatch({ type: "SETPLAYING", play: true });
+      // setIsPlaying(true);
+    }
+  };
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">
@@ -55,8 +67,19 @@ const TrackCard = ({ className, track, openModal }) => {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-1/4 h-1/4 overflow-hidden opacity-0 transition duration-300 ease-in-out group-hover:opacity-100 flex justify-center items-center z-10">
               {/* Play button */}
-              <a className="rounded-full bg-[#f30]  w-full h-full flex justify-center items-center z-20">
-                <FaPlay className="text-white" />
+              <a
+                className="rounded-full bg-[#f30]  w-full h-full flex justify-center items-center z-20"
+                onClick={toggleAudio}
+              >
+                {/* play btn */}
+
+                {!isPlaying ? (
+                  <FaPlay className="text-white" />
+                ) : (
+                  <BsFillPauseFill className="text-white" />
+                )}
+
+                {/* <FaPlay className="text-white" /> */}
               </a>
             </div>
           </div>
