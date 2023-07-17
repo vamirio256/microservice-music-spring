@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/searchs")
 public class SearchController {
 
     private final SearchService searchService;

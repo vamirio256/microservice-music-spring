@@ -1,19 +1,20 @@
-package com.zyan.backend.track;
+package com.zyan.backend.playlist;
 
-import com.zyan.backend.user.dto.UserSummaryDTO;
+import com.zyan.backend.track.TrackDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class TrackDTO {
+public class PlaylistDTO {
     private int id;
     private String name;
     private String coverUrl;
-    private String audioUrl;
-    private UserSummaryDTO user;
+    private Set<TrackDTO> tracks;
 }

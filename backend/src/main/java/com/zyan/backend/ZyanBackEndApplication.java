@@ -2,7 +2,7 @@ package com.zyan.backend;
 
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
-import com.zyan.backend.user.User;
+import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication

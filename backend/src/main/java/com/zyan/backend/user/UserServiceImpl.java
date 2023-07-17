@@ -1,29 +1,29 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
-import com.zyan.backend.exception.MethodArgumentTypeMismatchException;
 import com.zyan.backend.exception.ResourceNotFoundException;
+import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.entities.User;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 //    private final Map<Integer, Set<Integer>> followingMap;
 //    private final Map<Integer, Set<Integer>> followedMap;
 
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProfileRepository profileRepository) {
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
     }
 
     //    @PostConstruct

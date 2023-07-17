@@ -4,13 +4,12 @@ import com.zyan.backend.playlist.Playlist;
 import com.zyan.backend.playlist.PlaylistRepository;
 import com.zyan.backend.track.Track;
 import com.zyan.backend.track.TrackRepository;
-import com.zyan.backend.user.User;
+import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.UserRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -41,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
 
         CompletableFuture<List<Playlist>> playlistFuture = CompletableFuture.supplyAsync(() ->
                 playlistRepository.findByNameContainingIgnoreCase(query), executor);
-
+        System.out.println(tracksFuture);
         return CompletableFuture.allOf(tracksFuture, usersFuture, playlistFuture)
                 .thenApply(Void -> SearchResponseDTO.builder()
                         .users(usersFuture.join().stream().map(User::mapUserToUserDTO).collect(Collectors.toList()))

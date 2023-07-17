@@ -1,8 +1,9 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
+import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.entities.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService {

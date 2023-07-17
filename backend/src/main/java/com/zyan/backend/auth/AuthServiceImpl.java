@@ -1,7 +1,9 @@
 package com.zyan.backend.auth;
 
 import com.zyan.backend.security.JwtUtils;
-import com.zyan.backend.user.User;
+import com.zyan.backend.user.ProfileRepository;
+import com.zyan.backend.user.entities.Profile;
+import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.UserRepository;
 import com.zyan.backend.user.UserRole;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +18,19 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProfileRepository profileRepository;
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
     public AuthServiceImpl(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
+            ProfileRepository profileRepository, AuthenticationManager authenticationManager,
             JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.profileRepository = profileRepository;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }
@@ -51,14 +56,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO request) {
+        Profile profile = new Profile();
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.USER)
                 .build();
-
+        profile.setUser(user);
+        user.setProfile(profile);
         userRepository.save(user);
+        profileRepository.save(profile);
         var jwtToken = jwtUtils.generateToken(user);
         return AuthResponseDTO.builder()
                 .jwtToken(jwtToken)

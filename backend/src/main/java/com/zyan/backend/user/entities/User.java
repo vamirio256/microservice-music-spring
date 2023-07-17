@@ -1,20 +1,16 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zyan.backend.playlist.PlaylistTrack;
-import com.zyan.backend.track.Track;
+import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -35,18 +31,15 @@ public class User implements UserDetails {
     private String email;
 
     @NonNull
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    @JsonIgnoreProperties("user")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Track> tracks;
 
-    @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Follow> followed;
-
-    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Follow> following;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Profile profile;
 
     public UserDTO mapUserToUserDTO(){
         return UserDTO.builder()
@@ -55,6 +48,16 @@ public class User implements UserDetails {
                 .email(email)
                 .roles(role)
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                // Exclude circular reference to Profile in toString()
+                '}';
     }
 
     @Override

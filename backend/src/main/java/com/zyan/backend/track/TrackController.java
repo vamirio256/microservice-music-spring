@@ -1,11 +1,12 @@
 package com.zyan.backend.track;
 
-import com.zyan.backend.user.UserDTO;
+import com.zyan.backend.user.dto.UserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tracks")
@@ -44,8 +45,9 @@ public class TrackController {
     public ResponseEntity<Track> uploadTrack(
             @RequestPart("track") Track track,
             @RequestPart("cover") MultipartFile cover,
-            @RequestPart("audio") MultipartFile audio) {
-        return ResponseEntity.ok(trackService.uploadTrack(track, cover, audio));
+            @RequestPart("audio") MultipartFile audio,
+            @RequestPart("waveform") MultipartFile waveform) {
+        return ResponseEntity.ok(trackService.uploadTrack(track, cover, audio, waveform));
     }
 
     @PutMapping(
@@ -54,13 +56,19 @@ public class TrackController {
     public ResponseEntity<Track> updateTrack(@RequestPart("user") UserDTO userDTO,
                                              @RequestPart("track") Track track,
                                              @RequestPart("cover") MultipartFile cover,
-                                             @RequestPart("audio") MultipartFile audio) {
-        return ResponseEntity.ok(trackService.updateTrack(userDTO, track, cover, audio));
+                                             @RequestPart("audio") MultipartFile audio,
+                                             @RequestPart("waveform") MultipartFile waveform) {
+        return ResponseEntity.ok(trackService.updateTrack(userDTO, track, cover, audio, waveform));
     }
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> deleteTrack(@PathVariable("id") int id) {
         trackService.deleteTrack(id);
         return ResponseEntity.ok("Successfully deleted track with id [%s]".formatted(id));
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Track>> search(@RequestParam("query") String query){
+        return ResponseEntity.ok(trackService.search(query));
     }
 }

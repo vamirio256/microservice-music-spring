@@ -1,14 +1,11 @@
 package com.zyan.backend.playlist;
 
-import com.zyan.backend.track.Track;
+import com.zyan.backend.playlist_track.PlaylistTrack;
+import com.zyan.backend.user.entities.Profile;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -18,6 +15,10 @@ import java.util.Set;
 @Table(name = "playlists")
 public class Playlist {
 
+    @OneToMany(mappedBy = "playlist")
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+    Set<PlaylistTrack> playlistTracks;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,7 +27,23 @@ public class Playlist {
     private boolean isPublic;
     private String coverUrl;
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile profile;
 
-    @OneToMany(mappedBy = "playlist")
-    Set<PlaylistTrack> playlistTracks;
+//    public PlaylistDTO mapPlaylistToPlaylistDTO(){
+//        PlaylistDTO dto = new PlaylistDTO();
+//        dto.setId(getId());
+//        dto.setName(getName());
+//        // Set other properties of the DTO as needed
+//        dto.setTracks(getTracks().stream()
+//                .map(Track::mapTrackToDto)
+//                .collect(Collectors.toSet()));
+//        return dto;
+////        return PlaylistDTO.builder()
+////                .name(getName())
+////                .coverUrl(getCoverUrl())
+////                .tracks(getPlaylistTracks().stream().map(Track::mapTrackToTrackDTO))
+////                .build();
+//    }
 }

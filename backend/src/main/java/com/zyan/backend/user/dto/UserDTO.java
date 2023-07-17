@@ -1,6 +1,8 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.dto;
 
 import com.zyan.backend.track.Track;
+import com.zyan.backend.user.UserRole;
+import com.zyan.backend.user.entities.User;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +18,4 @@ public class UserDTO {
     private String username;
     private String email;
     private UserRole roles;
-    private Collection<User> followers;
-    private Collection<User> followedUsers;
-    private List<Track> tracks;
 }

@@ -1,7 +1,5 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.entities;
 
-import com.zyan.backend.playlist.Playlist;
-import com.zyan.backend.track.Track;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,11 +20,11 @@ public class Follow {
 
     @ManyToOne
     @MapsId("followedId")
-    private User followed;
+    private Profile followed;
 
     @ManyToOne
     @MapsId("followingId")
-    private User following;
+    private Profile following;
 
     private LocalDateTime addedAt;
 }

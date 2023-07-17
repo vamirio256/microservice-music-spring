@@ -1,5 +1,6 @@
 package com.zyan.backend.user;
 
+import com.zyan.backend.user.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
