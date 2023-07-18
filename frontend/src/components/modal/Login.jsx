@@ -24,7 +24,7 @@ const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
         }),
       });
       const token = await response.json();
-      sessionStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("token", JSON.stringify(token));
       console.log(token);
       setIsAuthenticated(true);
       navigate("/home");
