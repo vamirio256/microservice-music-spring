@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 import Waveform from "../Waveform";
-import WaveSurfer from "https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.esm.js";
+import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 
 const Playlist = () => {
   const [playlist, setPlaylist] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const playTrack = () => {
+    setIsPlaying(true);
+  };
+
+  const stopTrack = () => {
+    setIsPlaying(false);
+  };
 
   useEffect(() => {
     const getPlaylist = async () => {
@@ -35,7 +44,6 @@ const Playlist = () => {
     <div>
       {playlist ? (
         <>
-          <h1>Playlist Component</h1>
           <h1>Playlist: {playlist.name}</h1>
           <div className="flex flex-row">
             <img
@@ -43,13 +51,17 @@ const Playlist = () => {
               className="h-[160px] w-[160px] mr-4"
             />
             <div className="w-full">
+              <div>
+                {!isPlaying ? (
+                  <BsFillPlayFill className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer" onClick={playTrack}/>
+                ) : (
+                  <BsFillPauseFill className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer" onClick={stopTrack}/>
+                )}
+              </div>
               <Waveform audioUrl={playlist.tracks[0].audioUrl} />
               <div className="border-[1px] border-solid">
                 {playlist.tracks.map((track, index) => (
-                  <PlaylistTrackCard
-                    key={index}
-                    track={track}
-                  />
+                  <PlaylistTrackCard key={index} track={track} />
                 ))}
               </div>
             </div>
