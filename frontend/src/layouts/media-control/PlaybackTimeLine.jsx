@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-const PlaybackTimeLine = () => {
-  const [timeline, setTimeline] = useState(0);
-  const handleTimeline = (event) => {
-    setTimeline(event.target.value);
-  };
+const PlaybackTimeLine = ({ progress, handleTimeline }) => {
+  // const [timeline, setTimeline] = useState(0);
+  // const handleTimeline = (event) => {
+  //   console.log(event.target.value);
+  // };
 
   return (
     <div className="flex flex-row justify-center items-center w-[500px]">
@@ -12,11 +12,11 @@ const PlaybackTimeLine = () => {
         type="range"
         className={`range-slider mr-2 w-full accent-[#f50] h-[1px] focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 cursor-pointer`}
         style={{
-          background: `linear-gradient(to right, #f50 0%, #f50 ${timeline}%, #ccc ${timeline}%, #ccc 100%)`,
+          background: `linear-gradient(to right, #f50 0%, #f50 ${progress}%, #ccc ${progress}%, #ccc 100%)`,
         }}
         min={0}
         max={100}
-        value={timeline}
+        value={progress}
         onChange={(e) => handleTimeline(e)}
       />
     </div>

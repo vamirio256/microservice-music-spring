@@ -18,8 +18,8 @@ const HorizontalTrackSwiper = ({ title }) => {
       try {
         const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
         const url = `${process.env.REACT_APP_API_BASE_URL}/playlists/6`;
-        console.log(url);
-        console.log(token);
+        // console.log(url);
+        // console.log(token);
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -27,11 +27,9 @@ const HorizontalTrackSwiper = ({ title }) => {
             "Content-Type": "application/json",
           },
         });
-        console.log(response);
+
         const playlistData = await response.json();
         setPlaylist(playlistData);
-        console.log(playlistData);
-        console.log(playlist);
       } catch (error) {
         console.error(
           "An error occurred while retrieving the playlist:",
@@ -58,24 +56,14 @@ const HorizontalTrackSwiper = ({ title }) => {
               slidesPerView={4}
               navigation
               loop={true}
-              // breakpoints={{
-              //   768: {
-              //     slidesPerView: 3,
-              //     spaceBetween: 30,
-              //   },
-              //   1024: {
-              //     slidesPerView: 4,
-              //     spaceBetween: 10,
-              //   },
-              // }}
             >
               <ul>
                 {playlist.tracks.map((track, index) => (
-                  <SwiperSlide>
+                  <SwiperSlide key={index}>
                     <TrackCard
-                      key={index}
                       title={track.name}
                       coverUrl={track.coverUrl}
+                      audioUrl={track.audioUrl}
                       artist={track.user.username}
                     />
                   </SwiperSlide>
