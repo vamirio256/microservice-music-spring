@@ -1,11 +1,14 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
+import com.zyan.backend.exception.MethodArgumentTypeMismatchException;
 import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.User;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,18 +70,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void followUser(int followedId) {
-//        SecurityContextHolder.getContext().getAuthentication().
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //
-//
-//        if (followerId == followedId) {
+//        if (user.getId() == followedId) {
 //            throw new MethodArgumentTypeMismatchException("Follower and followd user can not be the same");
 //        }
 //
-//        User follower = userRepository.findById(followerId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followerId)));
+////        User follower = userRepository.findById(user.getId())
+////                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(user.getId())));
 //        User followed = userRepository.findById(followedId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Follower wit id '%s' not found".formatted(followedId)));
-//        follower.getFollowedUsers().add(followed);
+//        user.getFollowedUsers().add(followed);
 //        followed.getFollowers().add(follower);
 //
 //        userRepository.save(follower);
