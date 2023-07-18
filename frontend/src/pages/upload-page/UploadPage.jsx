@@ -4,6 +4,7 @@ import NotificationBar from "../../components/modal/NotificationBar";
 
 export const UploadPage = () => {
   const [upload_display, set_upload_display] = useState(true);
+  const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
   const ref = useRef(null);
   function loadfile(event) {
     ref.current.style.backgroundImage =

@@ -17,7 +17,14 @@ function App() {
     <div className="flex flex-col h-[100vh]">
       {!isAuthenticated ? (
         <Routes>
-          <Route path="*" element={<UnauthenticatedHomePage setIsAuthenticated={setIsAuthenticated}/>} />
+          <Route
+            path="*"
+            element={
+              <UnauthenticatedHomePage
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </Routes>
       ) : (
         <>
