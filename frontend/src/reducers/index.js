@@ -5,10 +5,10 @@ import currentSongReducer from "./currentSong";
 import isPlayingReducer from "./isPlaying";
 import likeReducer from "./like";
 import playlistReducer from "./playlist";
-import songsReducer from "./songs";
+import songHistoryReducer from "./songHistory";
 
 const allReducers = combineReducers({
-  songsReducer: songsReducer,
+  songHistoryReducer: songHistoryReducer,
   currentSongReducer: currentSongReducer,
   isPlayingReducer: isPlayingReducer,
   likeReducer: likeReducer,

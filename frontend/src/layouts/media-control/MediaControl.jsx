@@ -67,24 +67,31 @@ const MediaControl = () => {
     if (!currentSong) {
       return;
     }
-    const audioElement = audioRef.current;
+
     const handleLoadedMetadata = () => {
-      setDuration(audioElement.duration);
+      setDuration(audioRef.current.duration);
     };
 
-    audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
 
     if (currentSong.isPlaying) {
       audioRef.current?.play();
+
+      // add to history when play song
+      dispatch({
+        type: "ADDSONG",
+        song: { ...currentSong },
+      });
     } else {
       audioRef.current?.pause();
     }
     return () => {
-      audioElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audioRef.current.removeEventListener(
+        "loadedmetadata",
+        handleLoadedMetadata
+      );
     };
   }, [currentSong]);
-
-  useEffect(() => {}, [currentSong]);
 
   const buttonStyle = "text-xl ml-3";
   // console.log(currentTime);
@@ -102,6 +109,7 @@ const MediaControl = () => {
           {/* control button */}
           <div className="flex flex-row">
             <button>
+              {/* play previous */}
               <BsFillSkipStartFill className={`${buttonStyle}`} />
             </button>
             {/* play btn */}
@@ -113,6 +121,7 @@ const MediaControl = () => {
               )}
             </button>
             <button>
+              {/* playnext */}
               <BsFillSkipEndFill className={`${buttonStyle}`} />
             </button>
             <button>

@@ -6,41 +6,13 @@ import PlaylistPopup from "../../components/modal/PlaylistPopup";
 import apple_store from "../..//images/apple_store.png";
 import google_play from "../../images/google_play.png";
 import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
-import {
-  SideBarTrackCard,
-} from "./SideBarTrackCard";
+import { SideBarTrackCard } from "./SideBarTrackCard";
 import TrackInput from "../../components/TrackInput";
 import Playlist from "../../components/playlist/Playlist";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
-  // const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
-  // const accessToken = localStorage.getItem("accessToken");
-
-  // useEffect(() => {
-  //   const fetchImage = async () => {
-  //     try {
-  //       console.log("Bearer " + accessToken);
-  //       const response = await fetch(url, {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: "Bearer " + accessToken,
-  //         },
-  //       });
-  //       if (response.ok) {
-  //         const blob = await response.blob();
-  //         setTrack({ ...track, image: URL.createObjectURL(blob) });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching image:", error);
-  //     }
-  //   };
-
-  //   fetchImage();
-  // }, []);
-
-  // const prevButton = classNames{
-
-  // }
+  const historySongs = useSelector((state) => state.songHistoryReducer);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -67,15 +39,17 @@ const HomePage = () => {
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
         {/* sidebar section */}
-        <SideBarSection icon={<AiOutlineHistory />} header={"Listening history"}>
-          <SideBarTrackCard />
-          <SideBarTrackCard />
-          <SideBarTrackCard />
-          <SideBarTrackCard />
+        <SideBarSection
+          icon={<AiOutlineHistory />}
+          header={"Listening history"}
+        >
+          {historySongs.map((item, index) => {
+            return <SideBarTrackCard key={index} data={item} />;
+          })}
         </SideBarSection>
 
         {/* sidebar section */}
-        <SideBarSection header={"Go mobile"} icon={<BiSolidMobile/>}>
+        <SideBarSection header={"Go mobile"} icon={<BiSolidMobile />}>
           <div className="grid grid-cols-2 gap-1">
             <a className="cursor-pointer">
               <img src={apple_store} />
