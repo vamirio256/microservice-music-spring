@@ -13,6 +13,27 @@ import UserPage from "./pages/user-page/UserPage";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
+  const App = () => {
+    useEffect(() => {
+      const checkTokenValidity = async () => {
+        try {
+          const response = await axios.get('/api/check-token', {
+            headers: {
+              Authorization: `Bearer ${yourToken}`,
+            },
+          });
+          // Token is valid, proceed with the application logic
+        } catch (error) {
+          // Token is invalid, handle accordingly (e.g., redirect to login page)
+        }
+      };
+  
+      checkTokenValidity();
+    }, []);
+  
+    // Rest of your React application code
+  };
+
   return (
     <div className="flex flex-col h-[100vh]">
       {!isAuthenticated ? (
