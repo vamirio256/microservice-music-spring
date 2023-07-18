@@ -1,12 +1,16 @@
 import React, { useRef, useState } from "react";
 import { AiFillCamera } from "react-icons/ai";
 import NotificationBar from "../../components/modal/NotificationBar";
-
+import loadingimage from "../../assets/images/loading-gif.gif";
 export const UploadPage = () => {
+  const fileInputRef = useRef(null);
+  const fileImageInputRef = useRef(null);
   const [upload_display, set_upload_display] = useState(true);
   const [fileMusic, setFileMusic] = useState();
   const [name, setName] = useState("");
   const [image, setImage] = useState(undefined);
+
+  const [loading, setLoading] = useState(false);
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
   const ref = useRef(null);
   // load file image
@@ -16,7 +20,6 @@ export const UploadPage = () => {
 
     setImage(event.target.files[0]);
   }
-  const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
 
   const handleFileMusic = (e) => {
     set_upload_display(false);
@@ -24,25 +27,47 @@ export const UploadPage = () => {
     setFileMusic(e.target.files[0]);
   };
   const uploadFile = async () => {
-    const tracks = JSON.stringify({ name: name, coverUrl: "", audioUrl: "" });
+    setLoading(true); // Start loading
 
     const formData = new FormData();
-    formData.append('track', new Blob([tracks], { type: 'application/json' }));
+    formData.append(
+      "track",
+      new Blob([JSON.stringify({ name: name, coverUrl: "", audioUrl: "" })], {
+        type: "application/json",
+      })
+    );
     formData.append("cover", image);
     formData.append("audio", fileMusic);
-    console.log(formData);
-    const response = await fetch(uploadUrl, {
-      method: "POST",
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + token,
-      },
-      body: formData,
-    });
-    console.log(response);
-    const data = await response.json();
-    console.log(data);
+
+    try {
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+        },
+        body: formData,
+      });
+
+      if (response.status === 200) {
+        alert("Upload success");
+        set_upload_display(true);
+        fileInputRef.current.value = "";
+        fileImageInputRef.current.value = "";
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      alert("Error occurred while uploading");
+    }
+
+    setLoading(false); // Stop loading
   };
+  function cancalUpload() {
+    set_upload_display(true);
+    fileInputRef.current.value = "";
+    fileImageInputRef.current.value = "";
+  }
 
   return (
     <>
@@ -79,8 +104,8 @@ export const UploadPage = () => {
             type="file"
             className="px-10 py-2 bg-orange-400 block m-auto mt-3 shadow-md bg-orange text-white"
             accept=".MP3, .FLAC, .WAV, .ALAC, .AIFF"
-            // value={fileMusic}
             onChange={handleFileMusic}
+            ref={fileInputRef}
           />
           <br />
           <div className="text-center">
@@ -138,6 +163,7 @@ export const UploadPage = () => {
               accept=".JPEG,.PNG,.JPG"
               className="hidden"
               onChange={loadfileImage}
+              ref={fileImageInputRef}
             />
           </div>
           {/* right infor */}
@@ -168,16 +194,17 @@ export const UploadPage = () => {
 
             {/* button */}
             <div className="mt-5 text-right">
-              <button
-                className="secondary-button"
-                onClick={() => set_upload_display(true)}
-              >
+              <button className="secondary-button" onClick={cancalUpload}>
                 Cancel
               </button>
 
               {/* save button */}
               <button className="primary-button" onClick={uploadFile}>
-                Save
+                {loading ? (
+                  <img src={loadingimage} alt="" width={15} height={15} />
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </div>
