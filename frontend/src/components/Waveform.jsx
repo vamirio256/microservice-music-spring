@@ -60,17 +60,6 @@ const Waveform = ({ audioUrl }) => {
     return `${minutes}:${paddedSeconds}`;
   };
 
-  //   const timeEl = document.querySelector("#time");
-  //   const durationEl = document.querySelector("#duration");
-  //   wavesurfer.current.on(
-  //     "decode",
-  //     (duration) => (durationEl.textContent = formatTime(duration))
-  //   );
-  //   wavesurfer.current.on(
-  //     "timeupdate",
-  //     (currentTime) => (timeEl.textContent = formatTime(currentTime))
-  //   );
-
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: waveContainerRef.current,
@@ -108,18 +97,17 @@ const Waveform = ({ audioUrl }) => {
   };
 
   const timeStyle =
-    "absolute z-11 top-1/2 mt-[-1px] translate-y-1/2 text-xs bg-[rgba(0, 0, 0, 0.75)] p-2 text-[#ddd]";
+    "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[10px]";
 
   return (
-    <div className="cursor-pointer relative ">
-      <div ref={timeRef} className={`${timeStyle} left-0`}>
-        0:00
-      </div>
-      <div className="overflow-hidden h-[40px]">
-        <div ref={waveContainerRef} className="transform h-[80px]" />
-      </div>
-      <div ref={durationRef} className={`${timeStyle} right-0`}>
-        0:00
+    <div className="overflow-hidden h-[40px]">
+      <div ref={waveContainerRef} className="cursor-pointer relative transform h-[80px]">
+        <div ref={timeRef} className={`${timeStyle} left-0 text-[#f50]`}>
+          0:00
+        </div>
+        <div ref={durationRef} className={`${timeStyle} right-0`}>
+          0:00
+        </div>
       </div>
     </div>
   );

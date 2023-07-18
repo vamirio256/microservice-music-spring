@@ -37,28 +37,26 @@ const Playlist = () => {
         <>
           <h1>Playlist Component</h1>
           <h1>Playlist: {playlist.name}</h1>
-          <img
-            src={playlist.tracks[0].coverUrl}
-            className="h-[160px] w-[160px]"
-          />
-          <ul>
-            <Waveform audioUrl={playlist.tracks[0].audioUrl} />
-            {playlist.tracks.map(
-              (track, index) => (
-                (
+          <div className="flex flex-row">
+            <img
+              src={playlist.tracks[0].coverUrl}
+              className="h-[160px] w-[160px] mr-4"
+            />
+            <div className="w-full">
+              <Waveform audioUrl={playlist.tracks[0].audioUrl} />
+              <div className="border-[1px] border-solid">
+                {playlist.tracks.map((track, index) => (
                   <PlaylistTrackCard
                     key={index}
-                    coverUrl={track.coverUrl}
-                    title={track.name}
-                    artist={track.user.username}
+                    track={track}
                   />
-                )
-              )
-            )}
-          </ul>
+                ))}
+              </div>
+            </div>
+          </div>
         </>
       ) : (
-        <p>Loading playlist...</p>
+        <></>
       )}
     </div>
   );

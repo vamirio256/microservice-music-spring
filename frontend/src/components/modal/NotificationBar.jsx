@@ -27,7 +27,7 @@ const NotificationBar = ({ isShow, message }) => {
   return (
     <>
       {isShow && (
-        <div className="fixed bottom-[10px] left-[10px] bg-[#f5] p-3 rounded-md shadow-md">
+        <div className="sticky bottom-[10px] left-[10px] bg-[#f5] p-3 rounded-md shadow-md">
           {message ? message : `This service is in developing`}
           qweqweqweqwe
         </div>

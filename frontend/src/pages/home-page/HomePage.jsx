@@ -62,7 +62,6 @@ const HomePage = () => {
         <HomePageTrackHorizontalSwipe title="More of what you like" />
         <HomePageTrackHorizontalSwipe title="More of what you like" />
         <Playlist />
-        <TrackInput />
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
