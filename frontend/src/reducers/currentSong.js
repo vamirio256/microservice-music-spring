@@ -1,6 +1,4 @@
-import { songsdata } from "../contexts/dummy_data";
-
-const currentSongReducer = (state = songsdata[0], action) => {
+const currentSongReducer = (state = null, action) => {
   switch (action.type) {
     case "CHANGESONG":
       return action.song;

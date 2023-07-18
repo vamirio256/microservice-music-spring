@@ -53,24 +53,14 @@ const HorizontalTrackSwiper = ({ title }) => {
               slidesPerView={4}
               navigation
               loop={true}
-              // breakpoints={{
-              //   768: {
-              //     slidesPerView: 3,
-              //     spaceBetween: 30,
-              //   },
-              //   1024: {
-              //     slidesPerView: 4,
-              //     spaceBetween: 10,
-              //   },
-              // }}
             >
               <ul>
                 {playlist.tracks.map((track, index) => (
-                  <SwiperSlide>
+                  <SwiperSlide key={index}>
                     <TrackCard
-                      key={index}
                       title={track.name}
                       coverUrl={track.coverUrl}
+                      audioUrl={track.audioUrl}
                       artist={track.user.username}
                     />
                   </SwiperSlide>

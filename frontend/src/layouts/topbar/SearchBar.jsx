@@ -26,7 +26,11 @@ const SearchBar = ({ className, onSearch }) => {
         placeholder="Search"
         className="w-full h-full rounded-md px-2 py-1 "
       />
-      <AiOutlineSearch className="absolute right-2 top-2" color="gray" size={20} />
+      <AiOutlineSearch
+        className="absolute right-2 top-2"
+        color="gray"
+        size={20}
+      />
     </div>
   );
 };
