@@ -10,6 +10,7 @@ import {
   SideBarTrackCard,
 } from "./SideBarTrackCard";
 import TrackInput from "../../components/TrackInput";
+import Playlist from "../../components/playlist/Playlist";
 
 const HomePage = () => {
   // const url = `${process.env.REACT_APP_API_BASE_URL}/tracks/cover/1`;
@@ -60,6 +61,7 @@ const HomePage = () => {
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
         <HomePageTrackHorizontalSwipe title="More of what you like" />
         <HomePageTrackHorizontalSwipe title="More of what you like" />
+        <Playlist />
         <TrackInput />
       </div>
       {/* sidebar */}

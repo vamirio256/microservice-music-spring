@@ -6,44 +6,44 @@ import { FaHeart } from "react-icons/fa6";
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
-const TrackCard = ({ className, track, openModal }) => {
+const TrackCard = ({ className, title, coverUrl, artist, openModal }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [audioSrc, setAudioSrc] = useState("");
 
   const dispatch = useDispatch();
   const isPlaying = useSelector((state) => state.isPlayingReducer);
 
-  const arrayBufferToBase64 = (buffer) => {
-    let binary = "";
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-  };
+  // const arrayBufferToBase64 = (buffer) => {
+  //   let binary = "";
+  //   const bytes = new Uint8Array(buffer);
+  //   const len = bytes.byteLength;
+  //   for (let i = 0; i < len; i++) {
+  //     binary += String.fromCharCode(bytes[i]);
+  //   }
+  //   return window.btoa(binary);
+  // };
 
-  const fetchImage = async () => {
-    try {
-      const response = await fetch(track.imageUrl, {
-        method: "GET",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
-      const byteArray = await response.arrayBuffer();
-      const dataUrl = `data:image/jpeg;base64,${arrayBufferToBase64(
-        byteArray
-      )}`;
-      setImageSrc(dataUrl);
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    }
-  };
+  // const fetchImage = async () => {
+  //   try {
+  //     const response = await fetch(track.imageUrl, {
+  //       method: "GET",
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     });
+  //     const byteArray = await response.arrayBuffer();
+  //     const dataUrl = `data:image/jpeg;base64,${arrayBufferToBase64(
+  //       byteArray
+  //     )}`;
+  //     setImageSrc(dataUrl);
+  //   } catch (error) {
+  //     console.error("Error fetching image:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchImage();
-  }, []);
+  // useEffect(() => {
+  //   fetchImage();
+  // }, []);
   const toggleAudio = () => {
     if (isPlaying) {
       dispatch({ type: "SETPLAYING", play: false });
@@ -53,14 +53,15 @@ const TrackCard = ({ className, track, openModal }) => {
       // setIsPlaying(true);
     }
   };
+
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">
         <div className="relative max-w-xs overflow-hidden bg-no-repeat bg-cover">
           <div className="group-hover:bg-gradient-to-t group-hover:from-black group-hover:to-transparent">
             <img
-              src={imageSrc}
-              alt={track.title}
+              src={coverUrl}
+              alt={title}
               className="w-full h-full object-cover border-[1px] border-[#ccc] duration-300 ease-in-out 
             group-hover:scale-105 group-hover:opacity-80"
             />
@@ -95,12 +96,12 @@ const TrackCard = ({ className, track, openModal }) => {
         </div>
         {/* track title */}
         <h2 className="mt-2 mb-1 text-sm font-light text-gray-800 group-hover:text-black truncate">
-          {track.title}
+          {title}
         </h2>
       </div>
       {/* track artist*/}
       <p className="text-xs font-extralight text-gray-400 truncatel">
-        {track.artist}
+        {artist}
       </p>
     </div>
   );

@@ -27,18 +27,19 @@ export const UploadPage = () => {
     const tracks = JSON.stringify({ name: name, coverUrl: "", audioUrl: "" });
 
     const formData = new FormData();
-    formData.append("track", tracks);
+    formData.append('track', new Blob([tracks], { type: 'application/json' }));
     formData.append("cover", image);
     formData.append("audio", fileMusic);
     console.log(formData);
     const response = await fetch(uploadUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
       body: formData,
     });
+    console.log(response);
     const data = await response.json();
     console.log(data);
   };
