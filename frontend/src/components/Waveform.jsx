@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import WaveSurfer from "wavesurfer.js";
 
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
@@ -34,17 +35,16 @@ progressGradient.addColorStop(
 ); // Bottom color
 progressGradient.addColorStop(1, "#F6B094"); // Bottom color
 
-const Waveform = () => {
+const Waveform = ({ audioUrl }) => {
   const [fileUrl, setFileUrl] = useState(null);
   const waveContainerRef = useRef(null);
   const wavesurfer = useRef(null);
-    const timeRef = useRef(0);
-    const durationRef = useRef(0);
-
+  const timeRef = useRef(0);
+  const durationRef = useRef(0);
 
   useEffect(() => {
     if (fileUrl) {
-      wavesurfer.current.load(fileUrl);
+      wavesurfer.current.load(URL.createObjectURL(audioUrl));
     }
   }, [fileUrl]);
 
@@ -53,25 +53,23 @@ const Waveform = () => {
     setFileUrl(URL.createObjectURL(file));
   };
 
-  {
-    const formatTime = (seconds) => {
-      const minutes = Math.floor(seconds / 60);
-      const secondsRemainder = Math.round(seconds) % 60;
-      const paddedSeconds = `0${secondsRemainder}`.slice(-2);
-      return `${minutes}:${paddedSeconds}`;
-    };
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secondsRemainder = Math.round(seconds) % 60;
+    const paddedSeconds = `0${secondsRemainder}`.slice(-2);
+    return `${minutes}:${paddedSeconds}`;
+  };
 
-    const timeEl = document.querySelector("#time");
-    const durationEl = document.querySelector("#duration");
-    wavesurfer.on(
-      "decode",
-      (duration) => (durationEl.textContent = formatTime(duration))
-    );
-    wavesurfer.on(
-      "timeupdate",
-      (currentTime) => (timeEl.textContent = formatTime(currentTime))
-    );
-  }
+  //   const timeEl = document.querySelector("#time");
+  //   const durationEl = document.querySelector("#duration");
+  //   wavesurfer.current.on(
+  //     "decode",
+  //     (duration) => (durationEl.textContent = formatTime(duration))
+  //   );
+  //   wavesurfer.current.on(
+  //     "timeupdate",
+  //     (currentTime) => (timeEl.textContent = formatTime(currentTime))
+  //   );
 
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
@@ -79,21 +77,23 @@ const Waveform = () => {
       waveColor: gradient,
       progressColor: progressGradient,
       height: 80,
-      responsive: true,
       interact: true,
       //   cursorColor: "transparent",
       //   cursorWidth: 0,
-      barWidth: 2,
+      barWidth: 4,
       barRadius: 3,
+      barGap: 0.75,
       normalize: true,
       //   backend: "WebAudio",
     });
+
+    wavesurfer.current.load(audioUrl);
 
     return () => {
       // Clean up the WaveSurfer instance on component unmount
       wavesurfer.current.destroy();
     };
-  }, []);
+  }, [audioUrl]);
 
   const handlePlay = () => {
     if (wavesurfer.current) {
@@ -107,13 +107,22 @@ const Waveform = () => {
     }
   };
 
-  const timeStyle = "absolute z-11 top-1/2 mt-[-1px] translate-y-1/2 text-xs bg-[rgba(0, 0, 0, 0.75)] p-2 text-[#ddd]"
+  const timeStyle =
+    "absolute z-11 top-1/2 mt-[-1px] translate-y-1/2 text-xs bg-[rgba(0, 0, 0, 0.75)] p-2 text-[#ddd]";
 
-  return <div className="cursor-pointer relative ">
-    <div ref={timeRef} className={`${timeStyle} left-0`}>0:00</div> 
-    <div ref={waveContainerRef}/>
-    <div ref={durationRef} className={`${timeStyle} right-0`}>0:00</div> 
-  </div>;
+  return (
+    <div className="cursor-pointer relative ">
+      <div ref={timeRef} className={`${timeStyle} left-0`}>
+        0:00
+      </div>
+      <div className="overflow-hidden h-[40px]">
+        <div ref={waveContainerRef} className="transform h-[80px]" />
+      </div>
+      <div ref={durationRef} className={`${timeStyle} right-0`}>
+        0:00
+      </div>
+    </div>
+  );
 };
 
 export default Waveform;

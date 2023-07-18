@@ -9,30 +9,51 @@ import MediaControl from "./layouts/media-control/MediaControl";
 import TopBar from "./layouts/topbar/TopBar";
 import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
+import loading from "./assets/images/soundcloud-loading.gif";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  // const App = () => {
-  //   useEffect(() => {
-  //     const checkTokenValidity = async () => {
-  //       try {
-  //         const response = await axios.get('/api/check-token', {
-  //           headers: {
-  //             Authorization: `Bearer ${yourToken}`,
-  //           },
-  //         });
-  //         // Token is valid, proceed with the application logic
-  //       } catch (error) {
-  //         // Token is invalid, handle accordingly (e.g., redirect to login page)
-  //       }
-  //     };
-  
-  //     checkTokenValidity();
-  //   }, []);
-  
-  //   // Rest of your React application code
-  // };
+  const [tokenValidated, setTokenValidated] = useState(false);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        // Get the token from localStorage
+        const url = `${process.env.REACT_APP_API_BASE_URL}/auth/validate-token`;
+
+        // Make a request to the server to verify the token
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+          },
+        });
+
+        if (response.ok) {
+          // Token is valid
+          console.log("Token is valid");
+          setIsAuthenticated(true);
+        } else {
+          // Token is invalid or expired
+          console.log("Token is invalid");
+        }
+      } catch (error) {
+        console.error("Error checking token:", error);
+      } finally {
+        setTokenValidated(true);
+      }
+    };
+
+    checkToken();
+  }, []);
+
+  if (!tokenValidated) {
+    return <div className="flex items-center justify-center bg-[#FBFBFB] h-screen w-screen">
+      <img src={loading} />
+    </div>;
+  }
 
   return (
     <div className="flex flex-col h-[100vh]">
