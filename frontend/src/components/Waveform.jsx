@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
 
 const canvas = document.createElement("canvas");
@@ -41,7 +42,7 @@ const Waveform = ({ audioUrl }) => {
   const wavesurfer = useRef(null);
   const timeRef = useRef(0);
   const durationRef = useRef(0);
-
+  const currentProgress = useSelector((state) => state.progressReducer);
   useEffect(() => {
     if (fileUrl) {
       wavesurfer.current.load(URL.createObjectURL(audioUrl));
@@ -83,25 +84,19 @@ const Waveform = ({ audioUrl }) => {
       wavesurfer.current.destroy();
     };
   }, [audioUrl]);
-
-  const handlePlay = () => {
-    if (wavesurfer.current) {
-      wavesurfer.current.play();
-    }
-  };
-
-  const handlePause = () => {
-    if (wavesurfer.current) {
-      wavesurfer.current.pause();
-    }
-  };
+  // useEffect(() => {
+  //   wavesurfer.current.setTime(currentProgress);
+  // }, [currentProgress]);
 
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[10px]";
 
   return (
     <div className="overflow-hidden h-[40px]">
-      <div ref={waveContainerRef} className="cursor-pointer relative transform h-[80px]">
+      <div
+        ref={waveContainerRef}
+        className="cursor-pointer relative transform h-[80px]"
+      >
         <div ref={timeRef} className={`${timeStyle} left-0 text-[#f50]`}>
           0:00
         </div>

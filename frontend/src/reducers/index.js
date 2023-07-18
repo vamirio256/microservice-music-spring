@@ -6,13 +6,14 @@ import isPlayingReducer from "./isPlaying";
 import likeReducer from "./like";
 import playlistReducer from "./playlist";
 import songHistoryReducer from "./songHistory";
+import progressReducer from "./progress";
 
 const allReducers = combineReducers({
   songHistoryReducer: songHistoryReducer,
   currentSongReducer: currentSongReducer,
   isPlayingReducer: isPlayingReducer,
   likeReducer: likeReducer,
-
   playlistReducer: playlistReducer,
+  progressReducer: progressReducer,
 });
 export default allReducers;
