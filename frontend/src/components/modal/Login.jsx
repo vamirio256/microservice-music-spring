@@ -11,6 +11,7 @@ const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
     e.preventDefault();
     try {
       const url = `${process.env.REACT_APP_API_BASE_URL}/auth/authenticate`;
+      console.log(url);
       const response = await fetch(url, {
         method: "POST",
         headers: {

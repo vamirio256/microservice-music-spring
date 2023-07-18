@@ -93,7 +93,7 @@ const TrackCard = ({ className, track, openModal }) => {
           />
         </div>
         {/* track title */}
-        <h2 className="mt-2 mb-1 text-sm font-light text-gray-800 group-hover:text-black truncate ">
+        <h2 className="mt-2 mb-1 text-sm font-light text-gray-800 group-hover:text-black truncate">
           {track.title}
         </h2>
       </div>

@@ -11,13 +11,20 @@ import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <div className="flex flex-col h-[100vh]">
       {!isAuthenticated ? (
         <Routes>
-          <Route path="*" element={<UnauthenticatedHomePage setIsAuthenticated={setIsAuthenticated}/>} />
+          <Route
+            path="*"
+            element={
+              <UnauthenticatedHomePage
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </Routes>
       ) : (
         <>
