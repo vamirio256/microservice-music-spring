@@ -4,12 +4,45 @@ import NotificationBar from "../../components/modal/NotificationBar";
 
 export const UploadPage = () => {
   const [upload_display, set_upload_display] = useState(true);
+  const [fileMusic, setFileMusic] = useState();
+  const [name, setName] = useState("");
+  const [image, setImage] = useState(undefined);
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
   const ref = useRef(null);
-  function loadfile(event) {
+  // load file image
+  function loadfileImage(event) {
     ref.current.style.backgroundImage =
       "url(" + URL.createObjectURL(event.target.files[0]) + ")";
+
+    setImage(event.target.files[0]);
   }
+  const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
+
+  const handleFileMusic = (e) => {
+    set_upload_display(false);
+
+    setFileMusic(e.target.files[0]);
+  };
+  const uploadFile = async () => {
+    const tracks = JSON.stringify({ name: name, coverUrl: "", audioUrl: "" });
+
+    const formData = new FormData();
+    formData.append("track", tracks);
+    formData.append("cover", image);
+    formData.append("audio", fileMusic);
+    console.log(formData);
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <>
       <div className="p-5 bg-[#FFF8E6]">
@@ -22,7 +55,7 @@ export const UploadPage = () => {
           <input
             min={0}
             max={100}
-            value={50}
+            // value={50}
             type="range"
             className="range-usage w-60 accent-[#f50] h-[3px] appearance-none bg-[#ccc]"
           />
@@ -39,13 +72,14 @@ export const UploadPage = () => {
           <h1 className="text-center">
             Drag and drop your tracks & albums here
           </h1>
-
+          {/* file music upload */}
           <input
             id="file-upload"
             type="file"
             className="px-10 py-2 bg-orange-400 block m-auto mt-3 shadow-md bg-orange text-white"
             accept=".MP3, .FLAC, .WAV, .ALAC, .AIFF"
-            onChange={() => set_upload_display(false)}
+            // value={fileMusic}
+            onChange={handleFileMusic}
           />
           <br />
           <div className="text-center">
@@ -102,11 +136,12 @@ export const UploadPage = () => {
               type="file"
               accept=".JPEG,.PNG,.JPG"
               className="hidden"
-              onChange={loadfile}
+              onChange={loadfileImage}
             />
           </div>
           {/* right infor */}
           <div className="pl-5 w-8/12">
+            {/* name */}
             <div>
               Title <span className="text-red-500">*</span>
             </div>
@@ -114,6 +149,8 @@ export const UploadPage = () => {
               type="text"
               required
               className="outline-1 outline-gray-400 outline rounded-sm w-full px-2 py-1"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <div className="pt-3">
               <span className="pr-4">Privacy:</span>
@@ -127,6 +164,8 @@ export const UploadPage = () => {
               </label>
               <br />
             </div>
+
+            {/* button */}
             <div className="mt-5 text-right">
               <button
                 className="secondary-button"
@@ -134,7 +173,11 @@ export const UploadPage = () => {
               >
                 Cancel
               </button>
-              <button className="primary-button">Save</button>
+
+              {/* save button */}
+              <button className="primary-button" onClick={uploadFile}>
+                Save
+              </button>
             </div>
           </div>
         </div>

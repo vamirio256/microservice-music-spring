@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const TrackCard = ({ className, track, openModal }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [audioSrc, setAudioSrc] = useState("");
+
   const dispatch = useDispatch();
   const isPlaying = useSelector((state) => state.isPlayingReducer);
 
