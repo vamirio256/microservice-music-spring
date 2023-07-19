@@ -10,10 +10,15 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
-const Playlist = ({title}) => {
+const Playlist = ({ title }) => {
   const [playlist, setPlaylist] = useState();
+
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPlaying, setCurrentPlaying] = useState();
+
+  const dispatch = useDispatch();
   const buttonStyle =
     "border-[1px] border-solid px-2 py-1 text-xs rounded-sm hover:border-[#999] flex flex-row item-center mr-2";
 
@@ -39,6 +44,7 @@ const Playlist = ({title}) => {
         });
         const playlistData = await response.json();
         setPlaylist(playlistData);
+        setCurrentPlaying(playlistData.tracks[0]);
       } catch (error) {
         console.error(
           "An error occurred while retrieving the playlist:",
@@ -49,7 +55,15 @@ const Playlist = ({title}) => {
     };
     getPlaylist();
   }, []);
-
+  function toggleTrack() {
+    dispatch({
+      type: "CHANGESONG",
+      song: {
+        ...currentPlaying,
+        isPlaying: !isPlaying,
+      },
+    });
+  }
   return (
     <div>
       {playlist ? (
@@ -57,7 +71,7 @@ const Playlist = ({title}) => {
           <h1 className="text-xl mb-5">{title}</h1>
           <div className="flex flex-row">
             <img
-              src={playlist.tracks[0].coverUrl}
+              src={currentPlaying.coverUrl}
               className="h-[160px] w-[160px] mr-4"
             />
             <div className="w-full flex flex-col">
@@ -67,17 +81,17 @@ const Playlist = ({title}) => {
                   {!isPlaying ? (
                     <BsFillPlayFill
                       className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer"
-                      onClick={playTrack}
+                      onClick={toggleTrack}
                     />
                   ) : (
                     <BsFillPauseFill
                       className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer"
-                      onClick={stopTrack}
+                      onClick={toggleTrack}
                     />
                   )}
                   <div className="ml-3">
                     <h3 className="text-[#999] text-xs cursor-pointer">
-                      {playlist.tracks[0].user.username}
+                      {currentPlaying.user.username}
                     </h3>
                     <h2 className="text-[14px] cursor-pointer">
                       {playlist.name}
@@ -88,12 +102,18 @@ const Playlist = ({title}) => {
               </div>
 
               {/* waveform */}
-              <Waveform audioUrl={playlist.tracks[0].audioUrl} />
+              <Waveform audioUrl={currentPlaying.audioUrl} />
 
               {/* tracks in playlist */}
               <div className="border-[1px] border-solid mt-3">
                 {playlist.tracks.map((track, index) => (
-                  <PlaylistTrackCard key={index} track={track} />
+                  <PlaylistTrackCard
+                    key={index}
+                    track={track}
+                    setCurrentPlaying={setCurrentPlaying}
+                    playTrack={playTrack}
+                    stopTrack={stopTrack}
+                  />
                 ))}
               </div>
 

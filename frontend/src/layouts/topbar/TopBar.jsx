@@ -3,8 +3,7 @@ import { BiLogoSoundcloud } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
-import {IoLogOut} from "react-icons/io5";
-
+import { IoLogOut } from "react-icons/io5";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;
@@ -63,7 +62,7 @@ const TopBar = () => {
           {/* search */}
           <SearchBar />
           {/* premium button */}
-          <TopBarItem label={"Try premium pro"}/>
+          <TopBarItem label={"Try premium pro"} />
 
           {rightRoutes.map((ele, index) => {
             return (
@@ -71,14 +70,13 @@ const TopBar = () => {
                 key={index}
                 label={ele.label}
                 icon={ele.icon}
-                href={ele.href}
+                to={ele.href}
                 active={ele.active}
               />
             );
           })}
-          
-          <TopBarItem icon={<IoLogOut />}/>
 
+          <TopBarItem icon={<IoLogOut />} />
         </div>
       </div>
     </div>

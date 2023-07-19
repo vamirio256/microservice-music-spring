@@ -25,6 +25,9 @@ const MediaControl = () => {
   // const [progress, setProgress] = useState(0);
 
   const [currentTime, setCurrentTime] = useState(0);
+  const modifyProgressReducer = useSelector(
+    (state) => state.modifyProgressReducer
+  );
 
   const VOLUME_MAX = 100;
 
@@ -98,6 +101,9 @@ const MediaControl = () => {
       );
     };
   }, [currentSong]);
+  useEffect(() => {
+    audioRef.current.currentTime = modifyProgressReducer;
+  }, [modifyProgressReducer]);
 
   const buttonStyle = "text-xl ml-3";
   // console.log(currentTime);
