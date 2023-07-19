@@ -29,7 +29,9 @@ const Playlist = ({ title }) => {
   const stopTrack = () => {
     setIsPlaying(false);
   };
-
+  function setQueue() {
+    dispatch({ type: "ADDTOQUEUE", songs: playlist.tracks });
+  }
   useEffect(() => {
     const getPlaylist = async () => {
       try {
@@ -63,7 +65,9 @@ const Playlist = ({ title }) => {
         isPlaying: !isPlaying,
       },
     });
+    setQueue();
   }
+
   return (
     <div>
       {playlist ? (
@@ -113,6 +117,7 @@ const Playlist = ({ title }) => {
                     setCurrentPlaying={setCurrentPlaying}
                     playTrack={playTrack}
                     stopTrack={stopTrack}
+                    setQueue={setQueue}
                   />
                 ))}
               </div>
@@ -123,7 +128,12 @@ const Playlist = ({ title }) => {
                   <BsHeartFill className="text-[14px]" />
                   <span className="ml-1">Like</span>
                 </button>
-                <button className={`${buttonStyle}`}>
+                <button
+                  className={`${buttonStyle}`}
+                  onClick={() => {
+                    dispatch({ type: "SHOW_NOTIFICATION" });
+                  }}
+                >
                   <BsShareFill className="text-[14px]" />
                   <span className="ml-1">Share</span>
                 </button>

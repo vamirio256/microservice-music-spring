@@ -8,6 +8,7 @@ const PlaylistTrackCard = ({
   setCurrentPlaying,
   playTrack,
   stopTrack,
+  setQueue,
 }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -35,6 +36,7 @@ const PlaylistTrackCard = ({
           isPlaying: true,
         },
       });
+      setQueue();
     }
   };
   useEffect(() => {
@@ -57,25 +59,26 @@ const PlaylistTrackCard = ({
   }, [currentSong]);
 
   return (
-    <div className="flex flex-row border-solid border-b p-[5px] justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs">
+    <div
+      className="flex flex-row border-solid border-b p-[5px] justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs"
+      onClick={toggleAudio}
+    >
       <div className="flex flex-row">
         <span className="mr-3">
           <img src={track.coverUrl} className="h-[-20px] w-[20px] " />
         </span>
-        <span className="mr-2 text-[#999]">{track.user.username}</span>
+        <span className="mr-2 text-[#999]">
+          {track.user ? track.user.username : "Undefined"}
+        </span>
         <span>&bull;</span>
         <span className="ml-2">{track.name}</span>
       </div>
       <div className="flex flex-row text-[#999] items-center">
         <span>
           {!isPlaying ? (
-            <BsFillPlayFill className="transform" onClick={toggleAudio} />
+            <BsFillPlayFill className="transform" />
           ) : (
-            <BsFillPauseFill
-              className="transform"
-              size={20}
-              onClick={toggleAudio}
-            />
+            <BsFillPauseFill className="transform" size={20} />
           )}
           {/* <BsFillPlayFill className="transform" /> */}
         </span>

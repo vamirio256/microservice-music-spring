@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PlaybackTimeLine = ({ progress, handleTimeline }) => {
+const PlaybackTimeLine = ({ progress = 0, handleTimeline }) => {
   // const [timeline, setTimeline] = useState(0);
   // const handleTimeline = (event) => {
   //   console.log(event.target.value);
@@ -16,7 +16,7 @@ const PlaybackTimeLine = ({ progress, handleTimeline }) => {
         }}
         min={0}
         max={100}
-        value={progress}
+        value={progress.toString()}
         onChange={(e) => handleTimeline(e)}
       />
     </div>

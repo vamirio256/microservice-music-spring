@@ -27,11 +27,10 @@ const TrackCard = ({
   const [isPlaying, setIsPlaying] = useState(false);
 
   const currentSong = useSelector((state) => state.currentSongReducer);
-
+  const queue = useSelector((state) => state.queueReducer);
   const toggleAudio = () => {
     // set music and set play
     if (isPlaying) {
-      // dispatch({ type: "SETPLAYING", play: false });
       dispatch({
         type: "CHANGESONG",
         song: {
@@ -39,7 +38,6 @@ const TrackCard = ({
           isPlaying: false,
         },
       });
-      // setIsPlaying(false);
     } else {
       dispatch({
         type: "CHANGESONG",
@@ -48,6 +46,10 @@ const TrackCard = ({
           isPlaying: true,
         },
       });
+      // add to queue if songs not include
+      if (!queue.find((item) => item.audioUrl === track.audioUrl)) {
+        dispatch({ type: "ADDTOQUEUE", songs: [track] });
+      }
     }
   };
 

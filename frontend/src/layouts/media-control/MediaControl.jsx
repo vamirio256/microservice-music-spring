@@ -13,6 +13,7 @@ import PlaybackTimeLine from "./PlaybackTimeLine";
 import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
 import Queue from "./Queue";
+import { func } from "prop-types";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -21,10 +22,11 @@ const MediaControl = () => {
   // playing redux
   const dispatch = useDispatch();
   const progress = useSelector((state) => state.progressReducer);
-
+  const queue = useSelector((state) => state.queueReducer);
   const [duration, setDuration] = useState(0);
   // const [progress, setProgress] = useState(0);
-
+  // state queue show
+  const [isShowed, setIsShowed] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const modifyProgressReducer = useSelector(
     (state) => state.modifyProgressReducer
@@ -110,7 +112,54 @@ const MediaControl = () => {
 
   const buttonStyle = "text-xl ml-3";
   // console.log(currentTime);
+  function playPrevious() {
+    let index = -1;
 
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i].audioUrl === currentSong.audioUrl) {
+        index = i;
+        break;
+      }
+    }
+    if (index == -1) {
+      return;
+    }
+    if (index == 0) {
+      dispatch({
+        type: "CHANGESONG",
+        song: { ...queue[queue.length - 1], isPlaying: true },
+      });
+    } else {
+      dispatch({
+        type: "CHANGESONG",
+        song: { ...queue[index - 1], isPlaying: true },
+      });
+    }
+  }
+  function playNext() {
+    let index = -1;
+
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i].audioUrl === currentSong.audioUrl) {
+        index = i;
+        break;
+      }
+    }
+    if (index == -1) {
+      return;
+    }
+    if (index == queue.length - 1) {
+      dispatch({
+        type: "CHANGESONG",
+        song: { ...queue[0], isPlaying: true },
+      });
+    } else {
+      dispatch({
+        type: "CHANGESONG",
+        song: { ...queue[index + 1], isPlaying: true },
+      });
+    }
+  }
   return (
     currentSong && (
       <div className="sticky bottom-0 w-full z-10 bg-[#f2f2f2] border-[#ccc] border-t text-xs flex justify-center">
@@ -122,12 +171,15 @@ const MediaControl = () => {
 
         <div className="w-[1240px] flex flex-row justify-between items-center h-[48px] relative">
           {/* queue */}
-          <Queue />
+          <Queue isShowed={isShowed} setIsShowed={setIsShowed} />
           {/* control button */}
           <div className="flex flex-row">
             <button>
               {/* play previous */}
-              <BsFillSkipStartFill className={`${buttonStyle}`} />
+              <BsFillSkipStartFill
+                className={`${buttonStyle}`}
+                onClick={playPrevious}
+              />
             </button>
             {/* play btn */}
             <button onClick={toggleAudio}>
@@ -139,7 +191,10 @@ const MediaControl = () => {
             </button>
             <button>
               {/* playnext */}
-              <BsFillSkipEndFill className={`${buttonStyle}`} />
+              <BsFillSkipEndFill
+                className={`${buttonStyle}`}
+                onClick={playNext}
+              />
             </button>
             <button>
               <BsShuffle
@@ -193,7 +248,11 @@ const MediaControl = () => {
 
           {/* favorite, queue */}
           <div>
-            <BiSolidPlaylist />
+            <BiSolidPlaylist
+              size={20}
+              className="cursor-pointer"
+              onClick={() => setIsShowed(!isShowed)}
+            />
           </div>
         </div>
       </div>

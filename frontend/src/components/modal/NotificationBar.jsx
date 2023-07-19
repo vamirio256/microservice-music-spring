@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { IoNotifications } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
 
 const NotificationBar = ({ children, message }) => {
-  const [isShowed, setIsShowed] = useState(true);
-
+  const isShowed = useSelector((state) => state.notificationReducer).display;
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isShowed) {
       const timeout = setTimeout(() => {
-        setIsShowed(false);
+        dispatch({
+          type: "HIDE_NOTIFICATION",
+        });
       }, 4800);
 
       return () => clearTimeout(timeout);
     }
   }, [isShowed]);
 
-  const showNotification = () => {
-    setIsShowed(true);
-  };
-
   const hideNotification = () => {
-    setIsShowed(false);
+    dispatch({
+      type: "HIDE_NOTIFICATION",
+    });
   };
 
   return (
