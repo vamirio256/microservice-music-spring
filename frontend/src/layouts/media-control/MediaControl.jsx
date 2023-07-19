@@ -19,9 +19,11 @@ const MediaControl = () => {
 
   // playing redux
   const dispatch = useDispatch();
+  const progress = useSelector((state) => state.progressReducer);
 
   const [duration, setDuration] = useState(0);
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
+
   const [currentTime, setCurrentTime] = useState(0);
 
   const VOLUME_MAX = 100;
@@ -61,7 +63,11 @@ const MediaControl = () => {
     const duration = audioRef.current.duration;
     const currentTime = audioRef.current.currentTime;
     setCurrentTime(currentTime);
-    setProgress((currentTime / duration) * 100);
+    dispatch({
+      type: "CHANGEPROGRESS",
+      progress: (currentTime / duration) * 100,
+    });
+    // setProgress((currentTime / duration) * 100);
   }
   useEffect(() => {
     if (!currentSong) {
@@ -71,8 +77,6 @@ const MediaControl = () => {
     const handleLoadedMetadata = () => {
       setDuration(audioRef.current.duration);
     };
-
-    audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
 
     if (currentSong.isPlaying) {
       audioRef.current?.play();
@@ -85,8 +89,10 @@ const MediaControl = () => {
     } else {
       audioRef.current?.pause();
     }
+
+    audioRef.current?.addEventListener("loadedmetadata", handleLoadedMetadata);
     return () => {
-      audioRef.current.removeEventListener(
+      audioRef.current?.removeEventListener(
         "loadedmetadata",
         handleLoadedMetadata
       );
