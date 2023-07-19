@@ -63,13 +63,16 @@ const Waveform = ({ audioUrl }) => {
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: waveContainerRef.current,
+      responsive: true,
+    //   waveColor: progressGradient,
+    // progressColor: "#d44700",
       waveColor: gradient,
       progressColor: progressGradient,
       height: 80,
       interact: true,
-      //   cursorColor: "transparent",
+      cursorColor: "#000",
       //   cursorWidth: 0,
-      barWidth: 4,
+      barWidth: 3,
       barRadius: 3,
       barGap: 0.75,
       normalize: true,
@@ -97,7 +100,7 @@ const Waveform = ({ audioUrl }) => {
   };
 
   const timeStyle =
-    "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[10px]";
+    "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 
   return (
     <div className="overflow-hidden h-[40px]">

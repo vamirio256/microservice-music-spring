@@ -3,6 +3,9 @@ import { BiLogoSoundcloud } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
+import {IoLogOut} from "react-icons/io5";
+
+
 const TopBar = () => {
   const pathname = useLocation().pathname;
 
@@ -73,12 +76,9 @@ const TopBar = () => {
               />
             );
           })}
-          {/* login */}
-          <button
-            className="text-white rounded-sm border-solid border-[0.5px] border-slate-200 p-1 border-w ml-auto bg-primary"
-          >
-            Sign in
-          </button>
+          
+          <TopBarItem icon={<IoLogOut />}/>
+
         </div>
       </div>
     </div>

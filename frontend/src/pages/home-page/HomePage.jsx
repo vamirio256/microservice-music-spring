@@ -33,19 +33,23 @@ const HomePage = () => {
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
         <HomePageTrackHorizontalSwipe title="More of what you like" />
         <HomePageTrackHorizontalSwipe title="More of what you like" />
-        <Playlist />
+        <Playlist title={"Recently Played"} />
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
         {/* sidebar section */}
-        <SideBarSection
-          icon={<AiOutlineHistory />}
-          header={"Listening history"}
-        >
-          {historySongs.map((item, index) => {
-            return <SideBarTrackCard key={index} data={item} />;
-          })}
-        </SideBarSection>
+        {historySongs.length == 0 ? (
+          <></>
+        ) : (
+          <SideBarSection
+            icon={<AiOutlineHistory />}
+            header={"Listening history"}
+          >
+            {historySongs.map((item, index) => {
+              return <SideBarTrackCard key={index} data={item} />;
+            })}
+          </SideBarSection>
+        )}
 
         {/* sidebar section */}
         <SideBarSection header={"Go mobile"} icon={<BiSolidMobile />}>
@@ -106,9 +110,9 @@ const SideBarSection = ({ header, icon, children }) => {
   return (
     <div>
       <div>
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
           <span>{icon}</span>
-          <p>{header}</p>
+          <span >{header}</span>
         </div>
         <hr className="" />
       </div>
