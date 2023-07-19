@@ -30,11 +30,13 @@ const HomePage = () => {
 
   return (
     <div className="flex pl-8 pr-8">
-
       {/* home leftside */}
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
-        <HomePageTrackHorizontalSwipe title="Latest Updated Tracks" api={getLatestTracks}/>
-        <Playlist title={"Popular Tracks"} api={getPopularTracks}/>
+        <HomePageTrackHorizontalSwipe
+          title="Latest Updated Tracks"
+          api={getLatestTracks}
+        />
+        <Playlist title={"Popular Tracks"} api={getPopularTracks} />
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
@@ -79,30 +81,7 @@ const HomePage = () => {
       </div>
 
       {/* model */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Example Modal"
-        style={{
-          overlay: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: "999",
-          },
-          content: {
-            inset: "0",
-            position: "relative",
-            width: "600px",
-            height: "500px",
-          },
-        }}
-      >
-        <button onClick={closeModal} className="ml-auto mr-0 block">
-          x
-        </button>
-        <PlaylistPopup />
-      </Modal>
+      <PlaylistPopup />
     </div>
   );
 };
@@ -113,7 +92,7 @@ const SideBarSection = ({ header, icon, children }) => {
       <div>
         <div className="flex flex-row items-center">
           <span>{icon}</span>
-          <span >{header}</span>
+          <span>{header}</span>
         </div>
         <hr className="" />
       </div>

@@ -2,14 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "react-modal";
-const CustomModal = ({ classname, children }) => {
-  const modalIsOpen = useSelector((state) => state.modalReducer);
 
-  const dispatch = useDispatch();
-  function closeModal() {
-    dispatch({ type: "CLOSE_MODAL" });
-  }
+Modal.setAppElement("#root");
 
+const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -24,7 +20,7 @@ const CustomModal = ({ classname, children }) => {
         content: {
           inset: "0",
           position: "relative",
-          width: "450px",
+          width: "500px",
           height: "500px",
         },
       }}

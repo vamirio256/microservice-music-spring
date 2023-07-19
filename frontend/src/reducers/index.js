@@ -11,6 +11,7 @@ import progressReducer from "./progress";
 import modifyProgressReducer from "./modifyProgress";
 import notificationReducer from "./notification";
 import queueReducer from "./queue";
+import modalPlaylistReducer from "./modalPlaylist";
 
 const allReducers = combineReducers({
   songHistoryReducer: songHistoryReducer,
@@ -23,5 +24,6 @@ const allReducers = combineReducers({
   modifyProgressReducer: modifyProgressReducer,
   notificationReducer: notificationReducer,
   queueReducer: queueReducer,
+  modalPlaylistReducer: modalPlaylistReducer,
 });
 export default allReducers;

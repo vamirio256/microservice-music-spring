@@ -38,7 +38,9 @@ const TrackCard = ({ className, track }) => {
       }
     }
   };
-
+  function openPlaylistModel() {
+    dispatch({ type: "OPEN_MODAL_PLAYLIST" });
+  }
   useEffect(() => {
     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
       setIsPlaying(false);
@@ -94,7 +96,7 @@ const TrackCard = ({ className, track }) => {
 
           <MdPlaylistAdd
             className="absolute right-2 bottom-2 text-white"
-            onClick={openModal}
+            onClick={openPlaylistModel}
           />
         </div>
         {/* track title */}

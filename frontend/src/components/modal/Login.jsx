@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
 import CustomModal from "./CustomModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const modalIsOpen = useSelector((state) => state.modalReducer);
 
   const dispatch = useDispatch();
   function closeModal() {
@@ -42,7 +44,7 @@ const Login = ({ setIsAuthenticated }) => {
   const style = "w-full h-[40px] rounded-[3px] mt-2.5";
 
   return (
-    <CustomModal>
+    <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
       <button onClick={closeModal} className="ml-auto mr-0 block">
         x
       </button>
