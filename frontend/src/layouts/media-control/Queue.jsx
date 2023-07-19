@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {GrClose} from "react-icons/gr";
+import { GrClose } from "react-icons/gr";
 import PlaylistTrackCard from "../../components/playlist/PlaylistTrackCard";
 
 const Queue = () => {
   const [queueList, setQueueList] = useState();
-  const [isShowed, setIsShowed] = useState(true );
+  const [isShowed, setIsShowed] = useState(true);
 
   useEffect(() => {
     const getPlaylist = async () => {
@@ -40,14 +40,18 @@ const Queue = () => {
             <h1 className="text-xl">Next up</h1>
             <div className="flex flex-row justify-center">
               <button className="border px-2 py-1 mr-3">Clear</button>
-              <button><GrClose className="text-xl"/></button>
+              <button>
+                <GrClose className="text-xl" />
+              </button>
             </div>
           </div>
-          {queueList ? (<>{
-            queueList.tracks.map((track, index) => (
-              <PlaylistTrackCard track={track}/>
-            ))
-             }</>) : (
+          {queueList ? (
+            <>
+              {queueList.tracks.map((track, index) => (
+                <PlaylistTrackCard key={index} track={track} />
+              ))}
+            </>
+          ) : (
             <></>
           )}
         </div>

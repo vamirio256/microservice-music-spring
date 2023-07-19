@@ -7,7 +7,7 @@ import {
   BsShuffle,
   BsRepeat,
 } from "react-icons/bs";
-import {BiSolidPlaylist } from "react-icons/bi"
+import { BiSolidPlaylist } from "react-icons/bi";
 import VolumeControl from "./VolumeControl";
 import PlaybackTimeLine from "./PlaybackTimeLine";
 import { formatDuration } from "../../utils/formatDuration";
@@ -103,7 +103,9 @@ const MediaControl = () => {
     };
   }, [currentSong]);
   useEffect(() => {
-    audioRef.current.currentTime = modifyProgressReducer;
+    if (audioRef.current) {
+      audioRef.current.currentTime = modifyProgressReducer;
+    }
   }, [modifyProgressReducer]);
 
   const buttonStyle = "text-xl ml-3";

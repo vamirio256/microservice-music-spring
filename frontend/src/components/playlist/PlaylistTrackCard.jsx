@@ -38,6 +38,9 @@ const PlaylistTrackCard = ({
     }
   };
   useEffect(() => {
+    if (!setCurrentPlaying) {
+      return;
+    }
     setCurrentPlaying(track);
     if (isPlaying) {
       playTrack();
