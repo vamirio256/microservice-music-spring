@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
-import Modal from "react-modal";
+import CustomModal from "./CustomModal";
+import { useDispatch } from "react-redux";
 
-Modal.setAppElement("#root");
-
-const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  function closeModal() {
+    dispatch({ type: "CLOSE_MODAL" });
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,24 +42,7 @@ const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
   const style = "w-full h-[40px] rounded-[3px] mt-2.5";
 
   return (
-    <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={closeModal}
-      contentLabel="Example Modal"
-      style={{
-        overlay: {
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        },
-        content: {
-          inset: "0",
-          position: "relative",
-          width: "450px",
-          height: "500px",
-        },
-      }}
-    >
+    <CustomModal>
       <button onClick={closeModal} className="ml-auto mr-0 block">
         x
       </button>
@@ -91,7 +78,7 @@ const Login = ({ modalIsOpen, closeModal, setIsAuthenticated }) => {
           Submit
         </button>
       </form>
-    </Modal>
+    </CustomModal>
   );
 };
 
