@@ -7,11 +7,12 @@ import {
   BsShuffle,
   BsRepeat,
 } from "react-icons/bs";
-import image from "../../images/temp_track_cover.jfif";
+import {BiSolidPlaylist } from "react-icons/bi"
 import VolumeControl from "./VolumeControl";
 import PlaybackTimeLine from "./PlaybackTimeLine";
 import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
+import Queue from "./Queue";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -111,7 +112,9 @@ const MediaControl = () => {
           onTimeUpdate={onPlaying}
         />
 
-        <div className="w-[1240px] flex flex-row justify-between items-center h-[48px]">
+        <div className="w-[1240px] flex flex-row justify-between items-center h-[48px] relative">
+          {/* queue */}
+          <Queue />
           {/* control button */}
           <div className="flex flex-row">
             <button>
@@ -159,6 +162,7 @@ const MediaControl = () => {
             {/* total duration */}
             <p>{formatDuration(duration.toFixed(0))}</p>
           </div>
+
           {/* volume control */}
           <div className="">
             <VolumeControl
@@ -166,6 +170,8 @@ const MediaControl = () => {
               handleVolume={handleVolume}
             />
           </div>
+
+          {/* track info */}
           <div className="flex flex-row">
             <img
               src={currentSong.coverUrl}
@@ -175,6 +181,11 @@ const MediaControl = () => {
               <p>{currentSong.title}</p>
               <p>{currentSong.artist}</p>
             </div>
+          </div>
+
+          {/* favorite, queue */}
+          <div>
+            <BiSolidPlaylist />
           </div>
         </div>
       </div>

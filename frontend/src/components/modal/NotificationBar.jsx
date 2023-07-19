@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { IoNotifications } from "react-icons/io5";
 
-const NotificationBar = ({ isShow, message }) => {
-  const [showNotification, setShowNotification] = useState(false);
-
-  // const notificationTimeout = setTimeout(() => {
-  //   if (document.visibilityState === "visible") {
-  //     // Close the notification if the document is currently visible
-  //     notification.close();
-  //   }
-  // }, 3000);
+const NotificationBar = ({ children, message }) => {
+  const [isShowed, setIsShowed] = useState(true);
 
   useEffect(() => {
-    if (showNotification) {
+    if (isShowed) {
       const timeout = setTimeout(() => {
-        setShowNotification(false);
-      }, 3000);
+        setIsShowed(false);
+      }, 4800);
 
       return () => clearTimeout(timeout);
     }
-  }, [showNotification]);
+  }, [isShowed]);
 
-  const handleShowNotification = () => {
-    setShowNotification(true);
+  const showNotification = () => {
+    setIsShowed(true);
+  };
+
+  const hideNotification = () => {
+    setIsShowed(false);
   };
 
   return (
     <>
-      {isShow && (
-        <div className="sticky bottom-[10px] left-[10px] bg-[#f5] p-3 rounded-md shadow-md">
-          {message ? message : `This service is in developing`}
-          qweqweqweqwe
+      {isShowed && (
+        <div
+          className="notification-bar fixed h-[100px] w-[200px] overflow-hidden left-0 right-0 m-auto bottom-[60px] bg-[#fff] p-3 rounded-md shadow-md border-[1px] border-solid cursor-pointer flex flex-col"
+          onClick={hideNotification}
+        >
+          <div className="flex flex-row">
+            <IoNotifications />
+            {message ? message : `This service is under development.`}
+            {children}
+          </div>
         </div>
       )}
     </>

@@ -46,7 +46,7 @@ const TopBar = () => {
   ]);
 
   return (
-    <div className="flex w-full justify-center items-center bg-[#333] text-sm sticky top-0 z-10">
+    <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="w-[1240px]">
         <div className={`container bg-red h-12 flex m-auto items-center`}>
           {leftRoutes.map((ele, index) => {

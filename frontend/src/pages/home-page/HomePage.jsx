@@ -7,7 +7,6 @@ import apple_store from "../..//images/apple_store.png";
 import google_play from "../../images/google_play.png";
 import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
 import { SideBarTrackCard } from "./SideBarTrackCard";
-import TrackInput from "../../components/TrackInput";
 import Playlist from "../../components/playlist/Playlist";
 import { useSelector } from "react-redux";
 
@@ -29,6 +28,7 @@ const HomePage = () => {
 
   return (
     <div className="flex pl-8 pr-8">
+
       {/* home leftside */}
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
         <HomePageTrackHorizontalSwipe title="More of what you like" />

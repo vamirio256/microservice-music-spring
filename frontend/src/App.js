@@ -10,6 +10,7 @@ import TopBar from "./layouts/topbar/TopBar";
 import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
+import NotificationBar from "./components/modal/NotificationBar";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,13 +51,15 @@ function App() {
   }, []);
 
   if (!tokenValidated) {
-    return <div className="flex items-center justify-center bg-[#FBFBFB] h-screen w-screen">
-      <img src={loading} />
-    </div>;
+    return (
+      <div className="flex items-center justify-center bg-[#FBFBFB] h-screen w-screen">
+        <img src={loading} />
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col h-[100vh]">
+    <div className="flex flex-col h-[100vh] relative overflow-x-hidden">
       {!isAuthenticated ? (
         <Routes>
           <Route
@@ -81,6 +84,7 @@ function App() {
               </Routes>
             </div>
           </div>
+          <NotificationBar />
           <MediaControl />
         </>
       )}

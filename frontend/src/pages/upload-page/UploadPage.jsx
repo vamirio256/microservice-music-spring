@@ -137,8 +137,6 @@ export const UploadPage = () => {
           </div>
         </div>
 
-        <NotificationBar isShow={true} />
-
         {/* add image  */}
         <div
           className={`w-[800px] mt-10 shadow-xl p-10 flex ${
