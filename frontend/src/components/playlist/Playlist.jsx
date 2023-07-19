@@ -11,8 +11,9 @@ import {
 } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { getLatestTracks } from "../../apis/getLatestTracks";
 
-const Playlist = ({ title }) => {
+const Playlist = ({ title, api }) => {
   const [playlist, setPlaylist] = useState();
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,31 +33,22 @@ const Playlist = ({ title }) => {
   function setQueue() {
     dispatch({ type: "ADDTOQUEUE", songs: playlist.tracks });
   }
+
   useEffect(() => {
-    const getPlaylist = async () => {
+    const fetchData = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
-        const url = `${process.env.REACT_APP_API_BASE_URL}/playlists/6`;
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const playlistData = await response.json();
+        const playlistData = await api();
+        console.log(playlistData);
         setPlaylist(playlistData);
         setCurrentPlaying(playlistData.tracks[0]);
       } catch (error) {
-        console.error(
-          "An error occurred while retrieving the playlist:",
-          error
-        );
-        // Handle network or other errors
+        console.error("An error occurred while retrieving the playlist:", error);
       }
     };
-    getPlaylist();
-  }, []);
+
+    fetchData();
+  }, [api]);
+
   function toggleTrack() {
     dispatch({
       type: "CHANGESONG",

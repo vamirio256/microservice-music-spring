@@ -9,6 +9,8 @@ import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
 import { SideBarTrackCard } from "./SideBarTrackCard";
 import Playlist from "../../components/playlist/Playlist";
 import { useSelector } from "react-redux";
+import { getLatestTracks } from "../../apis/getLatestTracks";
+import { getPopularTracks } from "../../apis/getPopularTracks";
 
 const HomePage = () => {
   const historySongs = useSelector((state) => state.songHistoryReducer);
@@ -31,9 +33,8 @@ const HomePage = () => {
 
       {/* home leftside */}
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
-        <HomePageTrackHorizontalSwipe title="More of what you like" />
-        <HomePageTrackHorizontalSwipe title="More of what you like" />
-        <Playlist title={"Recently Played"} />
+        <HomePageTrackHorizontalSwipe title="Latest Updated Tracks" api={getLatestTracks}/>
+        <Playlist title={"Popular Tracks"} api={getPopularTracks}/>
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
@@ -46,7 +47,7 @@ const HomePage = () => {
             header={"Listening history"}
           >
             {historySongs.map((item, index) => {
-              return <SideBarTrackCard key={index} data={item} />;
+              return <SideBarTrackCard key={index} track={item} />;
             })}
           </SideBarSection>
         )}

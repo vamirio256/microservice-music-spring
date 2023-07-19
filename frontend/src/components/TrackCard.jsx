@@ -6,26 +6,12 @@ import { FaHeart } from "react-icons/fa6";
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
-const TrackCard = ({
-  className,
-  title,
-  coverUrl,
-  artist,
-  audioUrl,
-  openModal,
-}) => {
-  const track = {
-    title: title,
-    coverUrl: coverUrl,
-    artist: artist,
-    audioUrl: audioUrl,
-  };
-
-  // const [audioSrc, setAudioSrc] = useState(audioUrl);
-
+const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
-
+  const openModal = () => {
+    return;
+  };
   const currentSong = useSelector((state) => state.currentSongReducer);
   const queue = useSelector((state) => state.queueReducer);
   const toggleAudio = () => {
@@ -71,8 +57,8 @@ const TrackCard = ({
             }`}
           >
             <img
-              src={coverUrl}
-              alt={title}
+              src={track.coverUrl}
+              alt={track.name}
               className={`w-full h-full object-cover border-[1px] border-[#ccc] duration-300 ease-in-out 
             group-hover:scale-105 group-hover:opacity-80 ${
               isPlaying && "scale-105 opacity-80"
@@ -117,12 +103,12 @@ const TrackCard = ({
             isPlaying && "text-primary"
           }`}
         >
-          {title}
+          {track.name}
         </h2>
       </div>
       {/* track artist*/}
       <p className={`text-xs font-extralight text-gray-400 truncate`}>
-        {artist}
+        {track.user.username}
       </p>
     </div>
   );

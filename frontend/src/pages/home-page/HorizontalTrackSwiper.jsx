@@ -10,33 +10,22 @@ import "../../CSS/SwiperCSS.css";
 import image from "../../images/temp_track_cover.jfif";
 import TrackCard from "../../components/TrackCard";
 
-const HorizontalTrackSwiper = ({ title }) => {
+const HorizontalTrackSwiper = ({ title, api }) => {
   const [playlist, setPlaylist] = useState(null);
 
   useEffect(() => {
-    const getPlaylist = async () => {
+    const fetchData = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
-        const url = `${process.env.REACT_APP_API_BASE_URL}/playlists/6`;
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const playlistData = await response.json();
+        const playlistData = await api();
+        console.log(playlistData);
         setPlaylist(playlistData);
       } catch (error) {
-        console.error(
-          "An error occurred while retrieving the playlist:",
-          error
-        );
-        // Handle network or other errors
+        console.error("An error occurred while retrieving the playlist:", error);
       }
     };
-    getPlaylist();
-  }, []);
+
+    fetchData();
+  }, [api]);
 
   return (
     <>
@@ -58,10 +47,7 @@ const HorizontalTrackSwiper = ({ title }) => {
                 {playlist.tracks.map((track, index) => (
                   <SwiperSlide key={index}>
                     <TrackCard
-                      title={track.name}
-                      coverUrl={track.coverUrl}
-                      audioUrl={track.audioUrl}
-                      artist={track.user.username}
+                      track={track}
                     />
                   </SwiperSlide>
                 ))}

@@ -4,7 +4,7 @@ import { BsFillPauseFill, BsHeart, BsPlay } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
-export const SideBarTrackCard = ({ data }) => {
+export const SideBarTrackCard = ({ track }) => {
   const dispatch = useDispatch();
   const currentSong = useSelector((state) => state.currentSongReducer);
   const historySongs = useSelector((state) => state.songHistoryReducer);
@@ -17,7 +17,7 @@ export const SideBarTrackCard = ({ data }) => {
       dispatch({
         type: "CHANGESONG",
         song: {
-          ...data,
+          ...track,
           isPlaying: false,
         },
       });
@@ -25,14 +25,14 @@ export const SideBarTrackCard = ({ data }) => {
       dispatch({
         type: "CHANGESONG",
         song: {
-          ...data,
+          ...track,
           isPlaying: true,
         },
       });
     }
   }
   useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != data.audioUrl) {
+    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
       setIsPlaying(false);
     } else {
       setIsPlaying(currentSong.isPlaying);
@@ -44,7 +44,7 @@ export const SideBarTrackCard = ({ data }) => {
       {/* image right */}
       <div className="cursor-pointer relative w-[50px] h-[50px] group">
         <img
-          src={data.coverUrl}
+          src={track.coverUrl}
           className="object-cover w-[50px] h-[50px] border-[0.5px] border-[#ccc]"
         />
         {/* play button */}
@@ -65,16 +65,16 @@ export const SideBarTrackCard = ({ data }) => {
 
       {/* right information */}
       <div className="pl-2">
-        <div className="text-gray-500 text-xs">{data.artist}</div>
+        <div className="text-gray-500 text-xs">{track.user.username}</div>
         <div className="py-1 text-sm line-clamp-1 text-black my-[-3px]">
-          {data.title}
+          {track.name}
         </div>
         {/* icon infor */}
         <div className="flex text-xs">
           <BsPlay size={15} color="gray" />
-          <div>9.61M</div>
+          <div>{track.listenedTime}</div>
           <BsHeart size={10} className="relative top-1 mx-2" />
-          <div>72.6K</div>
+          <div>0</div>
         </div>
       </div>
     </div>
