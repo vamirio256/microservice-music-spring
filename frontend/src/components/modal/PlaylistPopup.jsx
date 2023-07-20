@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "./CustomModal";
+import loadingimage from "../../assets/images/loading-gif.gif";
 
 const PlaylistPopup = () => {
   const modalIsOpen = useSelector((state) => state.modalPlaylistReducer);
-
+  const [title, setTitle] = useState("");
   const dispatch = useDispatch();
   function closeModal() {
     dispatch({ type: "CLOSE_MODAL_PLAYLIST" });
@@ -13,6 +14,43 @@ const PlaylistPopup = () => {
   const [active_tab, set_active_tab] = useState("create_a_playlist");
   const active_style = "text-primary border-b-2 border-b-primary border-solid";
   const hover = " hover:border-b-2 hover:border-b-black hover:border-solid";
+  const [loading, setLoading] = useState(false);
+
+  async function uploadPlaylist() {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append(
+      "playlist",
+      new Blob([JSON.stringify({ name: title, isPublic: "true" })], {
+        type: "application/json",
+      })
+    );
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/playlists`,
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+          },
+          body: formData,
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Create success");
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      alert("Error occurred while uploading");
+    }
+    setLoading(false); // Stop loading
+    closeModal();
+  }
+
   return (
     <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
       <div className="container block m-auto">
@@ -57,6 +95,7 @@ const PlaylistPopup = () => {
             className={active_tab === "create_a_playlist" ? "block" : "hidden"}
           >
             <div className="pt-5 w-full">
+              {/* title playlist */}
               <div>
                 Title <span className="text-red-500">*</span>
               </div>
@@ -64,6 +103,8 @@ const PlaylistPopup = () => {
                 type="text"
                 required
                 className="outline-1 outline-gray-400 outline rounded-sm w-full px-2 py-1"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <div className="pt-3">
                 <span className="pr-4">Privacy:</span>
@@ -76,7 +117,17 @@ const PlaylistPopup = () => {
                   Private
                 </label>
 
-                <button className="primary-button block ml-auto">Save</button>
+                <button
+                  className="primary-button block ml-auto"
+                  onClick={uploadPlaylist}
+                >
+                  {" "}
+                  {loading ? (
+                    <img src={loadingimage} alt="" width={15} height={15} />
+                  ) : (
+                    "Save"
+                  )}
+                </button>
               </div>
             </div>
           </div>

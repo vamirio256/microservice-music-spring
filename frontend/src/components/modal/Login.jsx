@@ -18,9 +18,9 @@ const Login = ({ setIsAuthenticated }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/authenticate`;
-      console.log(url);
-      const response = await fetch(url, {
+      // login
+      const loginUrl = `${process.env.REACT_APP_API_BASE_URL}/auth/authenticate`;
+      const response = await fetch(loginUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +34,22 @@ const Login = ({ setIsAuthenticated }) => {
       const token = await response.json();
       localStorage.setItem("token", JSON.stringify(token));
       console.log(token);
+
+      // get user data
+      const url = `${process.env.REACT_APP_API_BASE_URL}/user/1`;
+      const userResponse = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+        },
+      });
+      const user = await userResponse.json();
+      console.log(userResponse);
+      console.log(user);
+
+      //redirect
       setIsAuthenticated(true);
       navigate("/home");
     } catch (err) {
