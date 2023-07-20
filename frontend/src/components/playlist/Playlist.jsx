@@ -42,7 +42,10 @@ const Playlist = ({ title, api }) => {
         setPlaylist(playlistData);
         setCurrentPlaying(playlistData.tracks[0]);
       } catch (error) {
-        console.error("An error occurred while retrieving the playlist:", error);
+        console.error(
+          "An error occurred while retrieving the playlist:",
+          error
+        );
       }
     };
 
@@ -115,7 +118,7 @@ const Playlist = ({ title, api }) => {
               </div>
 
               {/* interact button */}
-              <div className="flex flex row mt-3">
+              <div className="flex row mt-3">
                 <button className={`${buttonStyle}`}>
                   <BsHeartFill className="text-[14px]" />
                   <span className="ml-1">Like</span>

@@ -1,9 +1,15 @@
-const modalPlaylistReducer = (state = false, action) => {
+const modalPlaylistReducer = (state = {}, action) => {
   switch (action.type) {
     case "OPEN_MODAL_PLAYLIST":
-      return true;
+      return {
+        isShowed: true,
+        track: action.track,
+      };
     case "CLOSE_MODAL_PLAYLIST":
-      return false;
+      return {
+        ...state,
+        isShowed: false,
+      };
     default:
       return state;
   }
