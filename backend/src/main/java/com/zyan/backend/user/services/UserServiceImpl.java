@@ -1,14 +1,13 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.services;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
-import com.zyan.backend.exception.MethodArgumentTypeMismatchException;
-import com.zyan.backend.exception.ResourceNotFoundException;
+import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.User;
+import com.zyan.backend.user.repositories.ProfileRepository;
+import com.zyan.backend.user.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(RegisterRequestDTO request) {
         Optional<User> existUser = userRepository.findByEmail(request.getEmail());
-        if(existUser.isPresent()){
+        if (existUser.isPresent()) {
             throw new EntityExistsException("User with email '%s' already exist".formatted(request.getEmail()));
         }
 
@@ -88,13 +87,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findById(int userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            return user.get().mapUserToUserDTO();
-        } else {
-            throw new ResourceNotFoundException("User with id '%s' not found".formatted(userId));
-        }
+    public Object findById(int userId) {
+        Object user = userRepository.findByIdWithProfile(userId);
+        return user;
+//        if (user.isPresent()) {
+//            System.out.println(user.get());
+//            return user.get().mapUserToUserDTO();
+//        } else {
+//            throw new ResourceNotFoundException("User with id '%s' not found".formatted(userId));
+//        }
     }
 
     @Override

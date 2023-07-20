@@ -11,7 +11,7 @@ logging:
 
 spring:
   profiles:
-    active: dev
+    active: prod
   datasource:
     url: ${MYSQL_URL}
     username: ${MYSQL_USERNAME}
@@ -48,7 +48,7 @@ aws:
     buckets:
       customer: ${AWS_BUCKET}
   access-key: ${AWS_ACCESS_KEY}
-  secret-key: ${AWS_SECRECT_KEY}
+  secret-key: ${AWS_SECRET_KEY}
 
 cloud:
   aws:

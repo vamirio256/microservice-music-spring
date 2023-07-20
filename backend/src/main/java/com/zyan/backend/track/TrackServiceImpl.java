@@ -2,12 +2,14 @@ package com.zyan.backend.track;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.exception.UnauthenticatedUserException;
+import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
-import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.dto.UserDTO;
-import com.zyan.backend.user.UserRepository;
+import com.zyan.backend.user.entities.User;
+import com.zyan.backend.user.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,6 +32,9 @@ public class TrackServiceImpl implements TrackService {
     private final S3Bucket s3Bucket;
     private final UserDetailsService userDetailsService;
 
+    @Value("${AWS_DOMAIN}")
+    private String awsDomain;
+
     public TrackServiceImpl(TrackRepository trackRepository, UserRepository userRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
         this.trackRepository = trackRepository;
         this.userRepository = userRepository;
@@ -39,7 +45,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public Track uploadTrack(Track track, MultipartFile cover, MultipartFile audio, MultipartFile waveform) {
+    public TrackDTO uploadTrack(Track track, MultipartFile cover, MultipartFile audio) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (email.isEmpty()) {
@@ -53,36 +59,34 @@ public class TrackServiceImpl implements TrackService {
 //        if (userDetailsService.loadUserByUsername(user.getEmail()) != null)
 //            throw new ResourceNotFoundException("user with email '%s' not found".formatted(user.getEmail()));
 
-        String trackAudioId = UUID.randomUUID().toString();
-        String trackCoverId = UUID.randomUUID().toString();
-        String trackWaveformId = UUID.randomUUID().toString();
+        String trackCoverId = "track-covers/%s".formatted(UUID.randomUUID().toString());
+        String trackAudioId = "track-audio/%s".formatted(UUID.randomUUID().toString());
 
         // upload audio file and cover to AWS S3
         try {
             //upload cover
             s3Service.putObject(
                     s3Bucket.getCustomer(),
-                    "track-covers/%s".formatted(trackCoverId),
-                    cover.getBytes()
+                    trackCoverId,
+                    "image/jpeg",
+                    cover.getInputStream()
             );
             //upload audio
             s3Service.putObject(
                     s3Bucket.getCustomer(),
-                    "track-audio/%s".formatted(trackAudioId),
-                    audio.getBytes()
-            );
-            s3Service.putObject(
-                    s3Bucket.getCustomer(),
-                    "track-audio/%s".formatted(trackAudioId),
-                    audio.getBytes()
+                    trackAudioId,
+                    "audio/mpeg",
+                    audio.getInputStream()
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         track.setProfile(user.getProfile());
-        track.setAudioUrl(trackAudioId);
-        track.setCoverUrl(trackCoverId);
-        return trackRepository.save(track);
+        track.setAudioUrl(awsDomain + trackAudioId);
+        track.setCoverUrl(awsDomain + trackCoverId);
+        track.setUpdatedAt(LocalDateTime.now());
+        track.setCreatedAt(LocalDateTime.now());
+        return trackRepository.save(track).mapTrackToTrackDTO();
     }
 
     @Override
@@ -93,7 +97,7 @@ public class TrackServiceImpl implements TrackService {
 
         return s3Service.getObject(
                 s3Bucket.getCustomer(),
-                "track-covers/%s".formatted(track.getCoverUrl())
+                track.getCoverUrl()
         );
     }
 
@@ -104,11 +108,11 @@ public class TrackServiceImpl implements TrackService {
 
         s3Service.deleteObject(
                 s3Bucket.getCustomer(),
-                "track-cover/%s".formatted(track.getCoverUrl())
+                track.getCoverUrl().substring(awsDomain.length())
         );
         s3Service.deleteObject(
                 s3Bucket.getCustomer(),
-                "track-audio/%s".formatted(track.getAudioUrl())
+                track.getAudioUrl().substring(awsDomain.length())
         );
         trackRepository.deleteById(trackId);
     }
@@ -120,7 +124,7 @@ public class TrackServiceImpl implements TrackService {
 
         return s3Service.getObject(
                 s3Bucket.getCustomer(),
-                "track-audio/%s".formatted(track.getAudioUrl())
+                track.getAudioUrl()
         );
     }
 
@@ -141,14 +145,50 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track getTrack(int id) {
-        return trackRepository.findById(id)
+    public TrackDTO getTrack(int id) {
+        Track track = trackRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(id)));
+        return track.mapTrackToTrackDTO();
     }
 
     @Override
-    public List<Track> search(String query) {
-        return trackRepository.findByNameContainingIgnoreCase(query);
+    public List<TrackDTO> search(String query) {
+        return trackRepository.findByNameContainingIgnoreCase(query)
+                .stream()
+                .map(Track::mapTrackToTrackDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void increaseListenedTime(int trackId) {
+        Track track = trackRepository.findById(trackId)
+                .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found".formatted(trackId)));
+        track.setListenedTime(track.getListenedTime() + 1);
+        trackRepository.save(track);
+    }
+
+    @Override
+    public PlaylistDTO getLastestTracks() {
+        List<TrackDTO> tracks = trackRepository.findLatestTracks()
+                .stream()
+                .map(Track::mapTrackToTrackDTO)
+                .collect(Collectors.toList());
+        return PlaylistDTO.builder()
+                .name("Popular Tracks")
+                .tracks(tracks)
+                .build();
+    }
+
+    @Override
+    public PlaylistDTO getPopularTracks() {
+        List<TrackDTO> tracks = trackRepository.findPopularTracks()
+                .stream()
+                .map(Track::mapTrackToTrackDTO)
+                .collect(Collectors.toList());
+        return PlaylistDTO.builder()
+                .name("Popular Tracks")
+                .tracks(tracks)
+                .build();
     }
 }
 

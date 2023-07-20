@@ -1,12 +1,13 @@
 package com.zyan.backend.track;
 
+import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.user.dto.UserDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface TrackService {
-    Track uploadTrack(Track track, MultipartFile cover, MultipartFile audio, MultipartFile waveform);
+    TrackDTO uploadTrack(Track track, MultipartFile cover, MultipartFile audio);
 
     byte[] getTrackCover(Integer trackId);
     void deleteTrack(int trackId);
@@ -15,7 +16,13 @@ public interface TrackService {
 
     Track updateTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio, MultipartFile waveform);
 
-    Track getTrack(int id);
+    TrackDTO getTrack(int id);
 
-    List<Track> search(String query);
+    List<TrackDTO> search(String query);
+
+    void increaseListenedTime(int trackId);
+
+    PlaylistDTO getLastestTracks();
+
+    PlaylistDTO getPopularTracks();
 }

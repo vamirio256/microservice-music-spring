@@ -1,11 +1,11 @@
 package com.zyan.backend.auth;
 
 import com.zyan.backend.security.JwtUtils;
-import com.zyan.backend.user.ProfileRepository;
+import com.zyan.backend.user.repositories.ProfileRepository;
+import com.zyan.backend.user.repositories.UserRepository;
+import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
-import com.zyan.backend.user.UserRepository;
-import com.zyan.backend.user.UserRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,14 +56,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO request) {
-        Profile profile = new Profile();
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.USER)
                 .build();
-        profile.setUser(user);
+        Profile profile = Profile.builder()
+                .user(user)
+                .build();
         user.setProfile(profile);
         userRepository.save(user);
         profileRepository.save(profile);

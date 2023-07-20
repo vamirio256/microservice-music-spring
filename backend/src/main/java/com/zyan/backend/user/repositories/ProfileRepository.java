@@ -1,4 +1,4 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.repositories;
 
 import com.zyan.backend.user.entities.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;

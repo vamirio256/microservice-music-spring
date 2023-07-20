@@ -1,6 +1,7 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable int userId){
-        return ResponseEntity.ok(userService. findById(userId));
+    public ResponseEntity<Object> getUser(@PathVariable int userId){
+        return ResponseEntity.ok(userService.findById(userId));
     }
 
     @PostMapping("/follow/{followedId}")

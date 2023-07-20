@@ -33,6 +33,7 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token){
+        System.out.printf("Token: %s%n", token);
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
                 .build()
@@ -45,7 +46,7 @@ public class JwtUtils {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private Boolean isTokenExpired(String token){
+    public Boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());
     }
 

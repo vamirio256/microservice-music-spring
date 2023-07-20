@@ -1,4 +1,4 @@
-package com.zyan.backend.user;
+package com.zyan.backend.user.services;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
 import com.zyan.backend.user.dto.UserDTO;
@@ -15,7 +15,7 @@ public interface UserService {
 
     void followUser(int followedId);
 
-    UserDTO findById(int userId);
+    Object findById(int userId);
 
     void unfollowUser(int followedId);
 }

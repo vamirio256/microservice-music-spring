@@ -1,9 +1,9 @@
 package com.zyan.backend.playlist;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/playlists")
@@ -16,21 +16,25 @@ public class PlaylistController {
     }
 
 
-    @GetMapping(value = "{playlistId}")
-    public ResponseEntity getPlaylist(@PathVariable("playlistId")Integer id){
+    @GetMapping(value = "/{playlistId}")
+    public ResponseEntity<PlaylistDTO> getPlaylist(@PathVariable("playlistId") Integer id) {
         return ResponseEntity.ok(playlistService.getPlaylist(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Playlist> createPlaylist(
-            @RequestPart("playlist") Playlist playlist){
+    public ResponseEntity<PlaylistDTO> createPlaylist(
+            @RequestPart("playlist") PlaylistDTO playlist) {
         return ResponseEntity.ok(playlistService.createPlaylist(playlist));
     }
 
+    @PutMapping()
+    public ResponseEntity<PlaylistDTO> updatePlaylist(@RequestPart("playlist")PlaylistDTO playlist){
+        return ResponseEntity.ok(playlistService.updatePlaylist(playlist));
+    }
+
     @PostMapping("/{playlistId}/add-track/{trackId}")
-    public ResponseEntity<String> addTrackToPlaylist(@PathVariable int playlistId,
-                                                       @PathVariable int trackId){
-        playlistService.addTrackToPlaylist(trackId, playlistId);
-        return ResponseEntity.ok("Add successfully");
+    public ResponseEntity<PlaylistDTO> addTrackToPlaylist(@PathVariable int playlistId,
+                                                          @PathVariable int trackId) {
+        return ResponseEntity.ok(playlistService.addTrackToPlaylist(trackId, playlistId));
     }
 }

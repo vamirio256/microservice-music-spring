@@ -3,9 +3,9 @@ package com.zyan.backend.playlist;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface PlaylistService {
-    Playlist getPlaylist(int id);
-    Playlist createPlaylist(Playlist playlist);
-    void updatePlaylist(Playlist playlist);
+    PlaylistDTO getPlaylist(int id);
+    PlaylistDTO createPlaylist(PlaylistDTO playlist);
+    PlaylistDTO updatePlaylist(PlaylistDTO playlist);
     void deletePlaylist(int id);
-    void addTrackToPlaylist(int trackId, int playlistId);
+    PlaylistDTO addTrackToPlaylist(int trackId, int playlistId);
 }

@@ -15,5 +15,6 @@ public class TrackDTO {
     private String name;
     private String coverUrl;
     private String audioUrl;
+    private int listenedTime;
     private UserSummaryDTO user;
 }

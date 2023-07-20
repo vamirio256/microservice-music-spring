@@ -5,7 +5,7 @@ import com.zyan.backend.playlist.PlaylistRepository;
 import com.zyan.backend.track.Track;
 import com.zyan.backend.track.TrackRepository;
 import com.zyan.backend.user.entities.User;
-import com.zyan.backend.user.UserRepository;
+import com.zyan.backend.user.repositories.UserRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

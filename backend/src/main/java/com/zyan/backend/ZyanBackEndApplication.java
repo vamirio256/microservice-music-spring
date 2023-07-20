@@ -3,7 +3,7 @@ package com.zyan.backend;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
 import com.zyan.backend.user.entities.User;
-import com.zyan.backend.user.UserRepository;
+import com.zyan.backend.user.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,11 +43,11 @@ public class ZyanBackEndApplication {
 		userRepository.save(user);
 	}
 
-	private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket s3Bucket) {
-		s3Service.putObject(s3Bucket.getCustomer(),"foo","Hello World".getBytes());
-
-		byte[] obj = s3Service.getObject(s3Bucket.getCustomer(),"foo");
-
-		System.out.println("Hooray: " + new String(obj));
-	}
+//	private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket s3Bucket) {
+//		s3Service.putObject(s3Bucket.getCustomer(),"foo","Hello World".getBytes());
+//
+//		byte[] obj = s3Service.getObject(s3Bucket.getCustomer(),"foo");
+//
+//		System.out.println("Hooray: " + new String(obj));
+//	}
 }

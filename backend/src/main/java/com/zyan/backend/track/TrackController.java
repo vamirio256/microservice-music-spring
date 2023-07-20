@@ -1,5 +1,6 @@
 package com.zyan.backend.track;
 
+import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.user.dto.UserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class TrackController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Track> getTrack(@PathVariable("id") int id){
+    public ResponseEntity<TrackDTO> getTrack(@PathVariable("id") int id) {
         return ResponseEntity.ok(trackService.getTrack(id));
     }
 
@@ -42,12 +43,11 @@ public class TrackController {
 
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Track> uploadTrack(
+    public ResponseEntity<TrackDTO> uploadTrack(
             @RequestPart("track") Track track,
             @RequestPart("cover") MultipartFile cover,
-            @RequestPart("audio") MultipartFile audio,
-            @RequestPart("waveform") MultipartFile waveform) {
-        return ResponseEntity.ok(trackService.uploadTrack(track, cover, audio, waveform));
+            @RequestPart("audio") MultipartFile audio) {
+        return ResponseEntity.ok(trackService.uploadTrack(track, cover, audio));
     }
 
     @PutMapping(
@@ -68,7 +68,22 @@ public class TrackController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<Track>> search(@RequestParam("query") String query){
+    public ResponseEntity<List<TrackDTO>> search(@RequestParam("query") String query) {
         return ResponseEntity.ok(trackService.search(query));
+    }
+
+    @PostMapping(value = "/{trackId}/increase-listened-time")
+    public void increasedListenedTime(@PathVariable("trackId") int trackId) {
+        trackService.increaseListenedTime(trackId);
+    }
+
+    @GetMapping(value = "/latest")
+    public ResponseEntity<PlaylistDTO> getLatestTracks() {
+        return ResponseEntity.ok(trackService.getLastestTracks());
+    }
+
+    @GetMapping(value = "/popular")
+    public ResponseEntity<PlaylistDTO> getPopularTracks(){
+        return ResponseEntity.ok(trackService.getPopularTracks());
     }
 }

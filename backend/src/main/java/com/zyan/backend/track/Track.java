@@ -1,7 +1,8 @@
 package com.zyan.backend.track;
 
 
-import com.zyan.backend.playlist_track.PlaylistTrack;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zyan.backend.playlist.Playlist;
 import com.zyan.backend.user.entities.Profile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,24 +27,29 @@ public class Track {
     private String name;
     private String coverUrl;
     private String audioUrl;
+    private int listenedTime = 0;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private boolean isPublic;
-    @OneToMany(mappedBy = "track")
-    @JsonIgnore
+    private boolean isPublic = true;
+    @ManyToMany(mappedBy = "tracks")
+    @JsonIgnoreProperties("tracks")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
-    private Set<PlaylistTrack> playlistTracks;
+    private List<Playlist> playlists;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", nullable = false)
+    @JsonIgnoreProperties("tracks")
     private Profile profile;
 
-    public TrackDTO mapTrackToTrackDTO (){
+    public TrackDTO mapTrackToTrackDTO() {
         return TrackDTO.builder()
+                .id(getId())
                 .name(getName())
                 .audioUrl(getAudioUrl())
                 .coverUrl(getCoverUrl())
+                .listenedTime(getListenedTime())
+                .user(profile.getUser().mapUserToUserSummaryDTO())
                 .build();
     }
 }

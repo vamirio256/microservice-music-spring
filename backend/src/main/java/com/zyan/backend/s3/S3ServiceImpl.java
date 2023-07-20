@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class S3ServiceImpl implements S3Service {
@@ -22,12 +23,13 @@ public class S3ServiceImpl implements S3Service {
     }
 
     @Override
-    public void putObject(String bucketName, String key, byte[] file) {
+    public void putObject(String bucketName, String key, String contentType, InputStream file) throws IOException{
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
+                .contentType(contentType)
                 .build();
-        s3Client.putObject(objectRequest, RequestBody.fromBytes(file));
+        s3Client.putObject(objectRequest, RequestBody.fromInputStream(file, file.available()));
     }
 
     @Override

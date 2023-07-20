@@ -1,6 +1,6 @@
 package com.zyan.backend.security;
 
-import com.zyan.backend.user.UserDetailsServiceImpl;
+import com.zyan.backend.user.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

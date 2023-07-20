@@ -1,8 +1,10 @@
 package com.zyan.backend.user.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.UserRole;
+import com.zyan.backend.user.dto.UserSummaryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,20 +35,29 @@ public class User implements UserDetails {
     @NonNull
     @JsonIgnore
     private String password;
+    private String avatarUrl;
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @JsonIgnoreProperties("user")
     private Profile profile;
 
     public UserDTO mapUserToUserDTO(){
         return UserDTO.builder()
                 .id(id)
                 .username(username)
+                .avatarUrl(getAvatarUrl())
                 .email(email)
                 .roles(role)
+                .build();
+    }
+
+    public UserSummaryDTO mapUserToUserSummaryDTO(){
+        return UserSummaryDTO.builder()
+                .id(id)
+                .username(username)
+                .email(email)
                 .build();
     }
 
