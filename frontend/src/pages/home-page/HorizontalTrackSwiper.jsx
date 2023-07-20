@@ -31,8 +31,6 @@ const HorizontalTrackSwiper = ({ title, api }) => {
     <>
       {playlist ? (
         <>
-          <h1>Playlist: {playlist.name}</h1>
-
           <div className="mb-8">
             <h2 className="mb-8 font-thin text-xl">{title}</h2>
             <Swiper

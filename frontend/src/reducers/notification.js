@@ -12,7 +12,7 @@ const notificationReducer = (
       return {
         text: action.text ? action.text : state.text,
         isShowed: false,
-      };
+      }
     default:
       return state;
   }

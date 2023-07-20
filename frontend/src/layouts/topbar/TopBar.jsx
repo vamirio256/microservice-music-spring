@@ -4,10 +4,11 @@ import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
+import { useDispatch } from "react-redux";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;
-
+  const dispatch = useDispatch();
   const leftRoutes = useMemo(() => [
     {
       icon: BiLogoSoundcloud,
@@ -44,26 +45,60 @@ const TopBar = () => {
     },
   ]);
 
-  const logout = () =>{
-    
+  const logout = () => {
     localStorage.removeItem("token");
-    window.location.href = '/';
-  }
+    window.location.href = "/";
+  };
 
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="w-[1240px]">
-        <div className={`container bg-red h-12 flex m-auto items-center`}>
+        <div
+          className={`container bg-red h-12 flex m-auto items-center justify-evenly`}
+        >
           <TopBarItem
             icon={<BiLogoSoundcloud color="white" size={50} />}
             label={"Home"}
+            to={"/home"}
           />
-          <TopBarItem label={"Feed"} />
-          <TopBarItem label={"Library"} />
+          <button
+            onClick={() => {
+              dispatch({ type: "SHOW_NOTIFICATION" });
+            }}
+          >
+            <TopBarItem label={"Feed"} />
+          </button>
+          <button
+            onClick={() => {
+              dispatch({ type: "SHOW_NOTIFICATION" });
+            }}
+          >
+            <TopBarItem label={"Library"} />
+          </button>
           {/* search */}
           <SearchBar />
           {/* premium button */}
-          <TopBarItem label={"Try premium pro"} />
+          <button
+            onClick={() => {
+              dispatch({ type: "SHOW_NOTIFICATION" });
+            }}
+          >
+            <TopBarItem label={"Try premium pro"} />
+          </button>
+          <button
+            onClick={() => {
+              dispatch({ type: "SHOW_NOTIFICATION" });
+            }}
+          >
+            <TopBarItem label={"For artists"} />
+          </button>
+          <TopBarItem
+            label={"Nguyễn Quân"}
+            to={"/user"}
+            icon={
+              <div className="bg-gradient-to-tr from-purple-500 to-pink-500 h-[30px] w-[30px] rounded-full" />
+            }
+          />
 
           <button onClick={logout}>
             <IoLogOut color="white" size={30} />

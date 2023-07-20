@@ -1,6 +1,6 @@
 import React from "react";
 import never_stop_listening from "../..//images/never_stop_listening.jpg";
-import Login from "../../components/modal/Login";
+import Login from "../../components/modals/Login";
 import { useDispatch } from "react-redux";
 
 const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./components/modal/Login";
+import Login from "./components/modals/Login";
 import HomePage from "./pages/home-page/HomePage";
 
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import TopBar from "./layouts/topbar/TopBar";
 import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
-import NotificationBar from "./components/modal/NotificationBar";
+import NotificationBar from "./components/modals/NotificationBar";
 import { useDispatch } from "react-redux";
 
 function App() {

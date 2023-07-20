@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom/dist";
 import CustomModal from "./CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../apis/login";
+import { getUserData } from "../../apis/getUserData";
+import NotificationBar from "./NotificationBar";
 
 const Login = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("user1@gmail.com");
+  const [password, setPassword] = useState("user1");
   const navigate = useNavigate();
 
   const modalIsOpen = useSelector((state) => state.modalReducer);
@@ -19,25 +21,15 @@ const Login = ({ setIsAuthenticated }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      
       // login
       const token = await login(email, password);
+      console.log(token);
       localStorage.setItem("token", JSON.stringify(token));
 
       // get user data
-      const url = `${process.env.REACT_APP_API_BASE_URL}/users/1`;
-      const userResponse = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
-        },
-      });
-      const user = await userResponse.json();
-      console.log(userResponse);
-      console.log(user);
+      const user = await getUserData();
       dispatch({ type: "GET_USER", user: user });
+
       //redirect
       setIsAuthenticated(true);
       navigate("/home");
@@ -54,10 +46,22 @@ const Login = ({ setIsAuthenticated }) => {
         x
       </button>
       <form onSubmit={handleLogin}>
-        <button className={`${style} text-white bg-[#3578e5]`}>
+        <button
+          type="button"
+          className={`${style} text-white bg-[#3578e5]`}
+          onClick={() => {
+            dispatch({ type: "SHOW_NOTIFICATION" });
+          }}
+        >
           Continue with Facebook
         </button>
-        <button className={`${style} text-black border-[1px] border-[#e5e5e5]`}>
+        <button
+          type="button"
+          className={`${style} text-black border-[1px] border-[#e5e5e5]`}
+          onClick={() => {
+            dispatch({ type: "SHOW_NOTIFICATION" });
+          }}
+        >
           Continue with Google
         </button>
         <div className={`${style} flex flex-row justify-center`}>
@@ -84,6 +88,10 @@ const Login = ({ setIsAuthenticated }) => {
         >
           Submit
         </button>
+        <p>
+          <i>The account above for demo purpose.</i>
+        </p>
+        <NotificationBar />
       </form>
     </CustomModal>
   );

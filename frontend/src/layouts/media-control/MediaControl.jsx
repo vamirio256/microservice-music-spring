@@ -14,6 +14,7 @@ import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
 import Queue from "./Queue";
 import { func } from "prop-types";
+import Shuffle from "../../components/icons/Shuffle";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -196,12 +197,7 @@ const MediaControl = () => {
                 onClick={playNext}
               />
             </button>
-            <button>
-              <BsShuffle
-                className={`${buttonStyle}`}
-                style={{ fontSize: "1.15rem" }}
-              />
-            </button>
+            <Shuffle className={buttonStyle} />
             <button>
               <BsRepeat
                 className={`${buttonStyle}`}

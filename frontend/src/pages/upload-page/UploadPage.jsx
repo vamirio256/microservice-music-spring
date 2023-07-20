@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { AiFillCamera } from "react-icons/ai";
-import NotificationBar from "../../components/modal/NotificationBar";
+import NotificationBar from "../../components/modals/NotificationBar";
 import loadingimage from "../../assets/images/loading-gif.gif";
 export const UploadPage = () => {
   const fileInputRef = useRef(null);

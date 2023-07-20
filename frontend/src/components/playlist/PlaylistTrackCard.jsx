@@ -9,6 +9,7 @@ const PlaylistTrackCard = ({
   playTrack,
   stopTrack,
   setQueue,
+  className
 }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,7 +61,7 @@ const PlaylistTrackCard = ({
 
   return (
     <div
-      className="flex flex-row border-solid border-b p-[5px] justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs"
+      className={`flex flex-row border-solid border-b p-[5px] bg-white justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
       onClick={toggleAudio}
     >
       <div className="flex flex-row">

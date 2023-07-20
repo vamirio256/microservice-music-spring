@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineHistory } from "react-icons/ai";
 import { BiSolidMobile } from "react-icons/bi";
 import Modal from "react-modal";
-import PlaylistPopup from "../../components/modal/PlaylistPopup";
+import PlaylistPopup from "../../components/modals/PlaylistPopup";
 import apple_store from "../..//images/apple_store.png";
 import google_play from "../../images/google_play.png";
 import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
