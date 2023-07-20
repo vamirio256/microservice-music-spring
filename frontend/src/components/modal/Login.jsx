@@ -36,7 +36,7 @@ const Login = ({ setIsAuthenticated }) => {
       console.log(token);
 
       // get user data
-      const url = `${process.env.REACT_APP_API_BASE_URL}/user/1`;
+      const url = `${process.env.REACT_APP_API_BASE_URL}/users/1`;
       const userResponse = await fetch(url, {
         method: "GET",
         headers: {
@@ -48,7 +48,7 @@ const Login = ({ setIsAuthenticated }) => {
       const user = await userResponse.json();
       console.log(userResponse);
       console.log(user);
-
+      dispatch({ type: "GET_USER", user: user });
       //redirect
       setIsAuthenticated(true);
       navigate("/home");

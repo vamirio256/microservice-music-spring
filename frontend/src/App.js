@@ -11,11 +11,12 @@ import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
 import NotificationBar from "./components/modal/NotificationBar";
+import { useDispatch } from "react-redux";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [tokenValidated, setTokenValidated] = useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const checkToken = async () => {
       try {
@@ -40,8 +41,21 @@ function App() {
           // Token is invalid or expired
           console.log("Token is invalid");
         }
+        // get user data
+        const urlUser = `${process.env.REACT_APP_API_BASE_URL}/users/1`;
+        const userResponse = await fetch(urlUser, {
+          method: "GET",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+          },
+        });
+        const user = await userResponse.json();
+
+        dispatch({ type: "GET_USER", user: user });
       } catch (error) {
-        console.error("Error checking token:", error);
+        // console.error("Error checking token:", error);
       } finally {
         setTokenValidated(true);
       }

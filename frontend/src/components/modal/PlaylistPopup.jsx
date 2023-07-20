@@ -4,7 +4,9 @@ import CustomModal from "./CustomModal";
 import loadingimage from "../../assets/images/loading-gif.gif";
 
 const PlaylistPopup = () => {
-  const modalIsOpen = useSelector((state) => state.modalPlaylistReducer);
+  const modalIsOpen = useSelector(
+    (state) => state.modalPlaylistReducer
+  ).isShowed;
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
   function closeModal() {
@@ -16,6 +18,8 @@ const PlaylistPopup = () => {
   const hover = " hover:border-b-2 hover:border-b-black hover:border-solid";
   const [loading, setLoading] = useState(false);
 
+  const playlistList = useSelector((state) => state.userReducer).profile
+    .playlists;
   async function uploadPlaylist() {
     setLoading(true);
     const formData = new FormData();
@@ -84,9 +88,9 @@ const PlaylistPopup = () => {
             className={active_tab === "add_to_playlist" ? "block" : "hidden"}
           >
             <div className="mt-5">
-              <PlaylistPopupItem />
-              <PlaylistPopupItem />
-              <PlaylistPopupItem />
+              {playlistList.map((item, index) => {
+                return <PlaylistPopupItem key={index} playlist={item} />;
+              })}
             </div>
           </div>
 
@@ -137,7 +141,30 @@ const PlaylistPopup = () => {
   );
 };
 
-const PlaylistPopupItem = () => {
+const PlaylistPopupItem = ({ playlist }) => {
+  const trackId = useSelector((state) => state.modalPlaylistReducer).track.id;
+  async function addToPlaylist() {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/playlists/${playlist.id}/add-track/${trackId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Upload success");
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      alert("Error occurred while uploading");
+    }
+  }
   return (
     <div className="mb-2 flex text-sm ml-3 items-center">
       <img
@@ -147,11 +174,13 @@ const PlaylistPopupItem = () => {
       />
 
       {/* titile */}
-      <div className="text-gray-500 pl-5">Ronboogz</div>
+      <div className="text-gray-500 pl-5">{playlist.name}</div>
       {/* button add to playlist*/}
 
       <div className="ml-auto flex">
-        <button className="outline-button">Add to Playlist</button>
+        <button className="outline-button" onClick={addToPlaylist}>
+          Add to Playlist
+        </button>
       </div>
     </div>
   );
