@@ -15,4 +15,4 @@
   * Files, tracks and images are also stored in S3 and delivered by CloudFront.
   * Back-end is deployed to AWS EC2.
   * Database is stored in AWS RDS.
-![](flow.png)
+![](flow.drawio.png)
