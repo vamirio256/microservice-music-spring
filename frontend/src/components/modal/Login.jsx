@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
 import CustomModal from "./CustomModal";
 import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../apis/login";
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -18,22 +19,8 @@ const Login = ({ setIsAuthenticated }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/authenticate`;
-      console.log(url);
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const token = await response.json();
+      const token = await login(email, password);
       localStorage.setItem("token", JSON.stringify(token));
-      console.log(token);
       setIsAuthenticated(true);
       navigate("/home");
     } catch (err) {
