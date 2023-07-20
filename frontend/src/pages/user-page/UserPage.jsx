@@ -4,17 +4,8 @@ import { Navigate, Route, Routes } from "react-router-dom/dist";
 import UserPageTracks from "./UserPageTracks";
 
 const UserPage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem) {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
-  if(!isAuthenticated) {
-    return <Navigate replace to="/login" />;
-  } else {
     return (
         <>
         <div>
@@ -28,7 +19,7 @@ const UserPage = () => {
         </Routes>
         </>
     );
-  }
+  
 }
 
 const UserPageAll = () => {

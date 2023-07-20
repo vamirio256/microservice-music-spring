@@ -55,8 +55,8 @@ const Login = ({ setIsAuthenticated }) => {
         <button className={`${style} text-black border-[1px] border-[#e5e5e5]`}>
           Continue with Google
         </button>
-        <div className={`${style} `}>
-          <span>or</span>::after
+        <div className={`${style} flex flex-row justify-center`}>
+          <span>or</span>
         </div>
         <input
           type="text"

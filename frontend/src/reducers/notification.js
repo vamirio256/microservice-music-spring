@@ -1,17 +1,17 @@
 const notificationReducer = (
-  state = { text: "Service is under development.", display: false },
+  state = { text: "Service is under development.", isShowed: false },
   action
 ) => {
   switch (action.type) {
     case "SHOW_NOTIFICATION":
       return {
         text: action.text ? action.text : state.text,
-        display: true,
+        isShowed: true,
       };
-    case "HIDE_NOTIFICATION":
+    case "CLOSE_NOTIFICATION":
       return {
         text: action.text ? action.text : state.text,
-        display: false,
+        isShowed: false,
       };
     default:
       return state;

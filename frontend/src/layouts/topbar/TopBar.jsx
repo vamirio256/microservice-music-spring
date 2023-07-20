@@ -44,39 +44,30 @@ const TopBar = () => {
     },
   ]);
 
+  const logout = () =>{
+    
+    localStorage.removeItem("token");
+    window.location.href = '/';
+  }
+
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="w-[1240px]">
         <div className={`container bg-red h-12 flex m-auto items-center`}>
-          {leftRoutes.map((ele, index) => {
-            return (
-              <TopBarItem
-                key={index}
-                label={ele.label}
-                icon={ele.icon}
-                href={ele.href}
-                active={ele.active}
-              />
-            );
-          })}
+          <TopBarItem
+            icon={<BiLogoSoundcloud color="white" size={50} />}
+            label={"Home"}
+          />
+          <TopBarItem label={"Feed"} />
+          <TopBarItem label={"Library"} />
           {/* search */}
           <SearchBar />
           {/* premium button */}
           <TopBarItem label={"Try premium pro"} />
 
-          {rightRoutes.map((ele, index) => {
-            return (
-              <TopBarItem
-                key={index}
-                label={ele.label}
-                icon={ele.icon}
-                to={ele.href}
-                active={ele.active}
-              />
-            );
-          })}
-
-          <TopBarItem icon={<IoLogOut />} />
+          <button onClick={logout}>
+            <IoLogOut color="white" size={30} />
+          </button>
         </div>
       </div>
     </div>
