@@ -1,6 +1,6 @@
 package com.zyan.backend.auth;
 
-import com.zyan.backend.security.JwtUtils;
+import com.zyan.backend.jwt.JwtUtils;
 import com.zyan.backend.track.TrackService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

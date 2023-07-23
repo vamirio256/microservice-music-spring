@@ -1,5 +1,6 @@
 package com.zyan.backend.playlist;
 
+import com.zyan.backend.track.dto.TrackDTO;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,17 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getPlaylist(id));
     }
 
+//    @PostMapping()
+//    public ResponseEntity<PlaylistDTO> createPlaylist(
+//            @RequestPart("playlist") PlaylistDTO playlist) {
+//        return ResponseEntity.ok(playlistService.createPlaylist(playlist));
+//    }
+
     @PostMapping()
-    public ResponseEntity<PlaylistDTO> createPlaylist(
-            @RequestPart("playlist") PlaylistDTO playlist) {
-        return ResponseEntity.ok(playlistService.createPlaylist(playlist));
+    public ResponseEntity<PlaylistDTO> createPlaylistWithFirstTrack(
+            @RequestPart("playlist") PlaylistDTO playlist,
+            @RequestPart("trackId") int trackId) {
+        return ResponseEntity.ok(playlistService.createPlaylistWithFirstTrack(playlist, trackId));
     }
 
     @PutMapping()

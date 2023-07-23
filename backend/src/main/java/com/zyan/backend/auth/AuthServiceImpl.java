@@ -1,16 +1,19 @@
 package com.zyan.backend.auth;
 
-import com.zyan.backend.security.JwtUtils;
+import com.zyan.backend.jwt.JwtUtils;
 import com.zyan.backend.user.repositories.ProfileRepository;
 import com.zyan.backend.user.repositories.UserRepository;
 import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
+import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -56,6 +59,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO request) {
+        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
+        if (existUser.isPresent()) {
+            throw new EntityExistsException("User with email '%s' already exist".formatted(request.getEmail()));
+        }
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())

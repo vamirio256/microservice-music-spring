@@ -5,7 +5,13 @@ import com.zyan.backend.exception.UnauthenticatedUserException;
 import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
+import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.entities.Comment;
+import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.track.repository.CommentRepository;
+import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,16 +37,18 @@ public class TrackServiceImpl implements TrackService {
     private final S3Service s3Service;
     private final S3Bucket s3Bucket;
     private final UserDetailsService userDetailsService;
+    private final CommentRepository commentRepository;
 
     @Value("${AWS_DOMAIN}")
     private String awsDomain;
 
-    public TrackServiceImpl(TrackRepository trackRepository, UserRepository userRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService) {
+    public TrackServiceImpl(TrackRepository trackRepository, UserRepository userRepository, S3Service s3Service, S3Bucket s3Bucket, UserDetailsService userDetailsService, CommentRepository commentRepository) {
         this.trackRepository = trackRepository;
         this.userRepository = userRepository;
         this.s3Service = s3Service;
         this.s3Bucket = s3Bucket;
         this.userDetailsService = userDetailsService;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -189,6 +197,27 @@ public class TrackServiceImpl implements TrackService {
                 .name("Popular Tracks")
                 .tracks(tracks)
                 .build();
+    }
+
+    @Override
+    public void postComment(int trackId, String context) {
+        Profile profile = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getProfile();
+
+        Track track = trackRepository.findById(trackId)
+                .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found.".formatted(trackId)));
+
+        Comment comment = Comment.builder()
+                .profile(profile)
+                .track(track)
+                .context(context)
+                .addedAt(LocalDateTime.now())
+                .build();
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteComment(int commentId) {
+        commentRepository.deleteById(commentId);
     }
 }
 

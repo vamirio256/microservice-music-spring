@@ -1,7 +1,10 @@
 package com.zyan.backend.track;
 
 import com.zyan.backend.playlist.PlaylistDTO;
+import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,7 +86,22 @@ public class TrackController {
     }
 
     @GetMapping(value = "/popular")
-    public ResponseEntity<PlaylistDTO> getPopularTracks(){
+    public ResponseEntity<PlaylistDTO> getPopularTracks() {
         return ResponseEntity.ok(trackService.getPopularTracks());
+    }
+
+    @PostMapping(value = "/{trackId}/comments")
+    public ResponseEntity<String> postComment(
+            @PathVariable int trackId,
+            @RequestParam("context") String context) {
+        trackService.postComment(trackId, context);
+        return ResponseEntity.ok("Post comment succesfully");
+    }
+
+    @DeleteMapping(value = "/comments/{commentId}")
+    public ResponseEntity<String> deleteComment(
+            @PathVariable int commentId) {
+        trackService.deleteComment(commentId);
+        return ResponseEntity.status(HttpStatusCode.valueOf(204)).body("Deleted comment succesfully");
     }
 }

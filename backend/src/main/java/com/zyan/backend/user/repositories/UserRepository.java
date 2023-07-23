@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByRole(UserRole admin);
     @Query("SELECT DISTINCT u FROM User u JOIN u.profile p where u.id = :userId")
-    Object findByIdWithProfile(@Param("userId") int id);
+    User findById(@Param("userId") int id);
 
     List<User> findByUsernameContainingIgnoreCase(String query);
 }

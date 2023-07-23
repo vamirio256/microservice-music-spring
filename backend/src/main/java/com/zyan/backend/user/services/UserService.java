@@ -15,7 +15,10 @@ public interface UserService {
 
     void followUser(int followedId);
 
-    Object findById(int userId);
+    UserDTO findById(int userId);
 
     void unfollowUser(int followedId);
+    void addFavoriteTrack (int trackId);
+
+    void removeFavoriteTrack(int trackId);
 }

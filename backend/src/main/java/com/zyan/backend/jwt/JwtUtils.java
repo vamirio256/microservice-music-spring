@@ -1,4 +1,4 @@
-package com.zyan.backend.security;
+package com.zyan.backend.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

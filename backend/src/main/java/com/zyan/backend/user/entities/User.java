@@ -50,6 +50,7 @@ public class User implements UserDetails {
                 .avatarUrl(getAvatarUrl())
                 .email(email)
                 .roles(role)
+                .profile(getProfile().mapProfileToProfileDTO())
                 .build();
     }
 

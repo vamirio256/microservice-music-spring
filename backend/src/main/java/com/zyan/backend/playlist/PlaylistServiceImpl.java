@@ -1,8 +1,8 @@
 package com.zyan.backend.playlist;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
-import com.zyan.backend.track.Track;
-import com.zyan.backend.track.TrackRepository;
+import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.repositories.UserRepository;
@@ -40,7 +40,6 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Transactional
     public PlaylistDTO createPlaylist(PlaylistDTO playlistDTO) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(user.getProfile());
         Profile profile = user.getProfile();
         Playlist playlist = Playlist.builder()
                 .name(playlistDTO.getName())
@@ -79,6 +78,25 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlist.getTracks().add(track);
 
         trackRepository.save(track);
+        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO();
+    }
+
+    @Override
+    public PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlistDTO, int trackId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Profile profile = user.getProfile();
+
+        Track track = trackRepository.findById(trackId)
+                .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found.".formatted(trackId)));
+
+        Playlist playlist = Playlist.builder()
+                .name(playlistDTO.getName())
+                .isPublic(playlistDTO.isPublic())
+                .profile(profile)
+                .coverUrl(track.getCoverUrl())
+                .createdAt(LocalDateTime.now())
+                .build();
+
         return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO();
     }
 }

@@ -2,8 +2,8 @@ package com.zyan.backend.search;
 
 import com.zyan.backend.playlist.Playlist;
 import com.zyan.backend.playlist.PlaylistRepository;
-import com.zyan.backend.track.Track;
-import com.zyan.backend.track.TrackRepository;
+import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.repositories.UserRepository;
 import org.springframework.scheduling.annotation.Async;

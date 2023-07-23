@@ -1,7 +1,7 @@
 package com.zyan.backend.search;
 
 import com.zyan.backend.playlist.Playlist;
-import com.zyan.backend.track.Track;
+import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,12 +1,11 @@
 package com.zyan.backend.playlist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zyan.backend.track.Track;
-import com.zyan.backend.track.TrackDTO;
+import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.track.dto.TrackDTO;
 import com.zyan.backend.user.entities.Profile;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -32,6 +31,7 @@ public class Playlist {
     private int id;
     @NonNull
     private String name;
+    private String coverUrl;
     private boolean isPublic = true;
     private LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.LAZY)

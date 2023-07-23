@@ -8,4 +8,6 @@ public interface PlaylistService {
     PlaylistDTO updatePlaylist(PlaylistDTO playlist);
     void deletePlaylist(int id);
     PlaylistDTO addTrackToPlaylist(int trackId, int playlistId);
+
+    PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlist, int trackId);
 }

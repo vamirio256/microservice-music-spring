@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,15 +32,9 @@ public class Follow {
 
     public FollowDTO mapFollowToFollowDTO() {
         return FollowDTO.builder()
-                .following(getFollowing().getUser().mapUserToUserSummaryDTO())
-                .followed(getFollowed().getUser().mapUserToUserSummaryDTO())
+                .user(getFollowed().getUser().mapUserToUserSummaryDTO())
                 .addedAt(getAddedAt())
                 .build();
     }
 }
 
-@Embeddable
-class FollowId implements Serializable {
-    private int followedId;
-    private int followingId;
-}

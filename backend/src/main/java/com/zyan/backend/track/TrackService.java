@@ -1,6 +1,8 @@
 package com.zyan.backend.track;
 
 import com.zyan.backend.playlist.PlaylistDTO;
+import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,4 +27,7 @@ public interface TrackService {
     PlaylistDTO getLastestTracks();
 
     PlaylistDTO getPopularTracks();
+
+    void postComment(int trackid, String context);
+    void deleteComment(int commentId);
 }
