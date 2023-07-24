@@ -1,6 +1,6 @@
 const queueReducer = (state = [], action) => {
   switch (action.type) {
-    case "ADDTOQUEUE":
+    case "ADD_TO_QUEUE":
       return action.songs;
 
     default:

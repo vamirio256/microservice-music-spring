@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "./CustomModal";
 import loadingimage from "../../assets/images/loading-gif.gif";
+import { createPlaylist } from "../../apis/playlist/createPlaylist";
 
-const PlaylistPopup = () => {
+const PlaylistPopup = ({ track }) => {
   const modalIsOpen = useSelector(
     (state) => state.modalPlaylistReducer
   ).isShowed;
@@ -20,37 +21,26 @@ const PlaylistPopup = () => {
 
   const playlistList = useSelector((state) => state.userReducer).profile
     .playlists;
+
   async function uploadPlaylist() {
     setLoading(true);
     const formData = new FormData();
+
     formData.append(
       "playlist",
       new Blob([JSON.stringify({ name: title, isPublic: "true" })], {
         type: "application/json",
       })
     );
+    formData.append(
+      "track",
+      new Blob([JSON.stringify(track)], {
+        type: "application/json",
+      })
+    );
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/playlists`,
-        {
-          method: "POST",
-          headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
-          },
-          body: formData,
-        }
-      );
+    createPlaylist(formData);
 
-      if (response.status === 200) {
-        alert("Create success");
-      } else {
-        alert("Something went wrong");
-      }
-    } catch (error) {
-      alert("Error occurred while uploading");
-    }
     setLoading(false); // Stop loading
     closeModal();
   }

@@ -54,7 +54,7 @@ const TopBar = () => {
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="w-[1240px]">
         <div
-          className={`container bg-red h-12 flex m-auto items-center justify-evenly`}
+          className={`container bg-red h-12 flex m-auto items-center justify-between  `}
         >
           <TopBarItem
             icon={<BiLogoSoundcloud color="white" size={50} />}
@@ -83,15 +83,9 @@ const TopBar = () => {
               dispatch({ type: "SHOW_NOTIFICATION" });
             }}
           >
-            <TopBarItem label={"Try premium pro"} />
+            <TopBarItem label={"Premium"} />
           </button>
-          <button
-            onClick={() => {
-              dispatch({ type: "SHOW_NOTIFICATION" });
-            }}
-          >
-            <TopBarItem label={"For artists"} />
-          </button>
+            <TopBarItem label={"Upload"} to={"/upload"}/>
           <TopBarItem
             label={"Nguyễn Quân"}
             to={"/user"}

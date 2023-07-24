@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { debounce } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { search } from "../../apis/search";
+import { search } from "../../apis/track/search";
 import PlaylistTrackCard from "../../components/playlist/PlaylistTrackCard";
 
 const SearchBar = ({ className }) => {

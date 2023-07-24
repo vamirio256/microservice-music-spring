@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineHistory } from "react-icons/ai";
 import { BiSolidMobile } from "react-icons/bi";
 import Modal from "react-modal";
@@ -9,12 +9,14 @@ import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
 import { SideBarTrackCard } from "./SideBarTrackCard";
 import Playlist from "../../components/playlist/Playlist";
 import { useSelector } from "react-redux";
-import { getLatestTracks } from "../../apis/getLatestTracks";
-import { getPopularTracks } from "../../apis/getPopularTracks";
+import { getLatestTracks } from "../../apis/playlist/getLatestTracks";
+import { getPopularTracks } from "../../apis/playlist/getPopularTracks";
 
 const HomePage = () => {
   const historySongs = useSelector((state) => state.songHistoryReducer);
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [popularTracks, setPopularTrack] = useState(null);
+  const [latestTracks, setLatestTracks] = useState(null);
   function openModal() {
     setIsOpen(true);
   }
@@ -28,15 +30,35 @@ const HomePage = () => {
     setIsPlaying(!isPlaying);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const popularTracks = await getPopularTracks();
+        const latestTracks = await getLatestTracks();
+        console.log("popular track:", popularTracks);
+        setPopularTrack(popularTracks);
+        setLatestTracks(latestTracks);
+      } catch (error) {
+        console.error(
+          "An error occurred while retrieving the playlist:",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="flex pl-8 pr-8">
       {/* home leftside */}
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
-        <HomePageTrackHorizontalSwipe
-          title="Latest Updated Tracks"
-          api={getLatestTracks}
-        />
-        <Playlist title={"Popular Tracks"} api={getPopularTracks} />
+        {latestTracks ? (
+          <HomePageTrackHorizontalSwipe playlist={latestTracks} />
+        ) : (
+          <></>
+        )}
+        {popularTracks ? <Playlist playlist={popularTracks} /> : <></>}
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
@@ -80,8 +102,6 @@ const HomePage = () => {
         </SideBarSection>
       </div>
 
-      {/* model */}
-      <PlaylistPopup />
     </div>
   );
 };

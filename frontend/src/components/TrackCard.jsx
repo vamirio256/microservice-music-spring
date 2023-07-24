@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BsFillPauseFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa6";
 
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import Favorite from "./icons/Favorite";
+import PlaylistPopup from "./modals/PlaylistPopup";
 
 const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const TrackCard = ({ className, track }) => {
       });
       // add to queue if songs not include
       if (!queue.find((item) => item.audioUrl === track.audioUrl)) {
-        dispatch({ type: "ADDTOQUEUE", songs: [track] });
+        dispatch({ type: "ADD_TO_QUEUE", songs: [track] });
       }
     }
   };
@@ -91,7 +92,10 @@ const TrackCard = ({ className, track }) => {
             </div>
           </div>
           {/* Favorite button */}
-          <FaHeart className="absolute right-7 bottom-2 text-white" />
+          <Favorite
+            trackId={track.id}
+            className="absolute right-7 bottom-2 text-white"
+          />
           {/* add to playlist button */}
 
           <MdPlaylistAdd
@@ -112,6 +116,8 @@ const TrackCard = ({ className, track }) => {
       <p className={`text-xs font-extralight text-gray-400 truncate`}>
         {track.user.username}
       </p>
+      {/* modal */}
+      <PlaylistPopup track={track} />
     </div>
   );
 };

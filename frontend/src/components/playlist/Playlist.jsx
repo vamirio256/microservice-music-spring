@@ -11,10 +11,10 @@ import {
 } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { getLatestTracks } from "../../apis/getLatestTracks";
+import { getLatestTracks } from "../../apis/playlist/getLatestTracks";
 
-const Playlist = ({ title, api }) => {
-  const [playlist, setPlaylist] = useState();
+const Playlist = ({ playlist }) => {
+  // const [playlist, setPlaylist] = useState();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlaying, setCurrentPlaying] = useState();
@@ -30,27 +30,10 @@ const Playlist = ({ title, api }) => {
   const stopTrack = () => {
     setIsPlaying(false);
   };
+
   function setQueue() {
-    dispatch({ type: "ADDTOQUEUE", songs: playlist.tracks });
+    dispatch({ type: "ADD_TO_QUEUE", songs: playlist.tracks });
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const playlistData = await api();
-        console.log(playlistData);
-        setPlaylist(playlistData);
-        setCurrentPlaying(playlistData.tracks[0]);
-      } catch (error) {
-        console.error(
-          "An error occurred while retrieving the playlist:",
-          error
-        );
-      }
-    };
-
-    fetchData();
-  }, [api]);
 
   function toggleTrack() {
     dispatch({
@@ -63,11 +46,16 @@ const Playlist = ({ title, api }) => {
     setQueue();
   }
 
+  useEffect(()=>{
+    setCurrentPlaying(playlist.tracks[0]);
+  },[playlist])
+
+  console.log("playlist is called", playlist.tracks[0])
   return (
     <div>
-      {playlist ? (
+      {playlist && currentPlaying ? (
         <>
-          <h1 className="text-xl mb-5">{title}</h1>
+          <h1 className="text-xl mb-5">{playlist.name}</h1>
           <div className="flex flex-row">
             <img
               src={currentPlaying.coverUrl}

@@ -1,6 +1,6 @@
 const isPlayingReducer = (state = false, action) => {
   switch (action.type) {
-    case "SETPLAYING":
+    case "SET_PLAYING":
       return action.play;
     default:
       return state;

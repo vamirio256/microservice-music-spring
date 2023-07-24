@@ -10,29 +10,13 @@ import "../../CSS/SwiperCSS.css";
 import image from "../../images/temp_track_cover.jfif";
 import TrackCard from "../../components/TrackCard";
 
-const HorizontalTrackSwiper = ({ title, api }) => {
-  const [playlist, setPlaylist] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const playlistData = await api();
-        console.log(playlistData);
-        setPlaylist(playlistData);
-      } catch (error) {
-        console.error("An error occurred while retrieving the playlist:", error);
-      }
-    };
-
-    fetchData();
-  }, [api]);
-
+const HorizontalTrackSwiper = ({ playlist }) => {
   return (
     <>
       {playlist ? (
         <>
           <div className="mb-8">
-            <h2 className="mb-8 font-thin text-xl">{title}</h2>
+            <h2 className="mb-8 font-thin text-xl">{playlist.name}</h2>
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}

@@ -1,8 +1,9 @@
 import { func } from "prop-types";
 import React, { useEffect, useState } from "react";
-import { BsFillPauseFill, BsHeart, BsPlay } from "react-icons/bs";
+import { BsFillPauseFill, BsHeart, BsPlay, BsPlayFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import Favorite from "../../components/icons/Favorite";
 
 export const SideBarTrackCard = ({ track }) => {
   const dispatch = useDispatch();
@@ -71,9 +72,9 @@ export const SideBarTrackCard = ({ track }) => {
         </div>
         {/* icon infor */}
         <div className="flex text-xs">
-          <BsPlay size={15} color="gray" />
+          <BsPlayFill size={15} color="gray" />
           <div>{track.listenedTime}</div>
-          <BsHeart size={10} className="relative top-1 mx-2" />
+          <Favorite track={track.id} className="relative top-1 mx-2" />
           <div>0</div>
         </div>
       </div>

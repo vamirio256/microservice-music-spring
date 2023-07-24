@@ -108,7 +108,7 @@ export const UploadPage = () => {
             ref={fileInputRef}
           />
           <br />
-          <div className="text-center">
+          {/* <div className="text-center">
             <input
               type="checkbox"
               id="is_playlist"
@@ -118,7 +118,7 @@ export const UploadPage = () => {
             <label htmlFor="is_playlist" className="pl-2 text-xs">
               Make a playlist when multiple files are selected
             </label>
-          </div>
+          </div> */}
           <br />
           <div className="text-center text-sm">
             <span className="pr-2">Privacy:</span>

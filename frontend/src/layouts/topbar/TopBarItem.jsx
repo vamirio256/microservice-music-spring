@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 
 const TopBarItem = ({ icon: Icon, label, to, children }) => {
   const location = useLocation();
-  console.log(location.pathname == to);
   const background_color = location.pathname === to ? "bg-black" : "bg-[#333]";
 
   return (

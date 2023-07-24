@@ -31,8 +31,8 @@ const NotificationBar = ({ children, message, className }) => {
           className={`${className} notification-bar fixed h-[100px] w-[200px] overflow-hidden left-0 right-0 m-auto bottom-[60px] bg-[#fff] p-3 rounded-md shadow-md border-[1px] border-solid cursor-pointer flex flex-col z-max`}
           onClick={hideNotification}
         >
-          <div className="flex flex-row">
-            <IoNotifications />
+          <div className="flex flex-row items-center">
+            <IoNotifications size={50} className="text-[#f50] mr-3"/>
             {notification.text}
             {children}
           </div>

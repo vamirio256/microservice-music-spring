@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Queue from "./Queue";
 import { func } from "prop-types";
 import Shuffle from "../../components/icons/Shuffle";
+import Favorite from "../../components/icons/Favorite";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -237,16 +238,17 @@ const MediaControl = () => {
               className="h-[30px] w-[30px] mr-5"
             />
             <div>
-              <p>{currentSong.title}</p>
-              <p>{currentSong.artist}</p>
+              <p>{currentSong.name}</p>
+              <p>{currentSong.user.username}</p>
             </div>
           </div>
 
           {/* favorite, queue */}
-          <div>
+          <div className="flex flex-row item-center justify-center">
+            <Favorite trackId={currentSong.id}/>
             <BiSolidPlaylist
-              size={20}
-              className="cursor-pointer"
+              size={15}
+              className="ml-2 cursor-pointer"
               onClick={() => setIsShowed(!isShowed)}
             />
           </div>
