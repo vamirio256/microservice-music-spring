@@ -10,6 +10,7 @@ import Comment from "../../components/comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPlay } from "react-icons/fa";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
+import Follow from "../../components/buttons/Follow";
 
 const TrackPage = () => {
   const { trackId } = useParams();
@@ -125,9 +126,9 @@ const TrackPage = () => {
                     className="w-[120px] h-[120px] rounded-full"
                   />
                   <h3 className="text-sm mb-2 mt-2">{track.user.username}</h3>
-                  <button className="bg-[#f50] rounded-sm text-white px-2 py-1 text-[10px]">
-                    Follow
-                  </button>
+                  
+                  {/* follow button */}
+                  <Follow />
                 </div>
 
                 <div className="w-full">

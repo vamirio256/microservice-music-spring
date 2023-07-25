@@ -49,7 +49,7 @@ const TopBar = () => {
               dispatch({ type: "SHOW_NOTIFICATION" });
             }}
           >
-            <TopBarItem label={"Premium"} />
+            <TopBarItem label={<span className="text-[#f50]">Premium</span>} />
           </button>
           <TopBarItem label={"Upload"} to={"/upload"} />
           <TopBarItem

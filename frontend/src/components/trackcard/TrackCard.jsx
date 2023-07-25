@@ -4,7 +4,7 @@ import { FaPlay } from "react-icons/fa";
 
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import Favorite from "../icons/Favorite";
+import Favorite from "../buttons/Favorite";
 import PlaylistPopup from "../modals/PlaylistPopup";
 import { Link } from "react-router-dom";
 import UserHoverBar from "./UserHoverBar";

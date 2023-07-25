@@ -2,6 +2,9 @@ import React from "react";
 import { BsHeartFill, BsLink, BsShareFill, BsThreeDots } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import Share from "./buttons/Share";
+import CopyLink from "./buttons/CopyLink";
+import Edit from "./buttons/Edit";
 
 const InteractButton = ({ className }) => {
   const dispatch = useDispatch();
@@ -17,33 +20,9 @@ const InteractButton = ({ className }) => {
           <BsHeartFill className="text-[14px]" />
           <span className="ml-1">Like</span>
         </button>
-        <button
-          className={`${buttonStyle}`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
-        >
-          <BsShareFill className="text-[14px]" />
-          <span className="ml-1">Share</span>
-        </button>
-        <button
-          className={`${buttonStyle}`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
-        >
-          <BsLink className="text-[14px]" />
-          <span className="ml-1">Copy Link</span>
-        </button>
-        <button
-          className={`${buttonStyle}`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
-        >
-          <MdEdit className="text-[14px]" />
-          <span className="ml-1">Edit</span>
-        </button>
+        <Share />
+        <CopyLink />
+        <Edit />
         <button
           className={`${buttonStyle}`}
           onClick={() => {

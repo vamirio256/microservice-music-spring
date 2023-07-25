@@ -14,8 +14,8 @@ import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
 import Queue from "./Queue";
 import { func } from "prop-types";
-import Shuffle from "../../components/icons/Shuffle";
-import Favorite from "../../components/icons/Favorite";
+import Shuffle from "../../components/buttons/Shuffle";
+import Favorite from "../../components/buttons/Favorite";
 import { Link } from "react-router-dom";
 
 const MediaControl = () => {

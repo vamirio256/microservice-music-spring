@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsHeart, BsPlay, BsPlayFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import Favorite from "../icons/Favorite";
+import Favorite from "../buttons/Favorite";
 import { Link } from "react-router-dom";
 
 export const SideBarTrackCard = ({ track }) => {
