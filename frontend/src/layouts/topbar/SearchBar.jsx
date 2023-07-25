@@ -13,7 +13,6 @@ const SearchBar = ({ className }) => {
     try {
       const searchResponse = await search(query);
       setResult(searchResponse);
-      console.log(searchResponse);
     } catch (error) {
       console.error(error);
     }

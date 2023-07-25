@@ -3,7 +3,7 @@ import WaveSurfer from "wavesurfer.js";
 import { formatDuration } from "../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
 
-const Waveform = ({ audioUrl }) => {
+const Waveform = ({ className, audioUrl }) => {
   const waveContainerRef = useRef(null);
   const wavesurfer = useRef(null);
   const canvasRef = useRef(null);
@@ -87,7 +87,6 @@ const Waveform = ({ audioUrl }) => {
       // For example, update the current time or progress bar
 
       const currentTime = wavesurfer.current.getCurrentTime();
-      console.log(currentTime);
       dispatch({
         type: "MODIFYPROGRESS",
         progress: currentTime,
@@ -121,10 +120,10 @@ const Waveform = ({ audioUrl }) => {
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 
   return (
-    <div className="overflow-hidden h-[40px] relative">
+    <div className={`overflow-hidden h-[50px] relative w-full ${className} `}>
       <div
         ref={waveContainerRef}
-        className="cursor-pointer relative transform h-[80px]"
+        className="cursor-pointer relative transform h-[100px]"
       />
       <canvas ref={canvasRef} />
       <div ref={timeRef} className={`${timeStyle} left-0 text-[#f50]`}>

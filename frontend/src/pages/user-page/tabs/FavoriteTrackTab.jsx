@@ -1,13 +1,17 @@
 import React from "react";
-import TrackCard from "../../../components/TrackCard";
+import TrackCard from "../../../components/trackcard/TrackCard";
 
 const FavoriteTrackTab = ({ favorites }) => {
   return (
-    <div className="flex flex-row">
-      {favorites.map((track, index) => (
-        <TrackCard track={track} />
-      ))}
-    </div>
+    <>
+      {favorites && (
+        <div className="flex flex-row">
+          {favorites.map((track, index) => (
+            <TrackCard track={track} key={index}/>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

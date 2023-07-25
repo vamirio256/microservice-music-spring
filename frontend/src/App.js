@@ -12,48 +12,25 @@ import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
 import NotificationBar from "./components/modals/NotificationBar";
 import { useDispatch } from "react-redux";
+import { validateToken } from "./apis/auth/validateToken";
+import TrackPage from "./pages/track-page/TrackPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [tokenValidated, setTokenValidated] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const checkToken = async () => {
       try {
-        // Get the token from localStorage
-        const url = `${process.env.REACT_APP_API_BASE_URL}/auth/validate-token`;
-
-        // Make a request to the server to verify the token
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
-          },
-        });
-
-        if (response.ok) {
-          // Token is valid
+        const data = await validateToken();
+        if (data) {
           console.log("Token is valid");
+          dispatch({ type: "SET_USER", user: data });
           setIsAuthenticated(true);
         } else {
-          // Token is invalid or expired
           console.log("Token is invalid");
         }
-        // get user data
-        const urlUser = `${process.env.REACT_APP_API_BASE_URL}/users/1`;
-        const userResponse = await fetch(urlUser, {
-          method: "GET",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
-          },
-        });
-        const user = await userResponse.json();
-
-        dispatch({ type: "GET_USER", user: user });
       } catch (error) {
         // console.error("Error checking token:", error);
       } finally {
@@ -93,7 +70,8 @@ function App() {
               <Routes>
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/upload" element={<UploadPage />} />
-                <Route path="/user/*" element={<UserPage />} />
+                <Route path="/user/:userId/*" element={<UserPage />} />
+                <Route path="/track/:trackId" element={<TrackPage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </div>

@@ -23,13 +23,13 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
     try {
       // login
-      const token = await login(email, password);
-      console.log(token);
-      localStorage.setItem("token", JSON.stringify(token));
+      const response = await login(email, password);
+      const token = response.jwtToken;
+      localStorage.setItem("token", token);
 
       // get user data
-      const user = await getUserData();
-      dispatch({ type: "GET_USER", user: user });
+      const user = response.user;
+      dispatch({ type: "SET_USER", user: user });
 
       //redirect
       setIsAuthenticated(true);

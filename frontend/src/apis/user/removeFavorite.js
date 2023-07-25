@@ -1,11 +1,11 @@
 export const removeFavorite = async (id) => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"))["jwtToken"];
+      const token = "Bearer " + localStorage.getItem("token");
       const url = `${process.env.REACT_APP_API_BASE_URL}/users/favorite/${id}`;
       const response = await fetch(url, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         //   "Content-Type": "application/json",
         },
       });

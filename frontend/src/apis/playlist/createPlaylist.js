@@ -6,7 +6,7 @@ export const createPlaylist = async (formData) => {
         method: "POST",
         headers: {
           Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"]
+          "Bearer " + localStorage.getItem("token")
         },
         body: formData,
       }

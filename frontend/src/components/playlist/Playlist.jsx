@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import PlaylistTrackCard from "./PlaylistTrackCard";
-import Waveform from "../Waveform";
 import {
   BsFillPauseFill,
-  BsFillPlayFill,
-  BsHeartFill,
-  BsLink,
-  BsShareFill,
-  BsThreeDots,
+  BsFillPlayFill
 } from "react-icons/bs";
-import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { getLatestTracks } from "../../apis/playlist/getLatestTracks";
+import InteractButton from "../InteractButton";
+import Waveform from "../Waveform";
+import PlaylistTrackCard from "./PlaylistTrackCard";
 
 const Playlist = ({ playlist }) => {
   // const [playlist, setPlaylist] = useState();
@@ -20,8 +15,7 @@ const Playlist = ({ playlist }) => {
   const [currentPlaying, setCurrentPlaying] = useState();
 
   const dispatch = useDispatch();
-  const buttonStyle =
-    "border-[1px] border-solid px-2 py-1 text-xs rounded-sm hover:border-[#999] flex flex-row item-center mr-2";
+
 
   const playTrack = () => {
     setIsPlaying(true);
@@ -46,11 +40,10 @@ const Playlist = ({ playlist }) => {
     setQueue();
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentPlaying(playlist.tracks[0]);
-  },[playlist])
+  }, [playlist]);
 
-  console.log("playlist is called", playlist.tracks[0])
   return (
     <div>
       {playlist && currentPlaying ? (
@@ -105,34 +98,7 @@ const Playlist = ({ playlist }) => {
                 ))}
               </div>
 
-              {/* interact button */}
-              <div className="flex row mt-3">
-                <button className={`${buttonStyle}`}>
-                  <BsHeartFill className="text-[14px]" />
-                  <span className="ml-1">Like</span>
-                </button>
-                <button
-                  className={`${buttonStyle}`}
-                  onClick={() => {
-                    dispatch({ type: "SHOW_NOTIFICATION" });
-                  }}
-                >
-                  <BsShareFill className="text-[14px]" />
-                  <span className="ml-1">Share</span>
-                </button>
-                <button className={`${buttonStyle}`}>
-                  <BsLink className="text-[14px]" />
-                  <span className="ml-1">Copy Link</span>
-                </button>
-                <button className={`${buttonStyle}`}>
-                  <MdEdit className="text-[14px]" />
-                  <span className="ml-1">Edit</span>
-                </button>
-                <button className={`${buttonStyle}`}>
-                  <BsThreeDots className="text-[14px]" />
-                  <span className="ml-1">More</span>
-                </button>
-              </div>
+              <InteractButton />
             </div>
           </div>
         </>

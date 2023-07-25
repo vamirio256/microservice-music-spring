@@ -7,8 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../../CSS/SwiperCSS.css";
-import image from "../../images/temp_track_cover.jfif";
-import TrackCard from "../../components/TrackCard";
+import image from "../../assets/images/temp_track_cover.jfif";
+import TrackCard from "../../components/trackcard/TrackCard";
 
 const HorizontalTrackSwiper = ({ playlist }) => {
   return (

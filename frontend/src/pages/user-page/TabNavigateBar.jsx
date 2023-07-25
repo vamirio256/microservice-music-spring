@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom/dist";
 
-const TabNavigateBar = () => {
+const TabNavigateBar = ({ className, userId }) => {
   return (
-    <div className="px-4 pt-4">
+    <div className={`${className}`}>
       <div className="flex flex-row only:text-[18px] font-light">
-        <NavigateBarItem label={"Uploaded Tracks"} to={"/user"} />
-        <NavigateBarItem label={"Playlists"} to={"/user/playlist"} />
-        <NavigateBarItem label={"Favorites"} to={"/user/favorite"} />
+        <NavigateBarItem label={"Uploaded Tracks"} to={`/user/${userId}`} />
+        <NavigateBarItem label={"Playlists"} to={`/user/${userId}/playlist`} />
+        <NavigateBarItem label={"Favorites"} to={`/user/${userId}/favorite`} />
       </div>
       <hr className="block h-[1px] w-full mt-2" />
     </div>
@@ -22,7 +22,7 @@ const NavigateBarItem = ({ label, to }) => {
       : "text-black hover:border-b-[3px] border-b-black";
 
   return (
-    <div>
+    <div >
       <Link to={to} className={`${active_style} w-full h-full mr-3 pb-2`}>
         <span>{label}</span>
       </Link>

@@ -16,6 +16,7 @@ import Queue from "./Queue";
 import { func } from "prop-types";
 import Shuffle from "../../components/icons/Shuffle";
 import Favorite from "../../components/icons/Favorite";
+import { Link } from "react-router-dom";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -113,7 +114,6 @@ const MediaControl = () => {
   }, [modifyProgressReducer]);
 
   const buttonStyle = "text-xl ml-3";
-  // console.log(currentTime);
   function playPrevious() {
     let index = -1;
 
@@ -237,15 +237,22 @@ const MediaControl = () => {
               src={currentSong.coverUrl}
               className="h-[30px] w-[30px] mr-5"
             />
-            <div>
-              <p>{currentSong.name}</p>
-              <p>{currentSong.user.username}</p>
+            <div className="flex flex-col">
+              <Link to={`/track/${currentSong.id}`} className="">
+                {currentSong.name}
+              </Link>
+              <Link
+                to={`/user/${currentSong.user.id}`}
+                className="text-[11px] text-gray-400"
+              >
+                {currentSong.user.username}
+              </Link>
             </div>
           </div>
 
           {/* favorite, queue */}
           <div className="flex flex-row item-center justify-center">
-            <Favorite trackId={currentSong.id}/>
+            <Favorite trackId={currentSong.id} />
             <BiSolidPlaylist
               size={15}
               className="ml-2 cursor-pointer"

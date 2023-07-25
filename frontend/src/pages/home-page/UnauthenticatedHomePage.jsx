@@ -1,5 +1,5 @@
 import React from "react";
-import never_stop_listening from "../..//images/never_stop_listening.jpg";
+import never_stop_listening from "../../assets/images/never_stop_listening.jpg";
 import Login from "../../components/modals/Login";
 import { useDispatch } from "react-redux";
 

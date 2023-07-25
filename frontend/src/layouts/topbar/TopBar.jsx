@@ -4,46 +4,12 @@ import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
-  const leftRoutes = useMemo(() => [
-    {
-      icon: BiLogoSoundcloud,
-      active: pathname === "/",
-      href: "/",
-    },
-    {
-      label: "Home",
-      active: pathname === "/",
-      href: "/",
-    },
-    {
-      label: "Feed",
-      active: pathname === "/feed",
-      href: "/feed",
-    },
-    {
-      label: "Library",
-      active: pathname === "/library",
-      href: "/library",
-    },
-  ]);
-
-  const rightRoutes = useMemo(() => [
-    {
-      label: "For artists",
-      active: pathname === "/artist",
-      href: "/artist",
-    },
-    {
-      label: "Upload",
-      active: pathname === "/upload",
-      href: "/upload",
-    },
-  ]);
+  const user = useSelector((state) => state.userReducer);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -85,12 +51,15 @@ const TopBar = () => {
           >
             <TopBarItem label={"Premium"} />
           </button>
-            <TopBarItem label={"Upload"} to={"/upload"}/>
+          <TopBarItem label={"Upload"} to={"/upload"} />
           <TopBarItem
-            label={"Nguyễn Quân"}
-            to={"/user"}
+            label={user.username}
+            to={`/user/${user.id}`}
             icon={
-              <div className="bg-gradient-to-tr from-purple-500 to-pink-500 h-[30px] w-[30px] rounded-full" />
+              <img
+                src={user.avatarUrl}
+                className="rounded-full w-[40px] h-[40px]"
+              />
             }
           />
 

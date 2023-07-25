@@ -1,11 +1,11 @@
 import React from "react";
-import TrackCard from "../../../components/TrackCard";
+import TrackCard from "../../../components/trackcard/TrackCard";
 
 const UploadedTrackTab = ({ tracks }) => {
   return (
-    <div className="flex flex-row">
+    <div className="grid grid-cols-4 gap-4">
       {tracks.map((track, index) => (
-        <TrackCard track={track} />
+        <TrackCard track={track} key={index} />
       ))}
     </div>
   );

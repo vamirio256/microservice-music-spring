@@ -10,7 +10,7 @@ module.exports = {
         orange: "#f50",
       },
       backgroundImage: {
-        lading_web: "url('/src/images/cover_landing_web.jpg')",
+        lading_web: "url('/src/assets/images/cover_landing_web.jpg')",
       },
       zIndex: {
         max: "999",

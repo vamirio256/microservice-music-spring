@@ -1,40 +1,61 @@
 import React, { useEffect, useState } from "react";
 import TabNavigateBar from "./TabNavigateBar";
-import { Navigate, Route, Routes } from "react-router-dom/dist";
+import { Navigate, Route, Routes, useParams } from "react-router-dom/dist";
 import UserPageTracks from "./tabs/UploadedTrackTab";
 import UploadedTrackTab from "./tabs/UploadedTrackTab";
 import PlaylistTab from "./tabs/PlaylistTab";
 import FavoriteTrackTab from "./tabs/FavoriteTrackTab";
 import { useSelector } from "react-redux";
+import { getUserData } from "../../apis/user/getUserData";
 
 const UserPage = () => {
-  const profile = useSelector((state) => state.userReducer.profile);
-  const playlists = profile.playlists;
-  const tracks = profile.tracks;
-  const favorites = profile.favoriteTracks;
+  const [user, setUser] = useState("");
+  const { userId } = useParams();
+
+  useEffect(() => {
+    const getUserDataOnInitial = async () => {
+      try {
+        const userData = await getUserData(userId);
+        setUser(userData);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getUserDataOnInitial();
+  }, []);
 
   return (
     <>
-      <div>
-        <div className="h-64 bg-gradient-to-r from-cyan-500 to-blue-500 p-7">
-          <div className="bg-gradient-to-tr from-purple-500 to-pink-500 ml-7 h-[200px] w-[200px] rounded-full" />
-        </div>
-      </div>
-      <TabNavigateBar />
-      <Routes>
-        <Route
-          index
-          element={<UploadedTrackTab tracks={tracks} />}
-        />
-        <Route
-          path="/playlist"
-          element={<PlaylistTab playlists={playlists} />}
-        />
-        <Route
-          path="/favorite"
-          element={<FavoriteTrackTab favorites={favorites} />}
-        />
-      </Routes>
+      {user && (
+        <>
+          <div>
+            <div className="h-64 bg-gradient-to-tl from-[#A19793] to-[#827A60] p-7 flex flex-row items-center">
+              <img
+                src={user.avatarUrl}
+                className="rounded-full w-[200px] h-[200px]"
+              />
+              <h1 className="text-xl text-white bg-black ml-5 cursor-text">{user.username}</h1>
+            </div>
+          </div>
+          <TabNavigateBar userId={userId} className={"px-8 pt-4"} />
+          <div className="px-8 pt-4">
+          <Routes>
+            <Route
+              index
+              element={<UploadedTrackTab tracks={user.profile.tracks} />}
+            />
+            <Route
+              path="/playlist"
+              element={<PlaylistTab playlists={user.profile.playlists} />}
+            />
+            <Route
+              path="/favorite"
+              element={<FavoriteTrackTab favorites={user.profile.favorites} />}
+            />
+          </Routes>
+          </div>
+        </>
+      )}
     </>
   );
 };
