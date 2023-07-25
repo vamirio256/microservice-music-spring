@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./components/modals/Login";
+import Login from "./components/modals/LoginModal";
 import HomePage from "./pages/home-page/HomePage";
 
 import { useEffect, useState } from "react";

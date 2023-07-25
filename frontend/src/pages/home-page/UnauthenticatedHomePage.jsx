@@ -1,13 +1,14 @@
 import React from "react";
 import never_stop_listening from "../../assets/images/never_stop_listening.jpg";
-import Login from "../../components/modals/Login";
+import Login from "../../components/modals/LoginModal";
 import { useDispatch } from "react-redux";
 
 const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
   const dispatch = useDispatch();
-  function openModal() {
-    dispatch({ type: "OPEN_MODAL" });
-  }
+
+  const openLoginModal = () => {
+    dispatch({ type: "OPEN_MODAL_LOGIN" });
+  };
 
   return (
     <div className="flex justify-center flex-1 bg-[#F2F2F2] m-0 p-0">
@@ -18,13 +19,13 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
           <div className="absolute top-5 right-8 text-sm">
             <button
               className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3 "
-              onClick={openModal}
+              onClick={openLoginModal}
             >
               Sign in
             </button>
             <button
               className="bg-[#f50] py-1 px-3 rounded-sm mr-3"
-              onClick={openModal}
+              onClick={openLoginModal}
             >
               Create account
             </button>
@@ -40,7 +41,7 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
               </p>
               <button
                 className="bg-[#f50] px-2 py-2 rounded-sm"
-                onClick={openModal}
+                onClick={openLoginModal}
               >
                 Sign up for free
               </button>

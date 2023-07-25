@@ -5,14 +5,13 @@ import loadingimage from "../../assets/images/loading-gif.gif";
 import { createPlaylist } from "../../apis/playlist/createPlaylist";
 
 const PlaylistPopup = ({ track }) => {
-  const modalIsOpen = useSelector(
-    (state) => state.modalPlaylistReducer
-  ).isShowed;
+  const modalIsOpen = useSelector((state) => state.modalReducer.playlist);
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
-  function closeModal() {
+
+  const closeModal = () => {
     dispatch({ type: "CLOSE_MODAL_PLAYLIST" });
-  }
+  };
 
   const [active_tab, set_active_tab] = useState("create_a_playlist");
   const active_style = "text-primary border-b-2 border-b-primary border-solid";

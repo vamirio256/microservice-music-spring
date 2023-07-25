@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Share from "./buttons/Share";
 import CopyLink from "./buttons/CopyLink";
 import Edit from "./buttons/Edit";
+import Like from "./buttons/Like";
 
 const InteractButton = ({ className }) => {
   const dispatch = useDispatch();
@@ -16,10 +17,7 @@ const InteractButton = ({ className }) => {
     <>
       {/* interact button */}
       <div className={`${className} flex row mt-3`}>
-        <button className={`${buttonStyle}`}>
-          <BsHeartFill className="text-[14px]" />
-          <span className="ml-1">Like</span>
-        </button>
+        <Like/>
         <Share />
         <CopyLink />
         <Edit />

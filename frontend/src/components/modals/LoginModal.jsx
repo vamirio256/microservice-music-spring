@@ -12,11 +12,12 @@ const Login = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState("user1");
   const navigate = useNavigate();
 
-  const modalIsOpen = useSelector((state) => state.modalReducer);
+  const modalIsOpen = useSelector((state) => state.modalReducer.login);
 
   const dispatch = useDispatch();
+
   function closeModal() {
-    dispatch({ type: "CLOSE_MODAL" });
+    dispatch({ type: "CLOSE_MODAL_LOGIN" });
   }
 
   const handleLogin = async (e) => {

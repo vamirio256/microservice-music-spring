@@ -5,6 +5,7 @@ import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import ConfirmModal from "../../components/modals/ConfirmModal";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;
@@ -16,8 +17,18 @@ const TopBar = () => {
     window.location.href = "/";
   };
 
+  const openConfirmModal = () => {
+    dispatch({
+      type: "OPEN_MODAL_CONFIRM",
+    });
+  };
+
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
+      <ConfirmModal context={"Do you really want to logout?"}>
+        <button onClick={logout}>Yes</button>
+      </ConfirmModal>
+
       <div className="w-[1240px]">
         <div
           className={`container bg-red h-12 flex m-auto items-center justify-between  `}
@@ -63,7 +74,7 @@ const TopBar = () => {
             }
           />
 
-          <button onClick={logout}>
+          <button onClick={openConfirmModal}>
             <IoLogOut color="white" size={30} />
           </button>
         </div>
