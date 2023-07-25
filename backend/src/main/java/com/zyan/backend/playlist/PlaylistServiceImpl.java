@@ -1,6 +1,7 @@
 package com.zyan.backend.playlist;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
+import com.zyan.backend.track.dto.TrackDTO;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.entities.Profile;
@@ -82,21 +83,19 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlistDTO, int trackId) {
+    public PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlistDTO, TrackDTO trackDTO) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Profile profile = user.getProfile();
-
-        Track track = trackRepository.findById(trackId)
-                .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found.".formatted(trackId)));
 
         Playlist playlist = Playlist.builder()
                 .name(playlistDTO.getName())
                 .isPublic(playlistDTO.isPublic())
                 .profile(profile)
-                .coverUrl(track.getCoverUrl())
+                .coverUrl(trackDTO.getCoverUrl())
                 .createdAt(LocalDateTime.now())
                 .build();
+        int id = playlistRepository.save(playlist).getId();
 
-        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO();
+        return addTrackToPlaylist(id, trackDTO.getId());
     }
 }

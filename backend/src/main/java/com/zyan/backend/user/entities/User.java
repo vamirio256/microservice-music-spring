@@ -59,6 +59,7 @@ public class User implements UserDetails {
                 .id(id)
                 .username(username)
                 .email(email)
+                .avatarUrl(avatarUrl)
                 .build();
     }
 

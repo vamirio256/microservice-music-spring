@@ -24,7 +24,7 @@ public interface TrackService {
 
     void increaseListenedTime(int trackId);
 
-    PlaylistDTO getLastestTracks();
+    PlaylistDTO getLatestTracks();
 
     PlaylistDTO getPopularTracks();
 

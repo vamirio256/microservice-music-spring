@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/users")
@@ -20,6 +21,11 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int userId) {
         return ResponseEntity.ok(userService.findById(userId));
+    }
+
+    @PutMapping("/avatar")
+    public ResponseEntity<UserDTO> updateUserAvatar(@RequestBody MultipartFile avatar) {
+        return ResponseEntity.ok(userService.updateUserAvatar(avatar));
     }
 
     @PostMapping("/follow/{followedId}")

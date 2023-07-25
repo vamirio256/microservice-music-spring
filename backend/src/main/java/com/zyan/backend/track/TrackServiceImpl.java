@@ -176,13 +176,13 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public PlaylistDTO getLastestTracks() {
+    public PlaylistDTO getLatestTracks() {
         List<TrackDTO> tracks = trackRepository.findLatestTracks()
                 .stream()
                 .map(Track::mapTrackToTrackDTO)
                 .collect(Collectors.toList());
         return PlaylistDTO.builder()
-                .name("Popular Tracks")
+                .name("Latest Tracks")
                 .tracks(tracks)
                 .build();
     }

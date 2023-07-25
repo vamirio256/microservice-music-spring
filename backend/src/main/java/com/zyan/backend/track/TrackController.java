@@ -82,7 +82,7 @@ public class TrackController {
 
     @GetMapping(value = "/latest")
     public ResponseEntity<PlaylistDTO> getLatestTracks() {
-        return ResponseEntity.ok(trackService.getLastestTracks());
+        return ResponseEntity.ok(trackService.getLatestTracks());
     }
 
     @GetMapping(value = "/popular")

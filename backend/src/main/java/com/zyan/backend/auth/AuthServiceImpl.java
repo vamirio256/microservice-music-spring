@@ -1,11 +1,12 @@
 package com.zyan.backend.auth;
 
+import com.zyan.backend.exception.ResourceNotFoundException;
 import com.zyan.backend.jwt.JwtUtils;
-import com.zyan.backend.user.repositories.ProfileRepository;
-import com.zyan.backend.user.repositories.UserRepository;
 import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
+import com.zyan.backend.user.repositories.ProfileRepository;
+import com.zyan.backend.user.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,9 +51,11 @@ public class AuthServiceImpl implements AuthService {
 
         //process if succeeded
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("User with email '%s' not found".formatted(request.getEmail())));
+
         var jwtToken = jwtUtils.generateToken(user);
         return AuthResponseDTO.builder()
+                .user(user.mapUserToUserDTO())
                 .jwtToken(jwtToken)
                 .build();
     }
@@ -77,6 +80,7 @@ public class AuthServiceImpl implements AuthService {
         profileRepository.save(profile);
         var jwtToken = jwtUtils.generateToken(user);
         return AuthResponseDTO.builder()
+                .user(user.mapUserToUserDTO())
                 .jwtToken(jwtToken)
                 .build();
     }

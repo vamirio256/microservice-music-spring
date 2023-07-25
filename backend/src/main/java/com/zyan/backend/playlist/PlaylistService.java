@@ -1,5 +1,6 @@
 package com.zyan.backend.playlist;
 
+import com.zyan.backend.track.dto.TrackDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface PlaylistService {
@@ -9,5 +10,5 @@ public interface PlaylistService {
     void deletePlaylist(int id);
     PlaylistDTO addTrackToPlaylist(int trackId, int playlistId);
 
-    PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlist, int trackId);
+    PlaylistDTO createPlaylistWithFirstTrack(PlaylistDTO playlist, TrackDTO trackId);
 }

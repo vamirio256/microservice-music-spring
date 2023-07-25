@@ -3,8 +3,10 @@ package com.zyan.backend.user.services;
 import com.zyan.backend.auth.RegisterRequestDTO;
 import com.zyan.backend.exception.MethodArgumentTypeMismatchException;
 import com.zyan.backend.exception.ResourceNotFoundException;
-import com.zyan.backend.track.repository.TrackRepository;
+import com.zyan.backend.s3.S3Bucket;
+import com.zyan.backend.s3.S3Service;
 import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.*;
@@ -14,12 +16,18 @@ import com.zyan.backend.user.repositories.ProfileRepository;
 import com.zyan.backend.user.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -30,13 +38,19 @@ public class UserServiceImpl implements UserService {
     private final FollowRepository followRepository;
     private final TrackRepository trackRepository;
     private final FavoriteTrackRepository favoriteTrackRepository;
+    private final S3Service s3Service;
+    private final S3Bucket s3Bucket;
+    @Value("${AWS_DOMAIN}")
+    private String awsDomain;
 
-    public UserServiceImpl(UserRepository userRepository, ProfileRepository profileRepository, FollowRepository followRepository, TrackRepository trackRepository, FavoriteTrackRepository favoriteTrackRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProfileRepository profileRepository, FollowRepository followRepository, TrackRepository trackRepository, FavoriteTrackRepository favoriteTrackRepository, S3Service s3Service, S3Bucket s3Bucket) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
         this.followRepository = followRepository;
         this.trackRepository = trackRepository;
         this.favoriteTrackRepository = favoriteTrackRepository;
+        this.s3Service = s3Service;
+        this.s3Bucket = s3Bucket;
     }
 
     //    @PostConstruct
@@ -136,10 +150,10 @@ public class UserServiceImpl implements UserService {
         Track track = trackRepository.findById(trackId)
                 .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found.".formatted(trackId)));
 
-        if(profile.getFavoriteTracks().stream()
-                .anyMatch(tracks -> tracks.getTrack().equals(track))){
-            throw new IllegalStateException("Track is already favorite by user");
-        }
+//        if(profile.getFavoriteTracks().stream()
+//                .anyMatch(tracks -> tracks.getTrack().equals(track))){
+//            throw new IllegalStateException("Track is already favorite by user");
+//        }
 
         FavoriteTrack favoriteTrack = FavoriteTrack.builder()
                 .id(new FavoriteTrackId(trackId, profile.getId()))
@@ -160,7 +174,31 @@ public class UserServiceImpl implements UserService {
                 .id(new FavoriteTrackId(trackId, profile.getId()))
                 .profile(profile)
                 .track(track)
+                .addedAt(LocalDateTime.now())
                 .build();
         favoriteTrackRepository.delete(favoriteTrack);
+    }
+
+    @Override
+    public UserDTO updateUserAvatar(MultipartFile avatar) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userAvatarId = "user-avatars/%s".formatted(UUID.randomUUID().toString());
+
+        try {
+//            String defaultAvatarPath = "./com/zyan/backend/asset/images/user_avatar.jpg";
+//            ClassPathResource avatarResource = new ClassPathResource(defaultAvatarPath);
+//            InputStream avatarInputStream = avatarResource.getInputStream();
+            s3Service.putObject(
+                    s3Bucket.getCustomer(),
+                    userAvatarId,
+                    "image/jpeg",
+                    avatar.getInputStream()
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        user.setAvatarUrl(awsDomain + userAvatarId);
+        return userRepository.save(user).mapUserToUserDTO();
     }
 }

@@ -15,6 +15,6 @@ import java.time.LocalDateTime;
 public class CommentDTO {
     private int id;
     private String context;
-    private LocalDateTime addAt;
+    private LocalDateTime addedAt;
     private UserSummaryDTO user;
 }

@@ -34,7 +34,7 @@ public class Comment {
     public CommentDTO mapCommentToCommentDTO() {
         return CommentDTO.builder()
                 .id(getId())
-                .addAt(getAddedAt())
+                .addedAt(getAddedAt())
                 .context(getContext())
                 .user(getProfile().getUser().mapUserToUserSummaryDTO())
                 .build();

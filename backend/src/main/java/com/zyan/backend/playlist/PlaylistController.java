@@ -2,6 +2,7 @@ package com.zyan.backend.playlist;
 
 import com.zyan.backend.track.dto.TrackDTO;
 import org.apache.coyote.Response;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,11 +29,13 @@ public class PlaylistController {
 //        return ResponseEntity.ok(playlistService.createPlaylist(playlist));
 //    }
 
-    @PostMapping()
+    @PostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<PlaylistDTO> createPlaylistWithFirstTrack(
             @RequestPart("playlist") PlaylistDTO playlist,
-            @RequestPart("trackId") int trackId) {
-        return ResponseEntity.ok(playlistService.createPlaylistWithFirstTrack(playlist, trackId));
+            @RequestPart("track") TrackDTO track) {
+        return ResponseEntity.ok(playlistService.createPlaylistWithFirstTrack(playlist, track));
     }
 
     @PutMapping()
