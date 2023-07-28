@@ -81,6 +81,7 @@ function App() {
           <NotificationBar />
           <PlaylistModal />
           <MediaControl />
+          <PlaylistPopup />
         </>
       )}
     </div>

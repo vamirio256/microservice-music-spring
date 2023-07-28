@@ -12,6 +12,7 @@ import modifyProgressReducer from "./reducers/modifyProgress";
 import notificationReducer from "./reducers/notification";
 import queueReducer from "./reducers/queue";
 import userReducer from "./reducers/user";
+import trackOnclickReducer from "./reducers/trackOnclick";
 
 const allReducers = combineReducers({
   songHistoryReducer: songHistoryReducer,
@@ -25,5 +26,6 @@ const allReducers = combineReducers({
   notificationReducer: notificationReducer,
   queueReducer: queueReducer,
   userReducer: userReducer,
+  trackOnclickReducer: trackOnclickReducer,
 });
 export default allReducers;
