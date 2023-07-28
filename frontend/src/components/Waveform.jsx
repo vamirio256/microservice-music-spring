@@ -81,7 +81,6 @@ const Waveform = ({ className, audioUrl }) => {
     // });
 
     wavesurfer.current.load(audioUrl);
-
     wavesurfer.current.on("click", () => {
       // Handle logic for the 'ontimeupdate' equivalent here
       // For example, update the current time or progress bar
@@ -91,6 +90,24 @@ const Waveform = ({ className, audioUrl }) => {
         type: "MODIFYPROGRESS",
         progress: currentTime,
       });
+    });
+
+    wavesurfer.current.on("ready", () => {
+      console.log("ready");
+
+      const buffer = wavesurfer.current.getDecodedData();
+      // console.log(buffer);
+
+      let channel0Peaks = buffer.getChannelData(0);
+      console.log("channel0Peaks : ", channel0Peaks);
+
+      let channel1Peaks = buffer.getChannelData(1);
+      console.log("channel1Peaks : ", channel1Peaks);
+
+      console.log("buffer length : ", buffer.length);
+      console.log("buffer duration : ", buffer.duration);
+      console.log("buffer sampleRate : ", buffer.sampleRate);
+      console.log("buffer numberOfChannels : ", buffer.numberOfChannels);
     });
     return () => {
       // Clean up the WaveSurfer instance on component unmount

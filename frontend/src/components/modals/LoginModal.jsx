@@ -7,12 +7,12 @@ import { getUserData } from "../../apis/user/getUserData";
 import NotificationBar from "./NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 
-const Login = ({ setIsAuthenticated }) => {
+const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
   const [password, setPassword] = useState("user1");
   const navigate = useNavigate();
 
-  const modalIsOpen = useSelector((state) => state.modalReducer.login);
+  const modalIsOpen = useSelector((state) => state.modalReducer.login.isShowed);
 
   const dispatch = useDispatch();
 
@@ -116,4 +116,4 @@ const Login = ({ setIsAuthenticated }) => {
   /* login modal */
 }
 
-export default Login;
+export default LoginModal;

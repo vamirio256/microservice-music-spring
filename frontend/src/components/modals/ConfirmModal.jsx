@@ -3,7 +3,9 @@ import CustomModal from "./CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 
 const ConfirmModal = ({ className, children, context }) => {
-  const modalIsOpen = useSelector((state) => state.modalReducer.confirm);
+  const modalIsOpen = useSelector(
+    (state) => state.modalReducer.confirm.isShowed
+  );
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({

@@ -14,7 +14,7 @@ const SignUp = ({ setIsAuthenticated }) => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const navigate = useNavigate();
 
-  const modalIsOpen = useSelector((state) => state.modalReducer);
+  const modalIsOpen = useSelector((state) => state.modalReducer.signUp.isShowed);
 
   const dispatch = useDispatch();
   function closeModal() {

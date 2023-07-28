@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { FaUserCheck, FaUserPlus } from "react-icons/fa";
+import { followUser } from "../../apis/user/followUser";
+import { unfollowUser } from "../../apis/user/unfollowUser";
 
-const Follow = ({ id }) => {
-  const [isFollowed, setIsFollower] = useState(false);
+const Follow = ({ user }) => {
+  const [isFollowed, setIsFollower] = useState(user ? user.following : false);
 
-  const followUser = () => {
+  const handleFollowUser = () => {
+    followUser(user.id);
     setIsFollower(true);
   };
 
-  const unfollowUser = () => {
+  const handleUnfollowUser = () => {
+    unfollowUser(user.id);
     setIsFollower(false);
   };
 
@@ -17,7 +21,7 @@ const Follow = ({ id }) => {
       {isFollowed ? (
         <button
           className="border-[#f50] border rounded-sm text-[#f50] px-2 py-1 text-[11px] flex flex-row items-center"
-          onClick={unfollowUser}
+          onClick={handleUnfollowUser}
         >
           <FaUserCheck />
           <span className="ml-2">Following</span>
@@ -25,7 +29,7 @@ const Follow = ({ id }) => {
       ) : (
         <button
           className="border-black border rounded-sm text-black px-2 py-1 text-[11px] flex flex-row items-center"
-          onClick={followUser}
+          onClick={handleFollowUser}
         >
           <FaUserPlus />
           <span className="ml-2">Follow</span>

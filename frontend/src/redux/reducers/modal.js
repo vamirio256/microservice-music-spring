@@ -1,67 +1,73 @@
+const openModal = (state, modal, func) => {
+  const tempState = { ...state };
+  for (let key in state) {
+    tempState[key].isShowed = false;
+  }
+  tempState[modal].isShowed = true;
+  if (func) {
+    func(tempState, modal);
+  }
+  return tempState;
+};
+
+const closeModal = (state, modal, func) => {
+  const tempState = { ...state };
+  for (let key in state) {
+    tempState[key].isShowed = false;
+  }
+  if (func) {
+    func(tempState, modal);
+  }
+  return tempState;
+};
+
 const modalReducer = (
   state = {
-    login: false,
-    signUp: false,
-    playlist: false,
-    confirm: false,
+    login: {
+      isShowed: false,
+    },
+    signUp: {
+      isShowed: false,
+    },
+    playlist: {
+      isShowed: false,
+      track: "",
+    },
+    confirm: {
+      isShowed: false,
+      context: "",
+    },
   },
   action
 ) => {
   switch (action.type) {
     case "OPEN_MODAL_LOGIN":
-      for (let key in state) {
-        state[key] = false;
-      }
-      return {
-        ...state,
-        login: true,
-      };
+      return openModal(state, "login");
     case "CLOSE_MODAL_LOGIN":
-      return {
-        ...state,
-        login: false,
-      };
+      return closeModal(state, "login");
     case "OPEN_MODAL_SIGNUP":
-      for (let key in state) {
-        state[key] = false;
-      }
-      return {
-        ...state,
-        signUp: true,
-      };
+      return openModal(state, "signUp");
     case "CLOSE_MODAL_SIGNUP":
-      return {
-        ...state,
-        signUp: false,
-      };
+      return closeModal(state, "signUp");
     case "OPEN_MODAL_PLAYLIST":
-      for (let key in state) {
-        state[key] = false;
-      }
-      return {
-        ...state,
-        playlist: true,
-      };
+      return openModal(state, "playlist", (state, modal) => {
+        state[modal].track = action.track;
+      });
     case "CLOSE_MODAL_PLAYLIST":
-      return {
-        ...state,
-        playlist: false,
-      };
+      return closeModal(state, "playlist", (state, modal) => {
+        state[modal].track = "";
+      });
     case "OPEN_MODAL_CONFIRM":
-      for (let key in state) {
-        state[key] = false;
-      }
-      return {
-        ...state,
-        confirm: true,
-      };
+      return openModal(state, "confirm", (state, modal) => {
+        state[modal].context = action.context;
+      });
     case "CLOSE_MODAL_CONFIRM":
-      return {
-        ...state,
-        confirm: false,
-      };
+      return closeModal(state, "confirm", (state, modal) => {
+        state[modal].context = "";
+      });
     default:
       return state;
   }
 };
+
 export default modalReducer;

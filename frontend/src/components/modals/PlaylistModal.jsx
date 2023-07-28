@@ -4,22 +4,23 @@ import CustomModal from "./CustomModal";
 import loadingimage from "../../assets/images/loading-gif.gif";
 import { createPlaylist } from "../../apis/playlist/createPlaylist";
 
-const PlaylistPopup = ({ track }) => {
-  const modalIsOpen = useSelector((state) => state.modalReducer.playlist);
+const PlaylistModal = () => {
+  const { modalIsOpen, track } = useSelector((state) => ({
+    modalIsOpen: state.modalReducer.playlist.isShowed,
+    track: state.modalReducer.playlist.track,
+  }));
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
-
-  const closeModal = () => {
-    dispatch({ type: "CLOSE_MODAL_PLAYLIST" });
-  };
-
   const [active_tab, set_active_tab] = useState("create_a_playlist");
   const active_style = "text-primary border-b-2 border-b-primary border-solid";
   const hover = " hover:border-b-2 hover:border-b-black hover:border-solid";
   const [loading, setLoading] = useState(false);
 
-  const playlistList = useSelector((state) => state.userReducer).profile
-    .playlists;
+  const playlistList = useSelector((state) => state.userReducer.profile
+  .playlists);
+  const closeModal = () => {
+    dispatch({ type: "CLOSE_MODAL_PLAYLIST" });
+  };
 
   async function uploadPlaylist() {
     setLoading(true);
@@ -45,93 +46,105 @@ const PlaylistPopup = ({ track }) => {
   }
 
   return (
-    <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
-      <div className="container block m-auto">
-        {/* close button */}
-        <button className="secondary-button block ml-auto" onClick={closeModal}>
-          Close
-        </button>
-        {/* Top bar */}
-        <div className="mx-9 mt-10 text-lg">
-          <button
-            className={`${
-              active_tab === "add_to_playlist" ? active_style : hover
-            } mr-9`}
-            onClick={() => set_active_tab("add_to_playlist")}
-          >
-            Add to Playlist
-          </button>
-          <button
-            className={`${
-              active_tab === "create_a_playlist" ? active_style : hover
-            } mr-9`}
-            onClick={() => set_active_tab("create_a_playlist")}
-          >
-            Create a playlist
-          </button>
-        </div>
-        {/* content */}
-        <div className="mx-9">
-          {/* add_to_playlist */}
-          <div
-            className={active_tab === "add_to_playlist" ? "block" : "hidden"}
-          >
-            <div className="mt-5">
-              {playlistList.map((item, index) => {
-                return <PlaylistPopupItem key={index} playlist={item} />;
-              })}
+    <>
+      {track && (
+        <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
+          <div className="container block m-auto">
+            {/* close button */}
+            <button
+              className="secondary-button block ml-auto"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+            {/* Top bar */}
+            <div className="mx-9 mt-10 text-lg">
+              <button
+                className={`${
+                  active_tab === "add_to_playlist" ? active_style : hover
+                } mr-9`}
+                onClick={() => set_active_tab("add_to_playlist")}
+              >
+                Add to Playlist
+              </button>
+              <button
+                className={`${
+                  active_tab === "create_a_playlist" ? active_style : hover
+                } mr-9`}
+                onClick={() => set_active_tab("create_a_playlist")}
+              >
+                Create a playlist
+              </button>
+            </div>
+            {/* content */}
+            <div className="mx-9">
+              {/* add_to_playlist */}
+              <div
+                className={
+                  active_tab === "add_to_playlist" ? "block" : "hidden"
+                }
+              >
+                <div className="mt-5">
+                  {playlistList.map((item, index) => {
+                    return <PlaylistPopupItem key={index} playlist={item} />;
+                  })}
+                </div>
+              </div>
+
+              {/* create playlist */}
+              <div
+                className={
+                  active_tab === "create_a_playlist" ? "block" : "hidden"
+                }
+              >
+                <div className="pt-5 w-full">
+                  {/* title playlist */}
+                  <div>
+                    Title <span className="text-red-500">*</span>
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    className="outline-1 outline-gray-400 outline rounded-sm w-full px-2 py-1"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <div className="pt-3">
+                    <span className="pr-4">Privacy:</span>
+                    <input type="radio" name="privacy" value="public" />
+                    <label className="pl-1 pr-1" htmlFor="privacy">
+                      Public
+                    </label>
+                    <input type="radio" name="privacy" value="private" />
+                    <label className="pl-1" htmlFor="privacy">
+                      Private
+                    </label>
+
+                    <button
+                      className="primary-button block ml-auto"
+                      onClick={uploadPlaylist}
+                    >
+                      {" "}
+                      {loading ? (
+                        <img src={loadingimage} alt="" width={15} height={15} />
+                      ) : (
+                        "Save"
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* create playlist */}
-          <div
-            className={active_tab === "create_a_playlist" ? "block" : "hidden"}
-          >
-            <div className="pt-5 w-full">
-              {/* title playlist */}
-              <div>
-                Title <span className="text-red-500">*</span>
-              </div>
-              <input
-                type="text"
-                required
-                className="outline-1 outline-gray-400 outline rounded-sm w-full px-2 py-1"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <div className="pt-3">
-                <span className="pr-4">Privacy:</span>
-                <input type="radio" name="privacy" value="public" />
-                <label className="pl-1 pr-1" htmlFor="privacy">
-                  Public
-                </label>
-                <input type="radio" name="privacy" value="private" />
-                <label className="pl-1" htmlFor="privacy">
-                  Private
-                </label>
-
-                <button
-                  className="primary-button block ml-auto"
-                  onClick={uploadPlaylist}
-                >
-                  {" "}
-                  {loading ? (
-                    <img src={loadingimage} alt="" width={15} height={15} />
-                  ) : (
-                    "Save"
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </CustomModal>
+        </CustomModal>
+      )}
+    </>
   );
 };
 
 const PlaylistPopupItem = ({ playlist }) => {
-  const trackId = useSelector((state) => state.modalPlaylistReducer).track.id;
+  const trackId = useSelector((state) => state.modalReducer.playlist.track.id
+  );
   async function addToPlaylist() {
     try {
       const response = await fetch(
@@ -146,7 +159,7 @@ const PlaylistPopupItem = ({ playlist }) => {
       );
 
       if (response.status === 200) {
-        alert("Upload success");
+        alert("Upload success");  
       } else {
         alert("Something went wrong");
       }
@@ -175,4 +188,4 @@ const PlaylistPopupItem = ({ playlist }) => {
   );
 };
 
-export default PlaylistPopup;
+export default PlaylistModal;

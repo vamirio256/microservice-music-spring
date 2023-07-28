@@ -3,16 +3,18 @@ import { BsHeartFill, BsHeart } from "react-icons/bs";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
 
-const Favorite = ({ trackId, className }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
+const Favorite = ({ track, className }) => {
+  const [isFavorite, setIsFavorite] = useState(
+    track ? track.favorite : false
+  );
+  
   const handleAddFavorite = () => {
-    addFavorite(trackId);
+    addFavorite(track.id);
     setIsFavorite(true);
   };
 
   const handleRemoveFavorite = () => {
-    removeFavorite(trackId);
+    removeFavorite(track.id);
     setIsFavorite(false);
   };
 

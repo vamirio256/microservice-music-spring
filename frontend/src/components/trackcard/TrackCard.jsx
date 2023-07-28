@@ -8,6 +8,7 @@ import Favorite from "../buttons/Favorite";
 import PlaylistPopup from "../modals/PlaylistModal";
 import { Link } from "react-router-dom";
 import UserHoverBar from "./UserHoverBar";
+import PlaylistModal from "../modals/PlaylistModal";
 
 const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
@@ -41,9 +42,11 @@ const TrackCard = ({ className, track }) => {
       }
     }
   };
+
   function openPlaylistModel() {
     dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
   }
+
   useEffect(() => {
     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
       setIsPlaying(false);
@@ -91,19 +94,19 @@ const TrackCard = ({ className, track }) => {
 
                 {/* <FaPlay className="text-white" /> */}
               </a>
+              {/* Favorite button */}
+              <Favorite
+                track={track}
+                className="absolute right-7 bottom-2 text-white"
+              />
+              {/* add to playlist button */}
+
+              <MdPlaylistAdd
+                className="absolute right-2 bottom-2 text-white"
+                onClick={openPlaylistModel}
+              />
             </div>
           </div>
-          {/* Favorite button */}
-          <Favorite
-            trackId={track.id}
-            className="absolute right-7 bottom-2 text-white"
-          />
-          {/* add to playlist button */}
-
-          <MdPlaylistAdd
-            className="absolute right-2 bottom-2 text-white"
-            onClick={openPlaylistModel}
-          />
         </div>
       </div>
       {/* track title */}
@@ -116,13 +119,12 @@ const TrackCard = ({ className, track }) => {
         {track.name}
       </Link>
       {/* track artist*/}
-      <Link 
+      <Link
         to={`/user/${track.user.id}`}
-      className={`text-xs font-extralight text-gray-400 truncate`}>
+        className={`text-xs font-extralight text-gray-400 truncate`}
+      >
         <UserHoverBar user={track.user} />
       </Link>
-      {/* modal */}
-      <PlaylistPopup track={track} />
     </div>
   );
 };

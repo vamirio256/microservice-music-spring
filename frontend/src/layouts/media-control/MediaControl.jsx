@@ -252,7 +252,7 @@ const MediaControl = () => {
 
           {/* favorite, queue */}
           <div className="flex flex-row item-center justify-center">
-            <Favorite trackId={currentSong.id} />
+            <Favorite track={currentSong} />
             <BiSolidPlaylist
               size={15}
               className="ml-2 cursor-pointer"

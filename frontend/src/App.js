@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./components/modals/LoginModal";
 import HomePage from "./pages/home-page/HomePage";
 
 import { useEffect, useState } from "react";
@@ -14,6 +13,8 @@ import NotificationBar from "./components/modals/NotificationBar";
 import { useDispatch } from "react-redux";
 import { validateToken } from "./apis/auth/validateToken";
 import TrackPage from "./pages/track-page/TrackPage";
+import LoginModal from "./components/modals/LoginModal";
+import PlaylistModal from "./components/modals/PlaylistModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,11 +73,13 @@ function App() {
                 <Route path="/upload" element={<UploadPage />} />
                 <Route path="/user/:userId/*" element={<UserPage />} />
                 <Route path="/track/:trackId" element={<TrackPage />} />
+                <Route path="/login" element={<LoginModal />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </div>
           </div>
           <NotificationBar />
+          <PlaylistModal />
           <MediaControl />
         </>
       )}

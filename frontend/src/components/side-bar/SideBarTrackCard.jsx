@@ -83,7 +83,7 @@ export const SideBarTrackCard = ({ track }) => {
         <div className="flex text-xs">
           <BsPlayFill size={15} color="gray" />
           <div>{track.listenedTime}</div>
-          <Favorite track={track.id} className="relative top-1 mx-2" />
+          <Favorite track={track} className="relative top-1 mx-2" />
           <div>0</div>
         </div>
       </div>

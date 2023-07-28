@@ -126,9 +126,9 @@ const TrackPage = () => {
                     className="w-[120px] h-[120px] rounded-full"
                   />
                   <h3 className="text-sm mb-2 mt-2">{track.user.username}</h3>
-                  
+
                   {/* follow button */}
-                  <Follow />
+                  <Follow user={track.user} />
                 </div>
 
                 <div className="w-full">
