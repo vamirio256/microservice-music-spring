@@ -14,6 +14,7 @@ import NotificationBar from "./components/modals/NotificationBar";
 import { useDispatch } from "react-redux";
 import { validateToken } from "./apis/auth/validateToken";
 import TrackPage from "./pages/track-page/TrackPage";
+import PlaylistPopup from "./components/modals/PlaylistModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -78,6 +79,7 @@ function App() {
           </div>
           <NotificationBar />
           <MediaControl />
+          <PlaylistPopup />
         </>
       )}
     </div>

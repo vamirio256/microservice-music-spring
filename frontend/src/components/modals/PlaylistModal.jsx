@@ -4,8 +4,9 @@ import CustomModal from "./CustomModal";
 import loadingimage from "../../assets/images/loading-gif.gif";
 import { createPlaylist } from "../../apis/playlist/createPlaylist";
 
-const PlaylistPopup = ({ track }) => {
+const PlaylistPopup = () => {
   const modalIsOpen = useSelector((state) => state.modalReducer.playlist);
+  const track = useSelector((state) => state.trackOnclickReducer);
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
 
@@ -78,7 +79,13 @@ const PlaylistPopup = ({ track }) => {
           >
             <div className="mt-5">
               {playlistList.map((item, index) => {
-                return <PlaylistPopupItem key={index} playlist={item} />;
+                return (
+                  <PlaylistPopupItem
+                    key={index}
+                    playlist={item}
+                    trackId={track.id}
+                  />
+                );
               })}
             </div>
           </div>
@@ -130,8 +137,7 @@ const PlaylistPopup = ({ track }) => {
   );
 };
 
-const PlaylistPopupItem = ({ playlist }) => {
-  const trackId = useSelector((state) => state.modalPlaylistReducer).track.id;
+const PlaylistPopupItem = ({ playlist, trackId }) => {
   async function addToPlaylist() {
     try {
       const response = await fetch(

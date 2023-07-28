@@ -42,7 +42,8 @@ const TrackCard = ({ className, track }) => {
     }
   };
   function openPlaylistModel() {
-    dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
+    dispatch({ type: "OPEN_MODAL_PLAYLIST" });
+    dispatch({ type: "SET_TRACK_ONCLICK", track: track });
   }
   useEffect(() => {
     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
@@ -116,13 +117,13 @@ const TrackCard = ({ className, track }) => {
         {track.name}
       </Link>
       {/* track artist*/}
-      <Link 
+      <Link
         to={`/user/${track.user.id}`}
-      className={`text-xs font-extralight text-gray-400 truncate`}>
+        className={`text-xs font-extralight text-gray-400 truncate`}
+      >
         <UserHoverBar user={track.user} />
       </Link>
       {/* modal */}
-      <PlaylistPopup track={track} />
     </div>
   );
 };
