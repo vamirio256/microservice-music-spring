@@ -4,30 +4,27 @@ import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.track.dto.TrackDTO;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.entities.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface TrackService {
-    TrackDTO uploadTrack(Track track, MultipartFile cover, MultipartFile audio);
+    TrackDTO uploadTrack(User user, Track track, MultipartFile cover, MultipartFile audio);
 
-    byte[] getTrackCover(Integer trackId);
-    void deleteTrack(int trackId);
+    Track updateTrack(User user, Track track, MultipartFile cover, MultipartFile audio);
+    void deleteTrack(User user, int id);
 
-    byte[] streamTrackAudio(Integer id);
+    TrackDTO getTrack(User user, int id);
 
-    Track updateTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio, MultipartFile waveform);
-
-    TrackDTO getTrack(int id);
-
-    List<TrackDTO> search(String query);
+    List<TrackDTO> search(User user, String query);
 
     void increaseListenedTime(int trackId);
 
-    PlaylistDTO getLatestTracks();
+    PlaylistDTO getLatestTracks(User user);
 
-    PlaylistDTO getPopularTracks();
+    PlaylistDTO getPopularTracks(User user);
 
-    void postComment(int trackid, String context);
-    void deleteComment(int commentId);
+    void postComment(User user, int trackid, String context);
+    void deleteComment(User user, int commentId);
 }

@@ -2,7 +2,6 @@ package com.zyan.backend.playlist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zyan.backend.track.entities.Track;
-import com.zyan.backend.track.dto.TrackDTO;
 import com.zyan.backend.user.entities.Profile;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,15 +38,17 @@ public class Playlist {
     @JsonIgnoreProperties("playlists")
     private Profile profile;
 
-    public PlaylistDTO mapPlaylistToPlaylistDTO(){
-        List<TrackDTO> trackDTOs = getTracks() != null
-                ? getTracks().stream().map(Track::mapTrackToTrackDTO).collect(Collectors.toList())
-                : Collections.emptyList();
+    public PlaylistDTO mapPlaylistToPlaylistDTO(int profileId) {
 
         return PlaylistDTO.builder()
                 .id(getId())
                 .name(getName())
-                .tracks(trackDTOs)
+                .tracks(getTracks() != null
+                        ? getTracks()
+                        .stream()
+                        .map(track -> track.mapTrackToTrackSummaryDTO(profileId))
+                        .collect(Collectors.toList())
+                        : Collections.emptyList())
                 .createdAt(getCreatedAt())
                 .build();
     }

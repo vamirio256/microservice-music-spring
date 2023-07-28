@@ -4,9 +4,12 @@ import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.track.dto.TrackDTO;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.entities.User;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,84 +27,74 @@ public class TrackController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TrackDTO> getTrack(@PathVariable("id") int id) {
-        return ResponseEntity.ok(trackService.getTrack(id));
-    }
-
-    @GetMapping(value = "/cover/{id}")
-    public ResponseEntity<byte[]> getTrackCover(@PathVariable("id") int id) {
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(trackService.getTrackCover(id));
-    }
-
-    @GetMapping(value = "/audio/{id}")
-    public ResponseEntity<byte[]> streamTrackAudio(@PathVariable("id") int id) {
-        byte[] audio = trackService.streamTrackAudio(id);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(audio.length)
-                .body(audio);
+    public ResponseEntity<TrackDTO> getTrack(@AuthenticationPrincipal User user, @PathVariable("id") int id) {
+        return ResponseEntity.ok(trackService.getTrack(user, id));
     }
 
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<TrackDTO> uploadTrack(
+            @AuthenticationPrincipal User user,
             @RequestPart("track") Track track,
             @RequestPart("cover") MultipartFile cover,
             @RequestPart("audio") MultipartFile audio) {
-        return ResponseEntity.ok(trackService.uploadTrack(track, cover, audio));
+        return ResponseEntity.ok(trackService.uploadTrack(user, track, cover, audio));
     }
 
     @PutMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity<Track> updateTrack(@RequestPart("user") UserDTO userDTO,
+    public ResponseEntity<Track> updateTrack(@AuthenticationPrincipal User user,
                                              @RequestPart("track") Track track,
                                              @RequestPart("cover") MultipartFile cover,
-                                             @RequestPart("audio") MultipartFile audio,
-                                             @RequestPart("waveform") MultipartFile waveform) {
-        return ResponseEntity.ok(trackService.updateTrack(userDTO, track, cover, audio, waveform));
+                                             @RequestPart("audio") MultipartFile audio) {
+        return ResponseEntity.ok(trackService.updateTrack(user, track, cover, audio));
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<String> deleteTrack(@PathVariable("id") int id) {
-        trackService.deleteTrack(id);
+    public ResponseEntity<String> deleteTrack(@AuthenticationPrincipal User user,
+                                              @PathVariable("id") int id) {
+        trackService.deleteTrack(user, id);
         return ResponseEntity.ok("Successfully deleted track with id [%s]".formatted(id));
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<TrackDTO>> search(@RequestParam("query") String query) {
-        return ResponseEntity.ok(trackService.search(query));
+    public ResponseEntity<List<TrackDTO>> search(
+            @AuthenticationPrincipal User user,
+            @RequestParam("query") String query) {
+        return ResponseEntity.ok(trackService.search(user, query));
     }
 
     @PostMapping(value = "/{trackId}/increase-listened-time")
-    public void increasedListenedTime(@PathVariable("trackId") int trackId) {
+    public void increasedListenedTime(
+            @PathVariable("trackId") int trackId) {
         trackService.increaseListenedTime(trackId);
     }
 
     @GetMapping(value = "/latest")
-    public ResponseEntity<PlaylistDTO> getLatestTracks() {
-        return ResponseEntity.ok(trackService.getLatestTracks());
+    public ResponseEntity<PlaylistDTO> getLatestTracks(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(trackService.getLatestTracks(user));
     }
 
     @GetMapping(value = "/popular")
-    public ResponseEntity<PlaylistDTO> getPopularTracks() {
-        return ResponseEntity.ok(trackService.getPopularTracks());
+    public ResponseEntity<PlaylistDTO> getPopularTracks(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(trackService.getPopularTracks(user));
     }
 
     @PostMapping(value = "/{trackId}/comments")
     public ResponseEntity<String> postComment(
+            @AuthenticationPrincipal User user,
             @PathVariable int trackId,
             @RequestParam("context") String context) {
-        trackService.postComment(trackId, context);
+        trackService.postComment(user, trackId, context);
         return ResponseEntity.ok("Post comment succesfully");
     }
 
     @DeleteMapping(value = "/comments/{commentId}")
     public ResponseEntity<String> deleteComment(
+            @AuthenticationPrincipal User user,
             @PathVariable int commentId) {
-        trackService.deleteComment(commentId);
+        trackService.deleteComment(user, commentId);
         return ResponseEntity.status(HttpStatusCode.valueOf(204)).body("Deleted comment succesfully");
     }
 }

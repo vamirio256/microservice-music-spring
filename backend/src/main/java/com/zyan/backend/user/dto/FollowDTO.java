@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class FollowDTO {
-    private int id;
     private LocalDateTime addedAt;
     private UserSummaryDTO user;
 }

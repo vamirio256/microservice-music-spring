@@ -10,12 +10,12 @@ import com.zyan.backend.track.entities.Comment;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.track.repository.CommentRepository;
 import com.zyan.backend.track.repository.TrackRepository;
-import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -53,19 +53,14 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public TrackDTO uploadTrack(Track track, MultipartFile cover, MultipartFile audio) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    public TrackDTO uploadTrack(User user, Track track, MultipartFile cover, MultipartFile audio) {
+        String email = user.getEmail();
 
         if (email.isEmpty()) {
             throw new UnauthenticatedUserException("Unauthenticated user");
         }
 
-        log.info("email: {}", email);
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("user with email '%s' not found".formatted(email)));
-
-//        if (userDetailsService.loadUserByUsername(user.getEmail()) != null)
-//            throw new ResourceNotFoundException("user with email '%s' not found".formatted(user.getEmail()));
+        Profile profile = userRepository.findByEmail(email).get().getProfile();
 
         String trackCoverId = "track-covers/%s".formatted(UUID.randomUUID().toString());
         String trackAudioId = "track-audio/%s".formatted(UUID.randomUUID().toString());
@@ -89,28 +84,16 @@ public class TrackServiceImpl implements TrackService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        track.setProfile(user.getProfile());
+        track.setProfile(profile);
         track.setAudioUrl(awsDomain + trackAudioId);
         track.setCoverUrl(awsDomain + trackCoverId);
         track.setUpdatedAt(LocalDateTime.now());
         track.setCreatedAt(LocalDateTime.now());
-        return trackRepository.save(track).mapTrackToTrackDTO();
+        return trackRepository.save(track).mapTrackToTrackDTO(user.getProfile().getId());
     }
 
     @Override
-    @Transactional
-    public byte[] getTrackCover(Integer trackId) {
-        var track = trackRepository.findById(trackId)
-                .orElseThrow(() -> new ResourceNotFoundException("track with id [%s] not found".formatted(trackId)));
-
-        return s3Service.getObject(
-                s3Bucket.getCustomer(),
-                track.getCoverUrl()
-        );
-    }
-
-    @Override
-    public void deleteTrack(int trackId) {
+    public void deleteTrack(User user, int trackId) {
         var track = trackRepository.findById(trackId)
                 .orElseThrow(() -> new ResourceNotFoundException("track with id [%s] not found".formatted(trackId)));
 
@@ -126,25 +109,14 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public byte[] streamTrackAudio(Integer id) {
-        var track = trackRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("track with id [%s] not found".formatted(id)));
-
-        return s3Service.getObject(
-                s3Bucket.getCustomer(),
-                track.getAudioUrl()
-        );
-    }
-
-    @Override
     @Transactional
-    public Track updateTrack(UserDTO userDTO, Track track, MultipartFile cover, MultipartFile audio, MultipartFile waveform) {
-
-        if (userDetailsService.loadUserByUsername(userDTO.getEmail()) != null)
-            throw new ResourceNotFoundException("user with email %s not found".formatted(userDTO.getEmail()));
-
+    public Track updateTrack(User user, Track track, MultipartFile cover, MultipartFile audio) {
         Track updatedTrack = trackRepository.findById(track.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(track.getId())));
+
+        if (updatedTrack.getProfile().getId() != user.getId()) {
+            throw new BadCredentialsException("not being updated by original user");
+        }
 
         updatedTrack.setName(track.getName());
         updatedTrack.setUpdatedAt(LocalDateTime.now());
@@ -153,17 +125,17 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public TrackDTO getTrack(int id) {
+    public TrackDTO getTrack(User user, int id) {
         Track track = trackRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("track with id '%s' not found".formatted(id)));
-        return track.mapTrackToTrackDTO();
+        return track.mapTrackToTrackDTO(user.getId());
     }
 
     @Override
-    public List<TrackDTO> search(String query) {
+    public List<TrackDTO> search(User user, String query) {
         return trackRepository.findByNameContainingIgnoreCase(query)
                 .stream()
-                .map(Track::mapTrackToTrackDTO)
+                .map(track -> track.mapTrackToTrackDTO(user.getId()))
                 .collect(Collectors.toList());
     }
 
@@ -176,31 +148,29 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public PlaylistDTO getLatestTracks() {
-        List<TrackDTO> tracks = trackRepository.findLatestTracks()
-                .stream()
-                .map(Track::mapTrackToTrackDTO)
-                .collect(Collectors.toList());
+    public PlaylistDTO getLatestTracks(User user) {
         return PlaylistDTO.builder()
                 .name("Latest Tracks")
-                .tracks(tracks)
+                .tracks(trackRepository.findLatestTracks()
+                        .stream()
+                        .map(track -> track.mapTrackToTrackSummaryDTO(user.getId()))
+                        .collect(Collectors.toList()))
                 .build();
     }
 
     @Override
-    public PlaylistDTO getPopularTracks() {
-        List<TrackDTO> tracks = trackRepository.findPopularTracks()
-                .stream()
-                .map(Track::mapTrackToTrackDTO)
-                .collect(Collectors.toList());
+    public PlaylistDTO getPopularTracks(User user) {
         return PlaylistDTO.builder()
                 .name("Popular Tracks")
-                .tracks(tracks)
+                .tracks(trackRepository.findLatestTracks()
+                        .stream()
+                        .map(track -> track.mapTrackToTrackSummaryDTO(user.getId()))
+                        .collect(Collectors.toList()))
                 .build();
     }
 
     @Override
-    public void postComment(int trackId, String context) {
+    public void postComment(User user, int trackId, String context) {
         Profile profile = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getProfile();
 
         Track track = trackRepository.findById(trackId)
@@ -216,7 +186,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void deleteComment(int commentId) {
+    public void deleteComment(User user, int commentId) {
         commentRepository.deleteById(commentId);
     }
 }

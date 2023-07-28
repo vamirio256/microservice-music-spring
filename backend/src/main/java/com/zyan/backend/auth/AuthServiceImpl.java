@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
         var jwtToken = jwtUtils.generateToken(user);
         return AuthResponseDTO.builder()
-                .user(user.mapUserToUserDTO())
+                .user(user.mapUserToUserDTO(user.getProfile().getId()))
                 .jwtToken(jwtToken)
                 .build();
     }
@@ -77,10 +77,10 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         user.setProfile(profile);
         userRepository.save(user);
-        profileRepository.save(profile);
+        Profile savedProfile = profileRepository.save(profile);
         var jwtToken = jwtUtils.generateToken(user);
         return AuthResponseDTO.builder()
-                .user(user.mapUserToUserDTO())
+                .user(user.mapUserToUserDTO(savedProfile.getId()))
                 .jwtToken(jwtToken)
                 .build();
     }

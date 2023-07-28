@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class FavoriteTrackId implements Serializable {
+public class FavoriteId implements Serializable {
     @Column(name = "track_id")
     private int trackId;
     @Column(name = "profile_id")

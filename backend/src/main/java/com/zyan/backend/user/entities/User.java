@@ -2,8 +2,8 @@ package com.zyan.backend.user.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.UserRole;
+import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.dto.UserSummaryDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,34 +43,48 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("user")
     private Profile profile;
 
-    public UserDTO mapUserToUserDTO(){
+    public UserDTO mapUserToUserDTO(int profileId) {
+        boolean isFollowing = getProfile().getFollowed()
+                .stream()
+                .anyMatch(followed -> followed.getId().getFollowedId() == profileId);
+
         return UserDTO.builder()
                 .id(id)
                 .username(username)
                 .avatarUrl(getAvatarUrl())
                 .email(email)
                 .roles(role)
-                .profile(getProfile().mapProfileToProfileDTO())
+                .isFollowing(isFollowing)
+                .profile(getProfile().mapProfileToProfileDTO(profileId))
                 .build();
     }
 
-    public UserSummaryDTO mapUserToUserSummaryDTO(){
+    public UserSummaryDTO mapUserToUserSummaryDTO(int profileId) {
+        boolean isFollowing = getProfile().getFollowed()
+                .stream()
+                .anyMatch(followed -> followed.getId().getFollowedId() == profileId);
+
         return UserSummaryDTO.builder()
                 .id(id)
                 .username(username)
                 .email(email)
                 .avatarUrl(avatarUrl)
+                .isFollowing(isFollowing)
                 .build();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                // Exclude circular reference to Profile in toString()
-                '}';
+    public UserSummaryDTO mapUserToUserSummaryDTO() {
+        boolean isFollowing = getProfile().getFollowed()
+                .stream()
+                .anyMatch(followed -> followed.getId().getFollowedId() == getProfile().getId());
+
+        return UserSummaryDTO.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .avatarUrl(avatarUrl)
+                .isFollowing(isFollowing)
+                .build();
     }
 
     @Override

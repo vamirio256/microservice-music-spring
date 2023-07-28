@@ -2,11 +2,13 @@ package com.zyan.backend.track.entities;
 
 import com.zyan.backend.track.dto.CommentDTO;
 import com.zyan.backend.user.entities.Profile;
+import com.zyan.backend.user.entities.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +34,8 @@ public class Comment {
     private LocalDateTime addedAt;
 
     public CommentDTO mapCommentToCommentDTO() {
+        int profileId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getProfile().getId();
+
         return CommentDTO.builder()
                 .id(getId())
                 .addedAt(getAddedAt())

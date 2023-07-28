@@ -1,7 +1,8 @@
 package com.zyan.backend.user.entities;
 
-import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import com.zyan.backend.track.entities.Track;
+import com.zyan.backend.user.dto.FavoriteDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +17,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Table(name = "favorites")
-public class FavoriteTrack {
+public class Favorite {
 
     @EmbeddedId
-    private FavoriteTrackId id;
+    private FavoriteId id;
 
     @ManyToOne
     @MapsId("trackId")
@@ -33,8 +34,11 @@ public class FavoriteTrack {
 
     private LocalDateTime addedAt;
 
-    public TrackDTO mapFavoriteTrackToTrackDTO(){
-        return getTrack().mapTrackToTrackDTO();
+    public FavoriteDTO mapFavoriteToFavoriteDTO(int profileId){
+        return FavoriteDTO.builder()
+                .addedAt(getAddedAt())
+                .track(getTrack().mapTrackToTrackSummaryDTO(profileId))
+                .build();
     }
 }
 

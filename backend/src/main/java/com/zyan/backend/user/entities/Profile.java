@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,29 +45,23 @@ public class Profile {
     private List<Follow> following;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FavoriteTrack> favoriteTracks;
+    private List<Favorite> favorites;
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "id=" + id +
-                // Exclude circular reference to User in toString()
-                '}';
-    }
-
-    public ProfileDTO mapProfileToProfileDTO() {
+    public ProfileDTO mapProfileToProfileDTO(int profileId) {
         return ProfileDTO.builder()
                 .tracks(getTracks().stream()
-                        .map(Track::mapTrackToTrackDTO)
+                        .map(track -> track.mapTrackToTrackSummaryDTO(getId()))
                         .collect(Collectors.toList()))
                 .playlists(getPlaylists().stream()
-                        .map(Playlist::mapPlaylistToPlaylistDTO)
+                        .map(playlist -> playlist.mapPlaylistToPlaylistDTO(profileId))
                         .collect(Collectors.toList()))
-                .follow(getFollowing().stream()
+                .follows(getFollowing().stream()
                         .map(Follow::mapFollowToFollowDTO)
                         .collect(Collectors.toList()))
-                .favoriteTracks(getFavoriteTracks().stream()
-                        .map(FavoriteTrack::mapFavoriteTrackToTrackDTO)
+                .favorites(getFavorites()
+                        .stream()
+                        .sorted(Comparator.comparing(Favorite::getAddedAt).reversed())
+                        .map(favorite -> favorite.mapFavoriteToFavoriteDTO(profileId))
                         .collect(Collectors.toList()))
                 .build();
     }

@@ -28,13 +28,12 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     @Transactional
-    public PlaylistDTO getPlaylist(int id) {
-
+    public PlaylistDTO getPlaylist(User user, int id) {
         Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Playlist with id [%s] not found".formatted(id)));
 
-        return playlist.mapPlaylistToPlaylistDTO();
+        return playlist.mapPlaylistToPlaylistDTO(user.getId());
     }
 
     @Override
@@ -49,17 +48,19 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO();
+        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO(profile.getId());
     }
 
     @Override
     public PlaylistDTO updatePlaylist(PlaylistDTO playlistDTO) {
+        int profileId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getProfile().getId();
+
         Playlist updatePlaylist = playlistRepository.findById(playlistDTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist with id '%s' not found".formatted(playlistDTO.getId())));
 
         updatePlaylist.setName(playlistDTO.getName());
         updatePlaylist.setPublic(playlistDTO.isPublic());
-        return playlistRepository.save(updatePlaylist).mapPlaylistToPlaylistDTO();
+        return playlistRepository.save(updatePlaylist).mapPlaylistToPlaylistDTO(profileId);
     }
 
     @Override
@@ -69,7 +70,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     @Transactional
-    public PlaylistDTO addTrackToPlaylist(int trackId, int playlistId) {
+    public PlaylistDTO addTrackToPlaylist(User user, int trackId, int playlistId) {
+
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist with id '%s' not found".formatted(playlistId)));
         Track track = trackRepository.findById(trackId)
@@ -79,7 +81,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlist.getTracks().add(track);
 
         trackRepository.save(track);
-        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO();
+        return playlistRepository.save(playlist).mapPlaylistToPlaylistDTO(user.getId());
     }
 
     @Override
@@ -96,6 +98,6 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .build();
         int id = playlistRepository.save(playlist).getId();
 
-        return addTrackToPlaylist(id, trackDTO.getId());
+        return addTrackToPlaylist(user, id, trackDTO.getId());
     }
 }

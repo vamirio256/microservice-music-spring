@@ -1,12 +1,18 @@
 package com.zyan.backend.user;
 
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.dto.UserSummaryDTO;
+import com.zyan.backend.user.entities.Favorite;
+import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.services.UserService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -43,6 +49,13 @@ public class UserController {
         return ResponseEntity.ok("Unfollowed successfully user with id '%s'".formatted(followedId));
     }
 
+    @GetMapping("/recommend")
+    public ResponseEntity<List<UserSummaryDTO>> recommendUsers(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(userService.recommendUsers(user));
+    }
+
     @PostMapping("/favorite/{trackId}")
     public ResponseEntity<String> addFavoriteTrack(
             @PathVariable int trackId) {
@@ -57,11 +70,11 @@ public class UserController {
         userService.removeFavoriteTrack(trackId);
         return ResponseEntity.status(HttpStatusCode.valueOf(204)).body("Deleted successfully track with id '%s' from favorite".formatted(trackId));
     }
-//    @PostMapping("/comment/{trackId}")
-//    public ResponseEntity<String> commentToTrack(
-//            @PathVariable int trackId
-//    ){
-//        userService.commentToTrack(trackId);
-//        return ResponseEntity.ok("")
-//    }
+
+    @GetMapping("/favorite")
+    public ResponseEntity<List<Favorite>> getFavoriteTracks(
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(userService.getFavoriteTracks(user));
+    }
 }

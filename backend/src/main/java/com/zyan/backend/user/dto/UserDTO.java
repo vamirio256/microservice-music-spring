@@ -17,4 +17,5 @@ public class UserDTO {
     private String avatarUrl;
     private UserRole roles;
     private ProfileDTO profile;
+    private boolean isFollowing;
 }

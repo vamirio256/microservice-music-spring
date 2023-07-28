@@ -1,6 +1,7 @@
 package com.zyan.backend.playlist;
 
 import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +20,5 @@ public class PlaylistDTO {
     private String coverUrl;
     private boolean isPublic;
     private LocalDateTime createdAt;
-    private List<TrackDTO> tracks;
+    private List<TrackSummaryDTO> tracks;
 }

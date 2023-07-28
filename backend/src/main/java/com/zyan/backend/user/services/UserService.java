@@ -2,9 +2,12 @@ package com.zyan.backend.user.services;
 
 import com.zyan.backend.auth.RegisterRequestDTO;
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.dto.UserSummaryDTO;
+import com.zyan.backend.user.entities.Favorite;
 import com.zyan.backend.user.entities.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -24,4 +27,8 @@ public interface UserService {
     void removeFavoriteTrack(int trackId);
 
     UserDTO updateUserAvatar(MultipartFile avatar);
+
+    List<UserSummaryDTO> recommendUsers(User user);
+
+    List<Favorite> getFavoriteTracks(User user);
 }

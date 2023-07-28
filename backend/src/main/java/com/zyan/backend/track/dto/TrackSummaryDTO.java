@@ -6,13 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class TrackDTO {
+public class TrackSummaryDTO {
     private int id;
     private String name;
     private String coverUrl;
@@ -20,5 +18,4 @@ public class TrackDTO {
     private int listenedTime;
     private UserSummaryDTO user;
     private boolean favorite;
-    private List<CommentDTO> comments;
 }

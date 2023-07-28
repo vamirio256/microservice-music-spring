@@ -4,7 +4,8 @@ package com.zyan.backend.track.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zyan.backend.playlist.Playlist;
 import com.zyan.backend.track.dto.TrackDTO;
-import com.zyan.backend.user.entities.FavoriteTrack;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
+import com.zyan.backend.user.entities.Favorite;
 import com.zyan.backend.user.entities.Profile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -49,22 +50,39 @@ public class Track {
     private Profile profile;
 
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FavoriteTrack> isFavorited;
+    private List<Favorite> isFavorited;
 
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> isCommented;
 
-    public TrackDTO mapTrackToTrackDTO() {
+    public TrackDTO mapTrackToTrackDTO(int profileId) {
+        boolean isFavorited = getIsFavorited().stream().anyMatch(favorite -> favorite.getId().getProfileId() == profileId);
+
         return TrackDTO.builder()
                 .id(getId())
                 .name(getName())
                 .audioUrl(getAudioUrl())
                 .coverUrl(getCoverUrl())
                 .listenedTime(getListenedTime())
-                .user(profile.getUser().mapUserToUserSummaryDTO())
+                .user(profile.getUser().mapUserToUserSummaryDTO(profileId))
+                .favorite(isFavorited)
                 .comments(getIsCommented().stream()
                         .map(Comment::mapCommentToCommentDTO)
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    public TrackSummaryDTO mapTrackToTrackSummaryDTO(int profileId) {
+        boolean isFavorited = getIsFavorited().stream().anyMatch(favorite -> favorite.getId().getProfileId() == profileId);
+
+        return TrackSummaryDTO.builder()
+                .id(getId())
+                .name(getName())
+                .audioUrl(getAudioUrl())
+                .coverUrl(getCoverUrl())
+                .listenedTime(getListenedTime())
+                .user(profile.getUser().mapUserToUserSummaryDTO(profileId))
+                .favorite(isFavorited)
                 .build();
     }
 }

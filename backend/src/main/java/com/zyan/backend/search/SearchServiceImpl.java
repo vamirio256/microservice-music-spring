@@ -42,7 +42,7 @@ public class SearchServiceImpl implements SearchService {
                 playlistRepository.findByNameContainingIgnoreCase(query), executor);
         return CompletableFuture.allOf(tracksFuture, usersFuture, playlistFuture)
                 .thenApply(Void -> SearchResponseDTO.builder()
-                        .users(usersFuture.join().stream().map(User::mapUserToUserDTO).collect(Collectors.toList()))
+                        .users(usersFuture.join().stream().map(user -> user.mapUserToUserDTO(user.getProfile().getId())).collect(Collectors.toList()))
                         .tracks(tracksFuture.join())
                         .playlists(playlistFuture.join())
                         .build());

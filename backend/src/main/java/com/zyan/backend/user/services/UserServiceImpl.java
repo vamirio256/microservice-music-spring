@@ -9,6 +9,7 @@ import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.track.repository.TrackRepository;
 import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.dto.UserDTO;
+import com.zyan.backend.user.dto.UserSummaryDTO;
 import com.zyan.backend.user.entities.*;
 import com.zyan.backend.user.repositories.FavoriteTrackRepository;
 import com.zyan.backend.user.repositories.FollowRepository;
@@ -17,17 +18,17 @@ import com.zyan.backend.user.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 .password(new BCryptPasswordEncoder().encode(request.getPassword()))
                 .build();
         log.info(user.toString());
-        return userRepository.save(user).mapUserToUserDTO();
+        return userRepository.save(user).mapUserToUserDTO(user.getProfile().getId());
     }
 
     @Override
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findById(int userId) {
         User user = userRepository.findById(userId);
-        return user.mapUserToUserDTO();
+        return user.mapUserToUserDTO(user.getProfile().getId());
     }
 
     @Override
@@ -129,7 +130,6 @@ public class UserServiceImpl implements UserService {
             throw new MethodArgumentTypeMismatchException("Following and followed user can not be the same");
         }
 
-
         Profile followingProfile = user.getProfile();
         Profile followedProfile = profileRepository.findById(followedId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profile with id '%s' not found".formatted(followedId)));
@@ -155,13 +155,13 @@ public class UserServiceImpl implements UserService {
 //            throw new IllegalStateException("Track is already favorite by user");
 //        }
 
-        FavoriteTrack favoriteTrack = FavoriteTrack.builder()
-                .id(new FavoriteTrackId(trackId, profile.getId()))
+        Favorite favorite = Favorite.builder()
+                .id(new FavoriteId(trackId, profile.getId()))
                 .profile(profile)
                 .track(track)
                 .addedAt(LocalDateTime.now())
                 .build();
-        favoriteTrackRepository.save(favoriteTrack);
+        favoriteTrackRepository.save(favorite);
     }
 
     public void removeFavoriteTrack(int trackId) {
@@ -170,13 +170,13 @@ public class UserServiceImpl implements UserService {
         Track track = trackRepository.findById(trackId)
                 .orElseThrow(() -> new ResourceNotFoundException("Track with id '%s' not found.".formatted(trackId)));
 
-        FavoriteTrack favoriteTrack = FavoriteTrack.builder()
-                .id(new FavoriteTrackId(trackId, profile.getId()))
+        Favorite favorite = Favorite.builder()
+                .id(new FavoriteId(trackId, profile.getId()))
                 .profile(profile)
                 .track(track)
                 .addedAt(LocalDateTime.now())
                 .build();
-        favoriteTrackRepository.delete(favoriteTrack);
+        favoriteTrackRepository.delete(favorite);
     }
 
     @Override
@@ -199,6 +199,18 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setAvatarUrl(awsDomain + userAvatarId);
-        return userRepository.save(user).mapUserToUserDTO();
+        return userRepository.save(user).mapUserToUserDTO(user.getProfile().getId());
+    }
+
+    @Override
+    public List<UserSummaryDTO> recommendUsers(User user) {
+        return userRepository.getRandomUser(user.getId()).stream()
+                .map(User::mapUserToUserSummaryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Favorite> getFavoriteTracks(User user) {
+        return favoriteTrackRepository.findByProfileId(user.getId());
     }
 }

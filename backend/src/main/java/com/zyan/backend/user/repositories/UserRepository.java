@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findById(@Param("userId") int id);
 
     List<User> findByUsernameContainingIgnoreCase(String query);
+
+    @Query(value = "SELECT * FROM users WHERE id <> :userId ORDER BY RAND() LIMIT 3", nativeQuery = true)
+    List<User> getRandomUser(@Param("userId") int userId);
 }

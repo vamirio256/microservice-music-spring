@@ -2,6 +2,7 @@ package com.zyan.backend.user.dto;
 
 import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ProfileDTO {
-    private List<TrackDTO> tracks;
+    private List<TrackSummaryDTO> tracks;
     private List<PlaylistDTO> playlists;
-    private List<FollowDTO> follow;
-    private List<TrackDTO> favoriteTracks;
+    private List<FollowDTO> follows;
+    private List<FavoriteDTO> favorites;
 }
