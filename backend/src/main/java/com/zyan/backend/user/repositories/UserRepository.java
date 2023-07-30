@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT * FROM users WHERE id <> :userId ORDER BY RAND() LIMIT 3", nativeQuery = true)
     List<User> getRandomUser(@Param("userId") int userId);
+
+    @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
+    User findByVerificationCode(String code);
 }

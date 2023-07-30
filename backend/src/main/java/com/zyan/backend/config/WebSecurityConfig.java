@@ -19,6 +19,14 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -36,7 +44,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(Customizer.withDefaults())
+                .cors(withDefaults())
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
@@ -53,10 +61,10 @@ public class WebSecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                )
+//                .exceptionHandling((exceptions) -> exceptions
+//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                )
                 .build();
     }
 
@@ -78,12 +86,11 @@ public class WebSecurityConfig {
         return config.getAuthenticationManager();
     }
 
-
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource(){
 //        CorsConfiguration corsConfiguration = new CorsConfiguration();
 //        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-//        corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 ////        corsConfiguration.setAllowedHeaders(List.of("Authorization"));
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 //        source.registerCorsConfiguration("/**", corsConfiguration);

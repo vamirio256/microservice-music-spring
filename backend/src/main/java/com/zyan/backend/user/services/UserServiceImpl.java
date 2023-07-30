@@ -96,6 +96,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findById(int userId) {
         User user = userRepository.findById(userId);
+        if(user == null){
+            throw new ResourceNotFoundException("user with id '%s' not found".formatted(userId));
+        }
         return user.mapUserToUserDTO(user.getProfile().getId());
     }
 
@@ -183,11 +186,15 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUserAvatar(MultipartFile avatar) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userAvatarId = "user-avatars/%s".formatted(UUID.randomUUID().toString());
-
         try {
-//            String defaultAvatarPath = "./com/zyan/backend/asset/images/user_avatar.jpg";
-//            ClassPathResource avatarResource = new ClassPathResource(defaultAvatarPath);
-//            InputStream avatarInputStream = avatarResource.getInputStream();
+
+            if (!user.getAvatarUrl().equals("https://vamirio-soundcloud-clone.s3.ap-southeast-1.amazonaws.com/user-avatar/user_avatar.jpg")) {
+                String deleteUserAvatarId = "user-avatars/%s".formatted(UUID.randomUUID().toString());
+                s3Service.deleteObject(
+                        s3Bucket.getCustomer(),
+                        deleteUserAvatarId
+                );
+            }
             s3Service.putObject(
                     s3Bucket.getCustomer(),
                     userAvatarId,
@@ -197,7 +204,6 @@ public class UserServiceImpl implements UserService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         user.setAvatarUrl(awsDomain + userAvatarId);
         return userRepository.save(user).mapUserToUserDTO(user.getProfile().getId());
     }
