@@ -7,7 +7,7 @@ html,
 body:root {
   height: 100%;
   font-weight: 100;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   /* color-scheme: white; */
   /* @apply m-0 p-0; */
 }
@@ -99,4 +99,22 @@ body{
 }
 /* .animate-reduce-width {
   animation: reduceWidth 8s linear;
+} */
+
+/* .modal-appear {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal-appear-active {
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.modal-enter {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.modal-enter-active {
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
 } */

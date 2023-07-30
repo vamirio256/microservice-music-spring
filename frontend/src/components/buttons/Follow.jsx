@@ -28,7 +28,7 @@ const Follow = ({ user }) => {
         </button>
       ) : (
         <button
-          className="border-black border rounded-sm text-black px-2 py-1 text-[11px] flex flex-row items-center"
+          className="border-solid hover:border-black border rounded-sm text-black px-2 py-1 text-[11px] flex flex-row items-center"
           onClick={handleFollowUser}
         >
           <FaUserPlus />

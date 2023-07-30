@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Waveform from "../../components/Waveform";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getTrack } from "../../apis/track/getTrack";
 import TrackCard from "../../components/trackcard/TrackCard";
 import InteractButton from "../../components/InteractButton";
@@ -18,7 +18,7 @@ const TrackPage = () => {
   const [comments, setComments] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const currentSong = useSelector((state) => state.currentSongReducer);
   const queue = useSelector((state) => state.queueReducer);
 
@@ -58,7 +58,14 @@ const TrackPage = () => {
   useEffect(() => {
     const getTrackOnInitial = async () => {
       try {
-        const track = await getTrack(trackId);
+        const response = await getTrack(trackId);
+
+        if (response.status == 404) {
+          navigate("/not-found");
+          return;
+        }
+        const track = await response.json();
+
         setTrack(track);
         setComments(track.comments);
       } catch (e) {
@@ -71,7 +78,7 @@ const TrackPage = () => {
 
   return (
     <>
-      {track && (
+      {track ? (
         <div>
           <div className="w-full bg-gradient-to-tl from-[#A19793] to-[#827A60] p-5 flex flex-row justify-between items-center">
             <div className="w-full h-full flex flex-col justify-start">
@@ -146,6 +153,8 @@ const TrackPage = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <img src="../../assets/images/loading-gif.gif" />
       )}
     </>
   );

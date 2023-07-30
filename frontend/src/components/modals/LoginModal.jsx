@@ -56,7 +56,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
           <div className="h-[1px] bg-[#e5e5e5] w-full" />
         </div>
       </div>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="w-[600px]">
         <button
           type="button"
           className={`${style} text-white bg-[#3578e5]`}

@@ -10,7 +10,7 @@ import SideBarUserCard from "./SideBarUserCard";
 import { BsFillCalendarEventFill, BsFillPeopleFill } from "react-icons/bs";
 
 const SideBar = () => {
-  const historySongs = useSelector((state) => state.songHistoryReducer);
+  const historySongs = useSelector((state) => state.historyReducer);
   const [recommendUser, setRecommendUser] = useState("");
 
   useEffect(() => {

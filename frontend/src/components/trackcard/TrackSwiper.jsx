@@ -8,9 +8,11 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../../CSS/SwiperCSS.css";
 import image from "../../assets/images/temp_track_cover.jfif";
-import TrackCard from "../../components/trackcard/TrackCard";
+import TrackCard from "./TrackCard";
 
-const HorizontalTrackSwiper = ({ playlist }) => {
+const TrackSwiper = ({ playlist }) => {
+  console.log(playlist);
+
   return (
     <>
       {playlist ? (
@@ -28,9 +30,7 @@ const HorizontalTrackSwiper = ({ playlist }) => {
               <ul>
                 {playlist.tracks.map((track, index) => (
                   <SwiperSlide key={index}>
-                    <TrackCard
-                      track={track}
-                    />
+                    <TrackCard track={track} />
                   </SwiperSlide>
                 ))}
               </ul>
@@ -45,4 +45,4 @@ const HorizontalTrackSwiper = ({ playlist }) => {
   );
 };
 
-export default HorizontalTrackSwiper;
+export default TrackSwiper;

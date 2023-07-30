@@ -15,6 +15,8 @@ import { validateToken } from "./apis/auth/validateToken";
 import TrackPage from "./pages/track-page/TrackPage";
 import LoginModal from "./components/modals/LoginModal";
 import PlaylistModal from "./components/modals/PlaylistModal";
+import LibraryPage from "./pages/library-page/LibraryPage";
+import NotFoundPage from "./pages/notfound-page/NotFoundPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,16 +74,16 @@ function App() {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/upload" element={<UploadPage />} />
                 <Route path="/user/:userId/*" element={<UserPage />} />
+                <Route path="/library/*" element={<LibraryPage />} />
                 <Route path="/track/:trackId" element={<TrackPage />} />
                 <Route path="/login" element={<LoginModal />} />
-                <Route path="*" element={<HomePage />} />
+                <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </div>
           </div>
           <NotificationBar />
           <PlaylistModal />
           <MediaControl />
-          <PlaylistPopup />
         </>
       )}
     </div>

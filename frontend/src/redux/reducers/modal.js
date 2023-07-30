@@ -26,7 +26,7 @@ const modalReducer = (
     login: {
       isShowed: false,
     },
-    signUp: {
+    register: {
       isShowed: false,
     },
     playlist: {
@@ -45,10 +45,10 @@ const modalReducer = (
       return openModal(state, "login");
     case "CLOSE_MODAL_LOGIN":
       return closeModal(state, "login");
-    case "OPEN_MODAL_SIGNUP":
-      return openModal(state, "signUp");
-    case "CLOSE_MODAL_SIGNUP":
-      return closeModal(state, "signUp");
+    case "OPEN_MODAL_REGISTER":
+      return openModal(state, "register");
+    case "CLOSE_MODAL_REGISTER":
+      return closeModal(state, "register");
     case "OPEN_MODAL_PLAYLIST":
       return openModal(state, "playlist", (state, modal) => {
         state[modal].track = action.track;

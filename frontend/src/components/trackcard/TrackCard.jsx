@@ -45,7 +45,7 @@ const TrackCard = ({ className, track }) => {
 
   function openPlaylistModel() {
     dispatch({ type: "OPEN_MODAL_PLAYLIST" });
-    dispatch({ type: "SET_TRACK_ONCLICK", track: track });
+    // dispatch({ type: "SET_TRACK_ONCLICK", track: track });
   }
 
   useEffect(() => {

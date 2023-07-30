@@ -92,7 +92,7 @@ const MediaControl = () => {
 
       // add to history when play song
       dispatch({
-        type: "ADDSONG",
+        type: "APPEND_TRACK",
         song: { ...currentSong },
       });
     } else {

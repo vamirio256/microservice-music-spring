@@ -3,7 +3,8 @@ import { getLatestTracks } from "../../apis/playlist/getLatestTracks";
 import { getPopularTracks } from "../../apis/playlist/getPopularTracks";
 import Playlist from "../../components/playlist/Playlist";
 import SideBar from "../../components/side-bar/SideBar";
-import HomePageTrackHorizontalSwipe from "./HorizontalTrackSwiper";
+import HomePageTrackHorizontalSwipe from "../../components/trackcard/TrackSwiper";
+import loading_gif from "../../assets/images/loading-gif.gif";
 
 const HomePage = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -37,18 +38,19 @@ const HomePage = () => {
     <div className="flex pl-8 pr-8">
       {/* home leftside */}
       <div className="w-[72%] border-r-[1px] border-solid pt-8 pr-8">
-        {latestTracks ? (
-          <HomePageTrackHorizontalSwipe playlist={latestTracks} />
+        {latestTracks && popularTracks ? (
+          <>
+            <HomePageTrackHorizontalSwipe playlist={latestTracks} />
+            <Playlist playlist={popularTracks} />
+          </>
         ) : (
-          <></>
+          <img src={loading_gif} className="w-[50px] h-[50px] left-0 right-0 m-auto top-10"/>
         )}
-        {popularTracks ? <Playlist playlist={popularTracks} /> : <></>}
       </div>
       {/* sidebar */}
       <div className="w-[28%] pl-8 pt-8 text-[#999] text-[14px]">
         <SideBar />
       </div>
-
     </div>
   );
 };

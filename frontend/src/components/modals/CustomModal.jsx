@@ -2,11 +2,18 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "react-modal";
+import { CSSTransition } from "react-transition-group";
 
 Modal.setAppElement("#root");
 
 const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
   return (
+    // <CSSTransition
+    //   in={modalIsOpen}
+    //   timeout={300}
+    //   unmountOnExit
+    //   appear
+    // >
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
@@ -21,7 +28,7 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
           inset: "0",
           position: "relative",
           borderRadius: "20px",
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           // width: "500px",
           // height: "500px",
         },
@@ -29,6 +36,7 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
     >
       {children}
     </Modal>
+    // </CSSTransition>
   );
 };
 

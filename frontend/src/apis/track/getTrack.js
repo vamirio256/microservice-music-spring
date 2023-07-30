@@ -9,8 +9,7 @@ export const getTrack = async (id) => {
         Authorization: token,
       },
     });
-    const track = await response.json();
-    return track;
+    return response;
   } catch (e) {
     console.error("Error when getting tracks", e);
   }

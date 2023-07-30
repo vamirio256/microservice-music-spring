@@ -5,8 +5,10 @@ const TabNavigateBar = ({ className, userId }) => {
   return (
     <div className={`${className}`}>
       <div className="flex flex-row text-[18px] font-normal tracking-[-0.03em]">
-        <NavigateBarItem label={"Uploaded Tracks"} to={`/user/${userId}`} />
-        <NavigateBarItem label={"Playlists"} to={`/user/${userId}/playlist`} />
+        {/* <NavigateBarItem label={"Overview"} to={`/library`} /> */}
+        <NavigateBarItem label={"History"} to={`/library`} />
+        <NavigateBarItem label={"Favorites"} to={`/library/favorite`} />
+        <NavigateBarItem label={"Playlist"} to={`/library/playlist`} />
       </div>
       <hr className="block h-[1px] w-full mt-2" />
     </div>
@@ -21,7 +23,7 @@ const NavigateBarItem = ({ label, to }) => {
       : "text-black hover:border-b-[3px] border-b-black";
 
   return (
-    <div >
+    <div>
       <Link to={to} className={`${active_style} w-full h-full mr-3 pb-2`}>
         <span>{label}</span>
       </Link>

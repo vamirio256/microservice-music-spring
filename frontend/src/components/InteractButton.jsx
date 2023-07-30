@@ -17,7 +17,7 @@ const InteractButton = ({ className }) => {
     <>
       {/* interact button */}
       <div className={`${className} flex row mt-3`}>
-        <Like/>
+        <Like haveBorder={true} haveText={true} />
         <Share />
         <CopyLink />
         <Edit />

@@ -1,7 +1,8 @@
 import React from "react";
 import never_stop_listening from "../../assets/images/never_stop_listening.jpg";
-import Login from "../../components/modals/LoginModal";
 import { useDispatch } from "react-redux";
+import LoginModal from "../../components/modals/LoginModal";
+import RegisterModal from "../../components/modals/RegisterModal";
 
 const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
   const dispatch = useDispatch();
@@ -10,9 +11,14 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
     dispatch({ type: "OPEN_MODAL_LOGIN" });
   };
 
+  const openRegisterModal = () => {
+    dispatch({ type: "OPEN_MODAL_REGISTER" });
+  };
+
   return (
     <div className="flex justify-center flex-1 bg-[#F2F2F2] m-0 p-0">
-      <Login setIsAuthenticated={setIsAuthenticated} />
+      <LoginModal setIsAuthenticated={setIsAuthenticated} />
+      <RegisterModal />
       <div className="w-[1240px] bg-white">
         <div className="border-t-2 border-t-[#f50] bg-lading_web h-[450px] text-white bg-no-repeat bg-cover relative">
           {/* login and register button */}
@@ -25,7 +31,7 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
             </button>
             <button
               className="bg-[#f50] py-1 px-3 rounded-sm mr-3"
-              onClick={openLoginModal}
+              onClick={openRegisterModal}
             >
               Create account
             </button>
@@ -41,7 +47,7 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
               </p>
               <button
                 className="bg-[#f50] px-2 py-2 rounded-sm"
-                onClick={openLoginModal}
+                onClick={openRegisterModal}
               >
                 Sign up for free
               </button>

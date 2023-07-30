@@ -2,7 +2,7 @@ import React from "react";
 import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
-const Edit = ({className}) => {
+const Edit = ({className, handleFunc}) => {
   const dispatch = useDispatch();
 
   return (

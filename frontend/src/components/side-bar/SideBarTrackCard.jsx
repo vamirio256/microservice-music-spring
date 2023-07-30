@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export const SideBarTrackCard = ({ track }) => {
   const dispatch = useDispatch();
   const currentSong = useSelector((state) => state.currentSongReducer);
-  const historySongs = useSelector((state) => state.songHistoryReducer);
+  const historySongs = useSelector((state) => state.historyReducer);
   const [isPlaying, setIsPlaying] = useState(false);
 
   function setAudioPlaying() {
