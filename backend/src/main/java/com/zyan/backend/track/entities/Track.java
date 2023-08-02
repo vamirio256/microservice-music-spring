@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,7 @@ public class Track {
 //    @JsonIgnoreProperties("tracks")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
-    private List<Playlist> playlists;
+    private List<Playlist> playlists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", nullable = false)
@@ -50,13 +51,13 @@ public class Track {
     private Profile profile;
 
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Favorite> isFavorited;
+    private List<Favorite> isFavorited = new ArrayList<>();
 
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> isCommented;
+    private List<Comment> isCommented = new ArrayList<>();
 
     public TrackDTO mapTrackToTrackDTO(int profileId) {
-        boolean isFavorited = getIsFavorited().stream().anyMatch(favorite -> favorite.getId().getProfileId() == profileId);
+        boolean isFavorited = getIsFavorited() != null && getIsFavorited().stream().anyMatch(favorite -> favorite.getId().getProfileId() == profileId);
 
         return TrackDTO.builder()
                 .id(getId())
