@@ -71,6 +71,7 @@ function App() {
           <div className="flex justify-center flex-1 bg-[#F2F2F2]">
             <div className="w-[1240px] bg-white pb-8">
               <Routes>
+                <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/upload" element={<UploadPage />} />
                 <Route path="/user/:userId/*" element={<UserPage />} />

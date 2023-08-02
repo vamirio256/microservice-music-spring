@@ -6,6 +6,7 @@ import { login } from "../../apis/auth/login";
 import { getUserData } from "../../apis/user/getUserData";
 import NotificationBar from "./NotificationBar";
 import { RxCross1 } from "react-icons/rx";
+import { googleLogin } from "../../apis/auth/googleLogin";
 
 const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
@@ -46,6 +47,16 @@ const LoginModal = ({ setIsAuthenticated }) => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      // login
+      const response = await googleLogin();
+    } catch (err) {
+      setError(true);
+      console.error(err);
+    }
+  };
+
   const style =
     "w-full h-[40px] rounded-[9px] mt-2.5 border border-solid shadow-sm";
 
@@ -63,7 +74,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
         </div>
       </div>
       <form onSubmit={handleLogin} className="w-[600px]">
-        <button
+        {/* <button
           type="button"
           className={`${style} text-white bg-[#3578e5]`}
           onClick={() => {
@@ -71,16 +82,17 @@ const LoginModal = ({ setIsAuthenticated }) => {
           }}
         >
           Continue with Facebook
-        </button>
-        <button
+        </button> */}
+        {/* <button
           type="button"
           className={`${style} text-black border-[1px] border-[#e5e5e5]`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
+          onClick={handleGoogleLogin}
         >
           Continue with Google
-        </button>
+        </button> */}
+        <form action="http://localhost:8080/oauth2/authorization/google" method="post">
+          <input type="submit" value="Continue with Google" />
+        </form>
         <div
           className={`${style} flex flex-row items-center border-none shadow-none`}
         >

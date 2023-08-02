@@ -39,11 +39,15 @@ const PlaylistModal = () => {
       })
     );
 
-    createPlaylist(formData);
-
-    setLoading(false); // Stop loading
+    const response = await createPlaylist(formData);
+      console.log(response)
+    setLoading(false);
     closeModal();
   }
+
+const addTrackToPlaylist = async() => {
+  return
+}
 
   return (
     <>
