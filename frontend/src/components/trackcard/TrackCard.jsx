@@ -13,6 +13,7 @@ import PlaylistModal from "../modals/PlaylistModal";
 const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
+  const historySongs = useSelector((state) => state.historyReducer);
   const openModal = () => {
     return;
   };
@@ -54,7 +55,7 @@ const TrackCard = ({ className, track }) => {
     } else {
       setIsPlaying(currentSong.isPlaying);
     }
-  }, [currentSong]);
+  }, [currentSong, historySongs]);
 
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
