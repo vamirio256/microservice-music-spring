@@ -2,6 +2,7 @@ export const validateToken = async () => {
   const url = `${process.env.REACT_APP_API_BASE_URL}/auth/validate-token`;
   try {
     const token = "Bearer " + localStorage.getItem("token");
+    console.log(token);
     const response = await fetch(url, {
       method: "POST",
       headers: {

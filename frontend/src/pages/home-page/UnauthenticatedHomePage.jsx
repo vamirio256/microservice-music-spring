@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import never_stop_listening from "../../assets/images/never_stop_listening.jpg";
 import { useDispatch } from "react-redux";
 import LoginModal from "../../components/modals/LoginModal";
 import RegisterModal from "../../components/modals/RegisterModal";
+import { validateToken } from "../../apis/auth/validateToken";
+import { useNavigate } from "react-router-dom";
 
 const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const openLoginModal = () => {
     dispatch({ type: "OPEN_MODAL_LOGIN" });
@@ -14,6 +17,33 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
   const openRegisterModal = () => {
     dispatch({ type: "OPEN_MODAL_REGISTER" });
   };
+
+  useEffect(() => {
+    // Get the token from the URL query parameter
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const token = urlSearchParams.get("token");
+    // Store the token in localStorage
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+    const checkToken = async () => {
+      try {
+        const data = await validateToken();
+        if (data) {
+          console.log("Token is valid");
+          dispatch({ type: "SET_USER", user: data });
+          setIsAuthenticated(true);
+          navigate("/");
+        } else {
+          console.log("Token is invalid");
+        }
+      } catch (error) {
+        // console.error("Error checking token:", error);
+      }
+    };
+
+    checkToken();
+  }, []);
 
   return (
     <div className="flex justify-center flex-1 bg-[#F2F2F2] m-0 p-0">

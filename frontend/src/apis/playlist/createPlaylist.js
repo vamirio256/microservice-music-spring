@@ -5,8 +5,7 @@ export const createPlaylist = async (formData) => {
       {
         method: "POST",
         headers: {
-          Authorization:
-          "Bearer " + localStorage.getItem("token")
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: formData,
       }
@@ -14,6 +13,7 @@ export const createPlaylist = async (formData) => {
 
     if (response.status === 200) {
       alert("Create success");
+      return response;
     } else {
       alert("Something went wrong");
     }

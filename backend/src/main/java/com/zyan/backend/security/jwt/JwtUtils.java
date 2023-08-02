@@ -1,11 +1,13 @@
-package com.zyan.backend.jwt;
+package com.zyan.backend.security.jwt;
 
+import com.zyan.backend.security.oauth2.CustomOAuth2User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -50,15 +52,19 @@ public class JwtUtils {
     }
 
     public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(new HashMap<>(), userDetails.getUsername());
+    }
+
+    public String generateToken(CustomOAuth2User oauth2User){
+        return generateToken(new HashMap<>(), oauth2User.getEmail());
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails){
+            String username){
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*1440))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)

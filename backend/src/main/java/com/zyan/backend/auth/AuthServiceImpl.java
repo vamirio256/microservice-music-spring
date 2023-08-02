@@ -1,7 +1,7 @@
 package com.zyan.backend.auth;
 
 import com.zyan.backend.exception.ResourceNotFoundException;
-import com.zyan.backend.jwt.JwtUtils;
+import com.zyan.backend.security.jwt.JwtUtils;
 import com.zyan.backend.user.UserRole;
 import com.zyan.backend.user.entities.Profile;
 import com.zyan.backend.user.entities.User;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Slf4j
@@ -84,6 +83,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.USER)
                 .enabled(false)
+                .avatarUrl("https://vamirio-soundcloud-clone.s3.ap-southeast-1.amazonaws.com/user-avatar/user_avatar.jpg")
                 .verificationCode(randomCode)
                 .build();
         Profile profile = Profile.builder()

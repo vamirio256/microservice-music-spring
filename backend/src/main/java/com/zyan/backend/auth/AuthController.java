@@ -1,6 +1,6 @@
 package com.zyan.backend.auth;
 
-import com.zyan.backend.jwt.JwtUtils;
+import com.zyan.backend.security.jwt.JwtUtils;
 import com.zyan.backend.track.TrackService;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.User;
