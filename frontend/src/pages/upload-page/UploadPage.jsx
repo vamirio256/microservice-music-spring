@@ -11,7 +11,7 @@ export const UploadPage = () => {
   const [image, setImage] = useState(undefined);
 
   const [loading, setLoading] = useState(false);
-  const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
+
   const ref = useRef(null);
   // load file image
   function loadfileImage(event) {
@@ -26,6 +26,7 @@ export const UploadPage = () => {
 
     setFileMusic(e.target.files[0]);
   };
+  const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
   const uploadFile = async () => {
     setLoading(true); // Start loading
 
@@ -58,6 +59,7 @@ export const UploadPage = () => {
         alert("Something went wrong");
       }
     } catch (error) {
+      console.log(error);
       alert("Error occurred while uploading");
     }
 
