@@ -25,7 +25,6 @@ const TrackSwiper = ({ playlist }) => {
               spaceBetween={10}
               slidesPerView={4}
               navigation
-              loop={true}
             >
               <ul>
                 {playlist.tracks.map((track, index) => (
