@@ -44,8 +44,7 @@ export const UploadPage = () => {
       const response = await fetch(uploadUrl, {
         method: "POST",
         headers: {
-          Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("token"))["jwtToken"],
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: formData,
       });
@@ -201,7 +200,16 @@ export const UploadPage = () => {
               {/* save button */}
               <button className="primary-button" onClick={uploadFile}>
                 {loading ? (
-                  <img src={loadingimage} alt="" width={15} height={15} />
+                  <div>
+                    Please wait{" "}
+                    <img
+                      className="inline-block"
+                      src={loadingimage}
+                      alt=""
+                      width={15}
+                      height={15}
+                    />
+                  </div>
                 ) : (
                   "Save"
                 )}
