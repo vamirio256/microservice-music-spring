@@ -23,8 +23,24 @@ const Waveform = ({ className, audioUrl }) => {
       });
     }
   }, []);
+  function handleClickSuffer() {
+    // Handle logic for the 'ontimeupdate' equivalent here
+    // For example, update the current time or progress bar
+
+    if (!audioUrl || !currentSong || audioUrl !== currentSong.audioUrl) {
+      wavesurfer.current.setTime(0);
+      return;
+    }
+
+    const currentTime = wavesurfer.current.getCurrentTime();
+    dispatch({
+      type: "MODIFYPROGRESS",
+      progress: currentTime,
+    });
+  }
 
   useEffect(() => {
+    console.log("hello world");
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
@@ -81,36 +97,11 @@ const Waveform = ({ className, audioUrl }) => {
     // });
 
     wavesurfer.current.load(audioUrl);
-    wavesurfer.current.on("click", () => {
-      // Handle logic for the 'ontimeupdate' equivalent here
-      // For example, update the current time or progress bar
+    wavesurfer.current.on("click", handleClickSuffer);
 
-      const currentTime = wavesurfer.current.getCurrentTime();
-      dispatch({
-        type: "MODIFYPROGRESS",
-        progress: currentTime,
-      });
-    });
-
-    wavesurfer.current.on("ready", () => {
-      console.log("ready");
-
-      const buffer = wavesurfer.current.getDecodedData();
-      // console.log(buffer);
-
-      let channel0Peaks = buffer.getChannelData(0);
-      console.log("channel0Peaks : ", channel0Peaks);
-
-      let channel1Peaks = buffer.getChannelData(1);
-      console.log("channel1Peaks : ", channel1Peaks);
-
-      console.log("buffer length : ", buffer.length);
-      console.log("buffer duration : ", buffer.duration);
-      console.log("buffer sampleRate : ", buffer.sampleRate);
-      console.log("buffer numberOfChannels : ", buffer.numberOfChannels);
-    });
     return () => {
       // Clean up the WaveSurfer instance on component unmount
+      wavesurfer.current.un("click", handleClickSuffer);
       wavesurfer.current.destroy();
     };
   }, [audioUrl]);
@@ -133,6 +124,17 @@ const Waveform = ({ className, audioUrl }) => {
       );
     }
   }, [currentProgress]);
+  useEffect(() => {
+    if (!audioUrl || !currentSong || audioUrl !== currentSong.audioUrl) {
+      wavesurfer.current.setTime(0);
+      timeRef.current.textContent = "0:00";
+
+      wavesurfer.current.un("click", handleClickSuffer);
+
+      wavesurfer.current.on("click", handleClickSuffer);
+      return;
+    }
+  }, [currentSong]);
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 

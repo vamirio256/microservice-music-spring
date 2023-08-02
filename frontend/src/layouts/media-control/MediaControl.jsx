@@ -91,7 +91,7 @@ const MediaControl = () => {
       audioRef.current?.play();
 
       // add to history when play song
-      console.log(currentSong);
+
       dispatch({
         type: "APPEND_TRACK",
         song: { ...currentSong },

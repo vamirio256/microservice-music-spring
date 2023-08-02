@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  BsFillPauseFill,
-  BsFillPlayFill
-} from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import InteractButton from "../InteractButton";
 import Waveform from "../Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 
 const Playlist = ({ playlist }) => {
   // const [playlist, setPlaylist] = useState();
-
+  const [shouldUpdateCurrentPlaying, setShouldUpdateCurrentPlaying] =
+    useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlaying, setCurrentPlaying] = useState();
-
+  const currentSong = useSelector((state) => state.currentSongReducer);
   const dispatch = useDispatch();
-
 
   const playTrack = () => {
     setIsPlaying(true);
@@ -39,7 +36,11 @@ const Playlist = ({ playlist }) => {
     });
     setQueue();
   }
-
+  useEffect(() => {
+    if (!currentPlaying || currentPlaying.audioUrl !== currentSong.audioUrl) {
+      setIsPlaying(false);
+    }
+  }, [currentSong]);
   useEffect(() => {
     setCurrentPlaying(playlist.tracks[0]);
   }, [playlist]);
@@ -49,6 +50,7 @@ const Playlist = ({ playlist }) => {
       {playlist && currentPlaying ? (
         <>
           <h1 className="text-xl mb-5">{playlist.name}</h1>
+
           <div className="flex flex-row">
             <img
               src={currentPlaying.coverUrl}
