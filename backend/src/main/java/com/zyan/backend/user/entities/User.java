@@ -32,7 +32,6 @@ public class User implements UserDetails {
     @NonNull
     private String email;
 
-    @NonNull
     @JsonIgnore
     private String password;
     private String avatarUrl;

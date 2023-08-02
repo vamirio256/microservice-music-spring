@@ -98,6 +98,6 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .build();
         int id = playlistRepository.save(playlist).getId();
 
-        return addTrackToPlaylist(user, id, trackDTO.getId());
+        return addTrackToPlaylist(user, trackDTO.getId(), id);
     }
 }

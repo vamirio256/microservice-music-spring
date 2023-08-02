@@ -1,4 +1,4 @@
-package com.zyan.backend.jwt;
+package com.zyan.backend.security.jwt;
 
 import lombok.*;
 

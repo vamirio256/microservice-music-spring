@@ -30,7 +30,7 @@ public class ApiExceptionHandler {
                 HttpStatus.UNAUTHORIZED.value(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -41,6 +41,17 @@ public class ApiExceptionHandler {
                 HttpStatus.UNAUTHORIZED.value(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<ApiError> handleEmailAlreadyExistException(ResourceNotFoundException e, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
 }
