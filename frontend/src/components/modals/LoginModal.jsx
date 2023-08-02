@@ -10,6 +10,7 @@ import { RxCross1 } from "react-icons/rx";
 const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
   const [password, setPassword] = useState("user1");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const modalIsOpen = useSelector((state) => state.modalReducer.login.isShowed);
@@ -22,6 +23,10 @@ const LoginModal = ({ setIsAuthenticated }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!e.target.reportValidity()) {
+      // If there are validation errors, display the built-in validation message
+      return;
+    }
     try {
       // login
       const response = await login(email, password);
@@ -36,6 +41,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
       setIsAuthenticated(true);
       navigate("/home");
     } catch (err) {
+      setError(true);
       console.error(err);
     }
   };
@@ -83,11 +89,12 @@ const LoginModal = ({ setIsAuthenticated }) => {
           <div className="h-[1px] bg-[#e5e5e5] w-full" />
         </div>
         <input
-          type="text"
+          type="email"
           placeholder="Email"
           value={email}
           className={`${style} p-3 focus:outline-none `}
           onChange={(e) => setEmail(e.target.value)}
+          required
         ></input>
         <input
           type="password"
@@ -95,16 +102,22 @@ const LoginModal = ({ setIsAuthenticated }) => {
           value={password}
           className={`${style} p-3 border-[#e5e5e5] focus:outline-none`}
           onChange={(e) => setPassword(e.target.value)}
+          required
         ></input>
         <button
           className={`${style} text-white bg-[#f50] border-none`}
           type="submit"
-          onClick={handleLogin}
         >
-          Submit
+          Login
         </button>
         <p>
-          <i>The account above for demo purpose.</i>
+          {error ? (
+            <i className="text-red-700">
+              Tài khoản hoặc mật khẩu không chính xác
+            </i>
+          ) : (
+            <i>The account above for demo purpose.</i>
+          )}
         </p>
         <NotificationBar />
       </form>
