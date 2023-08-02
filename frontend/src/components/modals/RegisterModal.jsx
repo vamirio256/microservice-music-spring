@@ -8,6 +8,8 @@ import NotificationBar from "./NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 import { register } from "../../apis/auth/register";
 import gifLoading from "../../assets/icons/loading.gif";
+import { FcGoogle } from "react-icons/fc";
+
 const RegisterModal = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -96,7 +98,8 @@ const RegisterModal = ({ setIsAuthenticated }) => {
   };
 
   const style =
-    "w-full h-[40px] rounded-[9px] mt-2.5 border border-solid shadow-sm";
+    "w-full h-[40px] rounded-[5px] mt-2.5 border border-solid border-[#ccc] focus:border-black";
+  const errorStyle = "text-red-500 text-xs mt-2";
   const confirmPasswordStyle = passwordMatchAlert && "border-red-500";
 
   return (
@@ -108,31 +111,25 @@ const RegisterModal = ({ setIsAuthenticated }) => {
           </button>
           <div className="flex flex-col items-center">
             <h1 className="text-xl font-normal">Sign up</h1>
-            <div className="flex flex-row items-center w-full">
-              <div className="h-[1px] bg-[#e5e5e5] w-full" />
-              <p className="mx-2">with</p>
-              <div className="h-[1px] bg-[#e5e5e5] w-full" />
-            </div>
           </div>
-          <form onSubmit={handleSignUp} className="w-[600px]">
-            <button
-              type="button"
-              className={`${style} text-white bg-[#3578e5]`}
-              onClick={() => {
-                dispatch({ type: "SHOW_NOTIFICATION" });
-              }}
+          <form onSubmit={handleSignUp} className="w-[350px]">
+            <form
+              action={`${process.env.REACT_APP_API_BASE_URL}/oauth2/authorization/google`}
+              method="post"
             >
-              Continue with Facebook
-            </button>
-            <button
-              type="button"
-              className={`${style} text-black border-[1px] border-[#e5e5e5]`}
-              onClick={() => {
-                dispatch({ type: "SHOW_NOTIFICATION" });
-              }}
-            >
-              Continue with Google
-            </button>
+              <div
+                className={`flex items-center justify-center ${style} cursor-pointer hover:border-black`}
+              >
+                <span>
+                  <FcGoogle />
+                </span>
+                <input
+                  type="submit"
+                  value="Continue with Google"
+                  className="ml-2 cursor-pointer"
+                />
+              </div>
+            </form>
             <div
               className={`${style} flex flex-row items-center border-none shadow-none`}
             >
@@ -150,10 +147,10 @@ const RegisterModal = ({ setIsAuthenticated }) => {
               required
             />
             {emailAlert && (
-              <p className="text-red-500">Email is not in right pattern</p>
+              <p className={errorStyle}>Email is not in right pattern</p>
             )}
             {existedEmailAlert && (
-              <p className="text-red-500">Email already exist</p>
+              <p className={errorStyle}>Email already exist</p>
             )}
             <input
               type="text"
@@ -173,7 +170,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
             ></input>
 
             {passwordAlert && (
-              <p className="text-red-500">
+              <p className={errorStyle}>
                 Password must have at least 6 characters
               </p>
             )}
@@ -186,7 +183,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
               required
             />
             {passwordMatchAlert && (
-              <p className="text-red-500">
+              <p className={errorStyle}>
                 Confirm password not match with password
               </p>
             )}
@@ -208,8 +205,18 @@ const RegisterModal = ({ setIsAuthenticated }) => {
               )}
             </button>
             {registerAlert && (
-              <p className="text-red-500">There's some error above</p>
+              <p className={errorStyle}>There's some error above</p>
             )}
+            <p className="text-gray-400 text-[11px] mt-2.5">
+              When registering, you agree that we may use your provided data for
+              the registration and to send you notifications on our products and
+              services. You can unsubscribe from notifications at any time in
+              your settings. For additional info please refer to our
+              <span className="text-blue-700 cursor-pointer">
+                <a> Privacy Policy</a>
+              </span>
+              .
+            </p>
             <NotificationBar />
           </form>
         </>
