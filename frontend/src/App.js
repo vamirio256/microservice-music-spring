@@ -69,7 +69,7 @@ function App() {
         <>
           <TopBar />
           <div className="flex justify-center flex-1 bg-[#F2F2F2]">
-            <div className="w-[1240px] bg-white pb-8">
+            <div className="max-w-[1240px] bg-white pb-8 w-full">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />

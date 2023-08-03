@@ -37,7 +37,11 @@ const Playlist = ({ playlist }) => {
     setQueue();
   }
   useEffect(() => {
-    if (!currentPlaying || currentPlaying.audioUrl !== currentSong.audioUrl) {
+    if (
+      !currentPlaying ||
+      !currentSong ||
+      currentPlaying.audioUrl !== currentSong.audioUrl
+    ) {
       setIsPlaying(false);
     }
   }, [currentSong]);
@@ -51,13 +55,13 @@ const Playlist = ({ playlist }) => {
         <>
           <h1 className="text-xl mb-5">{playlist.name}</h1>
 
-          <div className="flex flex-row">
+          <div className="flex flex-col justify-center items-center md:flex-row md:items-start">
             <img
               src={currentPlaying.coverUrl}
-              className="h-[160px] w-[160px] mr-4"
+              className="h-[160px] w-[160px] mr-4 mb-10"
             />
             <div className="w-full flex flex-col">
-              <div className="mb-3 flex flex-row justify-between">
+              <div className="mb-3 flex flex-row justify-between ">
                 <div className="flex flex-row items-center">
                   {/* play button */}
                   {!isPlaying ? (

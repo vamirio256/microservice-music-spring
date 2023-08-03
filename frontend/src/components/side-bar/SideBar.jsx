@@ -57,12 +57,12 @@ const SideBar = () => {
 
       {/* mobile*/}
       <SideBarSection header={"Go mobile"} icon={<BiSolidMobile />}>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="flex justify-center">
           <a className="cursor-pointer">
-            <img src={apple_store} />
+            <img src={apple_store} className="max-w-[150px] mr-2" />
           </a>
           <a className="cursor-pointer">
-            <img src={google_play} />
+            <img src={google_play} className="max-w-[150px]" />
           </a>
         </div>
       </SideBarSection>

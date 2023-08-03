@@ -23,8 +23,19 @@ const TrackSwiper = ({ playlist }) => {
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               spaceBetween={10}
-              slidesPerView={4}
+              slidesPerView={2}
               navigation
+              breakpoints={{
+                640: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 50,
+                },
+              }}
             >
               <ul>
                 {playlist.tracks.map((track, index) => (

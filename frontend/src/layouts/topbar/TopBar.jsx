@@ -24,6 +24,8 @@ const TopBar = () => {
   useEffect(() => {
     if (screenWidth > 1023) {
       setOpenMenu(true);
+    } else {
+      setOpenMenu(false);
     }
   }, [screenWidth]);
 
@@ -58,9 +60,9 @@ const TopBar = () => {
         </div>
       </ConfirmModal>
 
-      <div className="w-[1240px]">
+      <div className="max-w-[1240px] w-full">
         <div
-          className={`container bg-red h-12 flex m-auto items-center justify-between  `}
+          className={`bg-red h-12 flex items-center justify-between m-auto  `}
         >
           {/* menu icon mobile */}
           <BiMenuAltLeft
