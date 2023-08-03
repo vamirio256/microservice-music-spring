@@ -25,7 +25,7 @@ const TopBar = () => {
     if (screenWidth > 1023) {
       setOpenMenu(true);
     }
-  }, []);
+  }, [screenWidth]);
 
   const openConfirmModal = () => {
     dispatch({
@@ -90,6 +90,7 @@ const TopBar = () => {
               />
             </div>
             <TopBarItem
+              setOpenMenu={setOpenMenu}
               icon={<BiLogoSoundcloud color="white" size={50} />}
               label={"Home"}
               to={"/home"}
@@ -100,9 +101,13 @@ const TopBar = () => {
               }}
               className="w-full lg:w-auto"
             >
-              <TopBarItem label={"Feed"} />
+              <TopBarItem label={"Feed"} setOpenMenu={setOpenMenu} />
             </button>
-            <TopBarItem label={"Library"} to={"/library"} />
+            <TopBarItem
+              label={"Library"}
+              to={"/library"}
+              setOpenMenu={setOpenMenu}
+            />
             {/* search */}
             <SearchBar />
             {/* premium button */}
@@ -114,9 +119,14 @@ const TopBar = () => {
             >
               <TopBarItem
                 label={<span className="text-[#f50]">Premium</span>}
+                setOpenMenu={setOpenMenu}
               />
             </button>
-            <TopBarItem label={"Upload"} to={"/upload"} />
+            <TopBarItem
+              label={"Upload"}
+              to={"/upload"}
+              setOpenMenu={setOpenMenu}
+            />
           </div>
           {/* account infor */}
           <div className="relative flex">
