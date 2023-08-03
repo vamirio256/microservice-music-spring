@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { BiLogoSoundcloud, BiMenuAltLeft } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
@@ -29,7 +29,20 @@ const TopBar = () => {
       type: "CLOSE_MODAL_CONFIRM",
     });
   };
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
+  useEffect(() => {
+    // Function to update the screen height on window resize
+    const updateScreenHeight = () => setScreenHeight(window.innerHeight);
+
+    // Add an event listener to handle window resize
+    window.addEventListener("resize", updateScreenHeight);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", updateScreenHeight);
+    };
+  }, []);
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <ConfirmModal context={"Do you really want to logout?"}>
@@ -56,7 +69,9 @@ const TopBar = () => {
           <BiMenuAltLeft size={40} color="white" />
 
           {/* topbar item menu */}
-          <div className="container h-12 flex m-auto items-center justify-between flex-col bg-topbar w-[300px] absolute left-0 top-0 lg:flex-row lg:w-full">
+          <div
+            className={`container flex-col bg-topbar w-[300px] absolute left-0 top-0 h-[${screenHeight}px] lg:flex-row lg:w-auto lg:h-12 `}
+          >
             <TopBarItem
               icon={<BiLogoSoundcloud color="white" size={50} />}
               label={"Home"}
