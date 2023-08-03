@@ -7,16 +7,25 @@ import { IoLogOut } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import NotificationDropDown from "../../components/drop-downs/NotificationDropDown";
+import { AiOutlineClose } from "react-icons/ai";
+import useScreenDimensions from "../../components/useScreenDimensions";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-
+  const { screenWidth, screenHeight } = useScreenDimensions();
+  const [openMenu, setOpenMenu] = useState(false);
+  const [isTransition, setIsTransition] = useState(false);
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
   };
+  useEffect(() => {
+    if (screenWidth > 1023) {
+      setOpenMenu(true);
+    }
+  }, []);
 
   const openConfirmModal = () => {
     dispatch({
@@ -29,20 +38,7 @@ const TopBar = () => {
       type: "CLOSE_MODAL_CONFIRM",
     });
   };
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
-  useEffect(() => {
-    // Function to update the screen height on window resize
-    const updateScreenHeight = () => setScreenHeight(window.innerHeight);
-
-    // Add an event listener to handle window resize
-    window.addEventListener("resize", updateScreenHeight);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("resize", updateScreenHeight);
-    };
-  }, []);
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <ConfirmModal context={"Do you really want to logout?"}>
@@ -66,12 +62,33 @@ const TopBar = () => {
         <div
           className={`container bg-red h-12 flex m-auto items-center justify-between  `}
         >
-          <BiMenuAltLeft size={40} color="white" />
+          {/* menu icon mobile */}
+          <BiMenuAltLeft
+            size={40}
+            color="white"
+            onClick={() => setOpenMenu(true)}
+            className="lg:hidden"
+          />
 
           {/* topbar item menu */}
           <div
-            className={`container flex-col bg-topbar w-[300px] absolute left-0 top-0 h-[${screenHeight}px] lg:flex-row lg:w-auto lg:h-12 `}
+            className={`z-max container flex flex-col bg-topbar w-[300px] ${
+              openMenu ? "ml-[0px]" : "ml-[-300px]"
+            } absolute left-0 top-0 ease-in duration-300 h-[100vh] lg:flex-row lg:w-full lg:h-12 transition-[margin-left] lg:transition-none lg:relative`}
+            // style={{
+            //   height: screenWidth > 1023 ? "3rem" : "screenHeight",
+            //   marginLeft: openMenu ? "0px" : "-300px",
+            // }}
           >
+            {/* close btn */}
+            <div className="lg:hidden">
+              <AiOutlineClose
+                size={30}
+                className="block ml-auto"
+                color="white"
+                onClick={() => setOpenMenu(false)}
+              />
+            </div>
             <TopBarItem
               icon={<BiLogoSoundcloud color="white" size={50} />}
               label={"Home"}
@@ -81,6 +98,7 @@ const TopBar = () => {
               onClick={() => {
                 dispatch({ type: "SHOW_NOTIFICATION" });
               }}
+              className="w-full lg:w-auto"
             >
               <TopBarItem label={"Feed"} />
             </button>
@@ -92,6 +110,7 @@ const TopBar = () => {
               onClick={() => {
                 dispatch({ type: "SHOW_NOTIFICATION" });
               }}
+              className="w-full lg:w-auto"
             >
               <TopBarItem
                 label={<span className="text-[#f50]">Premium</span>}
@@ -100,28 +119,29 @@ const TopBar = () => {
             <TopBarItem label={"Upload"} to={"/upload"} />
           </div>
           {/* account infor */}
-          <div className="relative">
+          <div className="relative flex">
             <TopBarItem
               label={user.username}
               to={`/user/${user.id}`}
               icon={
                 <img
                   src={user.avatarUrl}
-                  className="rounded-full w-[40px] h-[40px]"
+                  className="rounded-full w-[20px] h-[20px]"
                 />
               }
+              classname={"lg:w-[210px]"}
             />
-            <div className="absolute bottom-[-70px] right-[20px] bg-white shadow-md p-2">
+            <button onClick={openConfirmModal}>
+              <IoLogOut color="white" size={30} />
+            </button>
+            {/* <div className="absolute bottom-[-70px] right-[20px] bg-white shadow-md p-2">
               <div>Account</div>
               <hr className="my-1" />
               <div> Logout</div>
-            </div>
+            </div> */}
           </div>
           {/* notification button
           <NotificationDropDown /> */}
-          <button onClick={openConfirmModal}>
-            <IoLogOut color="white" size={30} />
-          </button>
         </div>
       </div>
     </div>

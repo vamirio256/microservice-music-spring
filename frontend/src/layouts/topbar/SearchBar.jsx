@@ -53,7 +53,7 @@ const SearchBar = ({ className }) => {
   const searchBarClasses = classNames("bg-searchbar_gray ", className);
 
   return (
-    <div className="relative w-96 ml-5 h-8 focus:outline-none">
+    <div className="relative w-[80%] ml-5 h-8 focus:outline-none order-1 mt-2 lg:order-none lg:w-[400px]">
       <input
         type="text"
         placeholder="Search"
