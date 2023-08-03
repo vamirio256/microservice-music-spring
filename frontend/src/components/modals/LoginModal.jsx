@@ -62,19 +62,20 @@ const LoginModal = ({ setIsAuthenticated }) => {
 
   return (
     <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
-      <button onClick={closeModal} className="ml-auto mr-0 block">
-        <RxCross1 />
-      </button>
-      <div className="flex flex-col items-center">
-        <h1 className="text-xl font-normal">Sign in</h1>
-        <div className="flex flex-row items-center w-full">
-          <div className="h-[1px] bg-[#e5e5e5] w-full" />
-          <p className="mx-2">with</p>
-          <div className="h-[1px] bg-[#e5e5e5] w-full" />
+      <div className="max-w-md md:max-w-xl m-2">
+        <button onClick={closeModal} className="ml-auto mr-0 block">
+          <RxCross1 />
+        </button>
+        <div className="flex flex-col items-center">
+          <h1 className="text-xl font-normal">Sign in</h1>
+          <div className="flex flex-row items-center w-full">
+            <div className="h-[1px] bg-[#e5e5e5] w-full" />
+            <p className="mx-2">with</p>
+            <div className="h-[1px] bg-[#e5e5e5] w-full" />
+          </div>
         </div>
-      </div>
-      <form onSubmit={handleLogin} className="w-[600px]">
-        {/* <button
+        <form onSubmit={handleLogin} className="w-full">
+          {/* <button
           type="button"
           className={`${style} text-white bg-[#3578e5]`}
           onClick={() => {
@@ -83,56 +84,60 @@ const LoginModal = ({ setIsAuthenticated }) => {
         >
           Continue with Facebook
         </button> */}
-        {/* <button
+          {/* <button
           type="button"
           className={`${style} text-black border-[1px] border-[#e5e5e5]`}
           onClick={handleGoogleLogin}
         >
           Continue with Google
         </button> */}
-        <form action="http://localhost:8080/oauth2/authorization/google" method="post">
-          <input type="submit" value="Continue with Google" />
+          {/* <form
+            action="http://localhost:8080/oauth2/authorization/google"
+            method="post"
+          >
+            <input type="submit" value="Continue with Google" />
+          </form>
+          <div
+            className={`${style} flex flex-row items-center border-none shadow-none`}
+          >
+            <div className="h-[1px] bg-[#e5e5e5] w-full" />
+            <p className="mx-2">or</p>
+            <div className="h-[1px] bg-[#e5e5e5] w-full" />
+          </div> */}
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            className={`${style} p-3 focus:outline-none `}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          ></input>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            className={`${style} p-3 border-[#e5e5e5] focus:outline-none`}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          ></input>
+          <button
+            className={`${style} text-white bg-[#f50] border-none`}
+            type="submit"
+          >
+            Login
+          </button>
+          <p>
+            {error ? (
+              <i className="text-red-700">
+                Tài khoản hoặc mật khẩu không chính xác
+              </i>
+            ) : (
+              <i>The account above for demo purpose.</i>
+            )}
+          </p>
+          <NotificationBar />
         </form>
-        <div
-          className={`${style} flex flex-row items-center border-none shadow-none`}
-        >
-          <div className="h-[1px] bg-[#e5e5e5] w-full" />
-          <p className="mx-2">or</p>
-          <div className="h-[1px] bg-[#e5e5e5] w-full" />
-        </div>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          className={`${style} p-3 focus:outline-none `}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        ></input>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          className={`${style} p-3 border-[#e5e5e5] focus:outline-none`}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        ></input>
-        <button
-          className={`${style} text-white bg-[#f50] border-none`}
-          type="submit"
-        >
-          Login
-        </button>
-        <p>
-          {error ? (
-            <i className="text-red-700">
-              Tài khoản hoặc mật khẩu không chính xác
-            </i>
-          ) : (
-            <i>The account above for demo purpose.</i>
-          )}
-        </p>
-        <NotificationBar />
-      </form>
+      </div>
     </CustomModal>
   );
 };

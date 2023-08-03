@@ -102,7 +102,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
   return (
     <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
       {!confirmEmail ? (
-        <>
+        <div className="max-w-md md:max-w-xl m-2">
           <button onClick={closeModal} className="ml-auto mr-0 block">
             <RxCross1 />
           </button>
@@ -114,7 +114,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
               <div className="h-[1px] bg-[#e5e5e5] w-full" />
             </div>
           </div>
-          <form onSubmit={handleSignUp} className="w-[600px]">
+          <form onSubmit={handleSignUp} className="w-full">
             <button
               type="button"
               className={`${style} text-white bg-[#3578e5]`}
@@ -212,7 +212,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
             )}
             <NotificationBar />
           </form>
-        </>
+        </div>
       ) : (
         <div className="flex flex-col items-center">
           <p>

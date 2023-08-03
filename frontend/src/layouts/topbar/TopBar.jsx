@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { BiLogoSoundcloud } from "react-icons/bi";
+import { BiLogoSoundcloud, BiMenuAltLeft } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
@@ -33,9 +33,19 @@ const TopBar = () => {
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <ConfirmModal context={"Do you really want to logout?"}>
-        <div className="flex flex-row justify-between mt-4">
-        <button onClick={logout} className="bg-[#f50] px-2 py-1 rounded-md border border-solid">Yes</button>
-        <button onClick={closeConfirmModal} className="px-2 py-1 rounded-md border border-solid">Cancel</button>
+        <div className="flex flex-row justify-center mt-4">
+          <button
+            onClick={logout}
+            className="bg-[#f50] px-2 py-1 rounded-md border border-solid"
+          >
+            Yes
+          </button>
+          <button
+            onClick={closeConfirmModal}
+            className="px-2 py-1 rounded-md border border-solid"
+          >
+            Cancel
+          </button>
         </div>
       </ConfirmModal>
 
@@ -43,40 +53,55 @@ const TopBar = () => {
         <div
           className={`container bg-red h-12 flex m-auto items-center justify-between  `}
         >
-          <TopBarItem
-            icon={<BiLogoSoundcloud color="white" size={50} />}
-            label={"Home"}
-            to={"/home"}
-          />
-          <button
-            onClick={() => {
-              dispatch({ type: "SHOW_NOTIFICATION" });
-            }}
-          >
-            <TopBarItem label={"Feed"} />
-          </button>
-          <TopBarItem label={"Library"} to={"/library"} />
-          {/* search */}
-          <SearchBar />
-          {/* premium button */}
-          <button
-            onClick={() => {
-              dispatch({ type: "SHOW_NOTIFICATION" });
-            }}
-          >
-            <TopBarItem label={<span className="text-[#f50]">Premium</span>} />
-          </button>
-          <TopBarItem label={"Upload"} to={"/upload"} />
-          <TopBarItem
-            label={user.username}
-            to={`/user/${user.id}`}
-            icon={
-              <img
-                src={user.avatarUrl}
-                className="rounded-full w-[40px] h-[40px]"
+          <BiMenuAltLeft size={40} color="white" />
+
+          {/* topbar item menu */}
+          <div className="container h-12 flex m-auto items-center justify-between flex-col bg-topbar w-[300px] absolute left-0 top-0 lg:flex-row lg:w-full">
+            <TopBarItem
+              icon={<BiLogoSoundcloud color="white" size={50} />}
+              label={"Home"}
+              to={"/home"}
+            />
+            <button
+              onClick={() => {
+                dispatch({ type: "SHOW_NOTIFICATION" });
+              }}
+            >
+              <TopBarItem label={"Feed"} />
+            </button>
+            <TopBarItem label={"Library"} to={"/library"} />
+            {/* search */}
+            <SearchBar />
+            {/* premium button */}
+            <button
+              onClick={() => {
+                dispatch({ type: "SHOW_NOTIFICATION" });
+              }}
+            >
+              <TopBarItem
+                label={<span className="text-[#f50]">Premium</span>}
               />
-            }
-          />
+            </button>
+            <TopBarItem label={"Upload"} to={"/upload"} />
+          </div>
+          {/* account infor */}
+          <div className="relative">
+            <TopBarItem
+              label={user.username}
+              to={`/user/${user.id}`}
+              icon={
+                <img
+                  src={user.avatarUrl}
+                  className="rounded-full w-[40px] h-[40px]"
+                />
+              }
+            />
+            <div className="absolute bottom-[-70px] right-[20px] bg-white shadow-md p-2">
+              <div>Account</div>
+              <hr className="my-1" />
+              <div> Logout</div>
+            </div>
+          </div>
           {/* notification button
           <NotificationDropDown /> */}
           <button onClick={openConfirmModal}>
