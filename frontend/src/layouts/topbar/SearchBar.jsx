@@ -8,10 +8,12 @@ import PlaylistTrackCard from "../../components/playlist/PlaylistTrackCard";
 const SearchBar = ({ className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [result, setResult] = useState();
-
+  const [loadding, setLoading] = useState(false);
   const onSearch = async (query) => {
     try {
+      setLoading(true);
       const searchResponse = await search(query);
+      setLoading(false);
       setResult(searchResponse);
     } catch (error) {
       console.error(error);

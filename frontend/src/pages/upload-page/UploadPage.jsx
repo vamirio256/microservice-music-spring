@@ -15,6 +15,7 @@ export const UploadPage = () => {
   const [fileMusic, setFileMusic] = useState();
   const [name, setName] = useState("");
   const [image, setImage] = useState(undefined);
+
   const [crop, setCrop] = useState({
     unit: "px",
     width: 150,
@@ -25,17 +26,12 @@ export const UploadPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const ref = useRef(null);
-  // load file image
-  function loadfileImage(event) {
-    // ref.current.style.backgroundImage =
-    //   "url(" + URL.createObjectURL(event.target.files[0]) + ")";
 
+  function loadfileImage(event) {
     setImage(event.target.files[0]);
-    getCroppedImage();
-    // console.log(URL.createObjectURL(image));
   }
-  const onImageLoaded = (image) => {
-    imageRef.current = image;
+  const onImageLoaded = (e) => {
+    // getCroppedImage();
   };
 
   const onCropChange = (crop) => {
@@ -48,7 +44,7 @@ export const UploadPage = () => {
     setFileMusic(e.target.files[0]);
   };
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
-  const getCroppedImage = () => {
+  async function getCroppedImage() {
     if (imageRef && crop.width && crop.height) {
       const canvas = document.createElement("canvas");
       const scaleX = imageRef.current.naturalWidth / imageRef.current.width;
@@ -58,6 +54,7 @@ export const UploadPage = () => {
       canvas.width = crop.width * scaleX;
       canvas.height = crop.height * scaleY;
 
+      console.log(imageRef.current.naturalWidth);
       ctx.drawImage(
         imageRef.current,
         crop.x * scaleX,
@@ -70,21 +67,37 @@ export const UploadPage = () => {
         crop.height * scaleY
       );
 
-      const croppedImage = canvas.toDataURL("image/jpeg");
-      console.log(croppedImage); // Do whatever you want with the cropped image data URL
+      const file = await canvasToFile(canvas, "cropped.jpg", "image/jpeg");
+      return file;
     }
-  };
+  }
+  function canvasToFile(canvas, fileName, mimeType) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          const file = new File([blob], fileName, { type: mimeType });
+          resolve(file);
+        },
+        mimeType,
+        1 // Quality (1 is the maximum quality)
+      );
+    });
+  }
+
   const uploadFile = async () => {
     if (image == undefined) {
       setError("Please choose music image");
       return;
     }
+    const fileImage2 = await getCroppedImage();
+    console.log(URL.createObjectURL(fileImage2));
     if (name == "") {
       setError("Please provide music name");
       return;
     }
 
     setLoading(true); // Start loading
+    const fileImage = await getCroppedImage();
     const formData = new FormData();
     formData.append(
       "track",
@@ -92,7 +105,7 @@ export const UploadPage = () => {
         type: "application/json",
       })
     );
-    formData.append("cover", image);
+    formData.append("cover", fileImage);
     formData.append("audio", fileMusic);
 
     try {
@@ -202,23 +215,25 @@ export const UploadPage = () => {
           <div>
             {image ? (
               <div className="relative">
-                <div className="absolute top-[-26px] right-1 z-10 flex items-center">
+                <div
+                  className="absolute top-[-26px] right-1 z-10 flex items-center"
+                  onClick={() => setImage(undefined)}
+                >
                   Close
-                  <AiOutlineCloseCircle
-                    size={15}
-                    onClick={() => setImage(undefined)}
-                  />
+                  <AiOutlineCloseCircle size={15} />
                 </div>
                 <ReactCrop
                   // src={URL.createObjectURL(image)}
-                  // onImageLoaded={onImageLoaded}
+
                   crop={crop}
                   onChange={onCropChange}
                   aspect={1}
                 >
                   <img
+                    onLoad={onImageLoaded}
                     src={URL.createObjectURL(image)}
                     className="w-[200px] h-[200px] object-contain"
+                    ref={imageRef}
                   />
                 </ReactCrop>
               </div>
