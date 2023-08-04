@@ -40,7 +40,6 @@ const Waveform = ({ className, audioUrl }) => {
   }
 
   useEffect(() => {
-    console.log("hello world");
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 

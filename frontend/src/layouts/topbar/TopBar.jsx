@@ -14,7 +14,7 @@ const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-  const { screenWidth, screenHeight } = useScreenDimensions();
+  const isDesktop = useScreenDimensions();
   const [openMenu, setOpenMenu] = useState(false);
   const [isTransition, setIsTransition] = useState(false);
   const logout = () => {
@@ -22,12 +22,12 @@ const TopBar = () => {
     window.location.href = "/";
   };
   useEffect(() => {
-    if (screenWidth > 1023) {
+    if (isDesktop) {
       setOpenMenu(true);
     } else {
       setOpenMenu(false);
     }
-  }, [screenWidth]);
+  }, [isDesktop]);
 
   const openConfirmModal = () => {
     dispatch({
@@ -141,7 +141,7 @@ const TopBar = () => {
                   className="rounded-full w-[20px] h-[20px]"
                 />
               }
-              classname={"lg:w-[210px]"}
+              classname={"lg:w-[250px]"}
             />
             <button onClick={openConfirmModal}>
               <IoLogOut color="white" size={30} />

@@ -6,12 +6,12 @@ const screenSizeEvent = new Event("screenSizeChanged");
 
 const useScreenDimensions = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  // const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
-      setScreenHeight(window.innerHeight);
+      // setScreenHeight(window.innerHeight);
       window.dispatchEvent(screenSizeEvent);
     };
 
@@ -21,8 +21,10 @@ const useScreenDimensions = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  return { screenWidth, screenHeight };
+  if (screenWidth > 1023) {
+    return true;
+  }
+  return false;
 };
 
 export default useScreenDimensions;

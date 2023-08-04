@@ -26,18 +26,19 @@ const LibraryPage = () => {
   return (
     <>
       <div className="px-8 pt-4">
+        <HistoryTab />
         <TabNavigateBar />
         {user && (
           <Routes>
             <Route index element={<HistoryTab />} />
-            <Route
+            {/* <Route
               path="/playlist"
               element={<PlaylistTab playlists={user.profile.playlists} />}
             />
             <Route
               path="/favorite"
               element={<FavoriteTab favorites={user.profile.favorites} />}
-            />
+            /> */}
           </Routes>
         )}
       </div>

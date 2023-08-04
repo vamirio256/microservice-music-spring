@@ -11,6 +11,8 @@ export const login = async (email, password) => {
       password,
     }),
   });
+
   const token = await response.json();
+
   return token;
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BiLogoSoundcloud } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
+import useScreenDimensions from "../../components/useScreenDimensions";
 
 const TopBarItem = ({
   icon: Icon,
@@ -12,13 +13,17 @@ const TopBarItem = ({
 }) => {
   const location = useLocation();
   const background_color = location.pathname === to ? "bg-black" : "bg-[#333]";
-
+  const isDesktop = useScreenDimensions();
   return (
     <div className="flex flex-row">
       <Link
         to={to}
         className={`flex px-2 text-slate-300 hover:text-white ${background_color} w-full h-full justify-start lg:justify-center items-center px-5 py-3 lg:w-auto ${classname}`}
-        onClick={() => setOpenMenu(false)}
+        onClick={() => {
+          if (!isDesktop) {
+            setOpenMenu(false);
+          }
+        }}
       >
         <span className="mr-3 ">{Icon}</span>
         <span>{label}</span>

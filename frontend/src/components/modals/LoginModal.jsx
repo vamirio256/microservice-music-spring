@@ -7,11 +7,12 @@ import { getUserData } from "../../apis/user/getUserData";
 import NotificationBar from "./NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 import { googleLogin } from "../../apis/auth/googleLogin";
-
+import loading_gif from "../../assets/icons/loading.gif";
 const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
   const [password, setPassword] = useState("user1");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const modalIsOpen = useSelector((state) => state.modalReducer.login.isShowed);
@@ -30,7 +31,9 @@ const LoginModal = ({ setIsAuthenticated }) => {
     }
     try {
       // login
+      setLoading(true);
       const response = await login(email, password);
+      setLoading(false);
       const token = response.jwtToken;
       localStorage.setItem("token", token);
 
@@ -43,6 +46,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
       navigate("/home");
     } catch (err) {
       setError(true);
+      setLoading(false);
       console.error(err);
     }
   };
@@ -124,7 +128,17 @@ const LoginModal = ({ setIsAuthenticated }) => {
             className={`${style} text-white bg-[#f50] border-none`}
             type="submit"
           >
-            Login
+            {loading ? (
+              <img
+                src={loading_gif}
+                width={30}
+                height={30}
+                alt=""
+                className="inline"
+              />
+            ) : (
+              "Login"
+            )}
           </button>
           <p>
             {error ? (

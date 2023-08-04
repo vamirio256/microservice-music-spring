@@ -11,8 +11,6 @@ import image from "../../assets/images/temp_track_cover.jfif";
 import TrackCard from "./TrackCard";
 
 const TrackSwiper = ({ playlist }) => {
-  console.log(playlist);
-
   return (
     <>
       {playlist ? (
