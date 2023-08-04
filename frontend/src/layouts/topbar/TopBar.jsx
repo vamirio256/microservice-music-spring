@@ -131,7 +131,7 @@ const TopBar = () => {
             />
           </div>
           {/* account infor */}
-          <div className="relative flex">
+          <div className="relative flex lg:w-[300px]">
             <TopBarItem
               label={user.username}
               to={`/user/${user.id}`}
@@ -141,7 +141,7 @@ const TopBar = () => {
                   className="rounded-full w-[20px] h-[20px]"
                 />
               }
-              classname={"lg:w-[250px]"}
+              classname={"w-full "}
             />
             <button onClick={openConfirmModal}>
               <IoLogOut color="white" size={30} />

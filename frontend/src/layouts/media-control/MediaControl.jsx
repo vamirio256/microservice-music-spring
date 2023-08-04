@@ -165,7 +165,7 @@ const MediaControl = () => {
   }
   return (
     currentSong && (
-      <div className="sticky bottom-0 w-full z-10 bg-[#f2f2f2] border-[#ccc] border-t text-xs flex justify-center">
+      <div className="sticky bottom-0 pb-5 lg:pb-0 w-full z-10 bg-[#f2f2f2] border-[#ccc] border-t text-xs flex justify-center px-2">
         <audio
           ref={audioRef}
           src={currentSong.audioUrl}
@@ -210,55 +210,51 @@ const MediaControl = () => {
 
           {/* track control */}
           <div className="flex justify-center items-center">
-            {/* current time */}
-            <p className="text-xs mr-4 text-[#f50]">
-              {formatDuration(currentTime.toFixed(0))}
-            </p>
-
             <PlaybackTimeLine
               progress={progress}
               handleTimeline={handleTimeline}
-            />
-
-            {/* total duration */}
-            <p>{formatDuration(duration.toFixed(0))}</p>
-          </div>
-
-          {/* volume control */}
-          <div className="">
-            <VolumeControl
-              VOLUME_MAX={VOLUME_MAX}
-              handleVolume={handleVolume}
+              currentTime={currentTime}
+              duration={duration}
             />
           </div>
 
-          {/* track info */}
-          <div className="flex flex-row">
-            <img
-              src={currentSong.coverUrl}
-              className="h-[30px] w-[30px] mr-5"
-            />
-            <div className="flex flex-col">
-              <Link to={`/track/${currentSong.id}`} className="">
-                {currentSong.name}
-              </Link>
-              <Link
-                to={`/user/${currentSong.user.id}`}
-                className="text-[11px] text-gray-400"
-              >
-                {currentSong.user.username}
-              </Link>
+          <div className="flex items-center">
+            {/* volume control */}
+            <div className="order-2 lg:order-none">
+              <VolumeControl
+                VOLUME_MAX={VOLUME_MAX}
+                handleVolume={handleVolume}
+              />
             </div>
-          </div>
 
-          {/* favorite, queue */}
-          <div className="flex flex-row item-center justify-center">
-            <Favorite track={currentSong} />
-            <BiSolidPlaylist
-              size={15}
-              className="ml-2 cursor-pointer"
-              onClick={() => setIsShowed(!isShowed)}
-            />
+            {/* track info */}
+            <div className="flex flex-row mx-3 max-w-[200px]">
+              <img
+                src={currentSong.coverUrl}
+                className="h-[30px] w-[30px] mr-5"
+              />
+              <div className="flex flex-col">
+                <Link to={`/track/${currentSong.id}`} className="">
+                  {currentSong.name}
+                </Link>
+                <Link
+                  to={`/user/${currentSong.user.id}`}
+                  className="text-[11px] text-gray-400"
+                >
+                  {currentSong.user.username}
+                </Link>
+              </div>
+            </div>
+
+            {/* favorite, queue */}
+            <div className="flex flex-row item-center justify-center">
+              <Favorite track={currentSong} className="relative top-0.5" />
+              <BiSolidPlaylist
+                size={15}
+                className="ml-2 cursor-pointer"
+                onClick={() => setIsShowed(!isShowed)}
+              />
+            </div>
           </div>
         </div>
       </div>

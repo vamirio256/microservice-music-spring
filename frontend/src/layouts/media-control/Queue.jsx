@@ -9,7 +9,7 @@ const Queue = ({ isShowed, setIsShowed }) => {
   return (
     <>
       {isShowed ? (
-        <div className="absolute right-2 bottom-[56px] border boder-solid shadow-sm h-[600px] w-[500px] bg-white">
+        <div className="absolute right-2 bottom-[56px] border boder-solid shadow-sm h-[400px] w-[90%] md:w-[500px] bg-white">
           {/* header */}
           <div className="flex flex-row justify-between border-b item-center px-5 py-4">
             <h1 className="text-xl">Next up</h1>
