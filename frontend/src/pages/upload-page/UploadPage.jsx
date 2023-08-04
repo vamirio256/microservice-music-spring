@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
-import { AiFillCamera } from "react-icons/ai";
+import {
+  AiFillCamera,
+  AiFillCloseSquare,
+  AiOutlineCloseCircle,
+} from "react-icons/ai";
 import NotificationBar from "../../components/modals/NotificationBar";
 import loadingimage from "../../assets/images/loading-gif.gif";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 export const UploadPage = () => {
   const fileInputRef = useRef(null);
   const fileImageInputRef = useRef(null);
@@ -9,17 +15,32 @@ export const UploadPage = () => {
   const [fileMusic, setFileMusic] = useState();
   const [name, setName] = useState("");
   const [image, setImage] = useState(undefined);
+  const [crop, setCrop] = useState({
+    unit: "px",
+    width: 150,
+    height: 150,
+  });
 
+  const imageRef = useRef(null);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState("");
   const ref = useRef(null);
   // load file image
   function loadfileImage(event) {
-    ref.current.style.backgroundImage =
-      "url(" + URL.createObjectURL(event.target.files[0]) + ")";
+    // ref.current.style.backgroundImage =
+    //   "url(" + URL.createObjectURL(event.target.files[0]) + ")";
 
     setImage(event.target.files[0]);
+    getCroppedImage();
+    // console.log(URL.createObjectURL(image));
   }
+  const onImageLoaded = (image) => {
+    imageRef.current = image;
+  };
+
+  const onCropChange = (crop) => {
+    setCrop(crop);
+  };
 
   const handleFileMusic = (e) => {
     set_upload_display(false);
@@ -27,9 +48,43 @@ export const UploadPage = () => {
     setFileMusic(e.target.files[0]);
   };
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
-  const uploadFile = async () => {
-    setLoading(true); // Start loading
+  const getCroppedImage = () => {
+    if (imageRef && crop.width && crop.height) {
+      const canvas = document.createElement("canvas");
+      const scaleX = imageRef.current.naturalWidth / imageRef.current.width;
+      const scaleY = imageRef.current.naturalHeight / imageRef.current.height;
+      const ctx = canvas.getContext("2d");
 
+      canvas.width = crop.width * scaleX;
+      canvas.height = crop.height * scaleY;
+
+      ctx.drawImage(
+        imageRef.current,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width * scaleX,
+        crop.height * scaleY
+      );
+
+      const croppedImage = canvas.toDataURL("image/jpeg");
+      console.log(croppedImage); // Do whatever you want with the cropped image data URL
+    }
+  };
+  const uploadFile = async () => {
+    if (image == undefined) {
+      setError("Please choose music image");
+      return;
+    }
+    if (name == "") {
+      setError("Please provide music name");
+      return;
+    }
+
+    setLoading(true); // Start loading
     const formData = new FormData();
     formData.append(
       "track",
@@ -53,7 +108,7 @@ export const UploadPage = () => {
         alert("Upload success");
         set_upload_display(true);
         fileInputRef.current.value = "";
-        fileImageInputRef.current.value = "";
+        setImage(undefined);
       } else {
         alert("Something went wrong");
       }
@@ -67,7 +122,6 @@ export const UploadPage = () => {
   function cancalUpload() {
     set_upload_display(true);
     fileInputRef.current.value = "";
-    fileImageInputRef.current.value = "";
   }
 
   return (
@@ -77,7 +131,7 @@ export const UploadPage = () => {
       </div>
       <div className={"flex justify-center flex-col items-center"}>
         {/* upload usage */}
-        <div className="w-[800px] mt-10 p-10 border-[1px] border-[#f2f2f2]">
+        <div className="lg:max-w-[800px] w-full mt-10 p-5 lg:p-10 border-[1px] border-[#f2f2f2]">
           <p>0% of freeloads used</p>
           <input
             min={0}
@@ -93,7 +147,7 @@ export const UploadPage = () => {
           className={
             !upload_display
               ? "hidden"
-              : "w-[800px] mt-3 shadow-lg p-10 border-[1px] border-[#f2f2f2]"
+              : "max-w-[800px] w-full mt-3 shadow-lg p-5 lg:p-10 border-[1px] border-[#f2f2f2]"
           }
         >
           <h1 className="text-center">
@@ -103,7 +157,7 @@ export const UploadPage = () => {
           <input
             id="file-upload"
             type="file"
-            className="px-10 py-2 bg-orange-400 block m-auto mt-3 shadow-md bg-orange text-white"
+            className="px-10 py-2 bg-orange-400 block m-auto mt-3 shadow-md bg-orange text-white w-full max-w-[400px]"
             accept=".MP3, .FLAC, .WAV, .ALAC, .AIFF"
             onChange={handleFileMusic}
             ref={fileInputRef}
@@ -133,37 +187,63 @@ export const UploadPage = () => {
             </label>
             <br />
           </div>
-          <div className="mt-10">
+          <div className="mt-10 text-center">
             Provide FLAC, WAV, ALAC, or AIFF htmlFor highest audio quality.
           </div>
         </div>
 
         {/* add image  */}
         <div
-          className={`w-[800px] mt-10 shadow-xl p-10 flex ${
+          className={`lg:max-w-[800px] w-full mt-10 p-5 lg:p-10  shadow-xl flex  ${
             upload_display ? "hidden" : undefined
           }`}
         >
           {/* image */}
           <div>
-            <label
-              ref={ref}
-              htmlFor="image_upload"
-              className="inline-block cursor-pointer px-10 pt-[180px] bg-cover pb-5 bg-slate-600 bg-no-repeat bg-center"
-            >
-              <span className="bg-red-100 p-2">
-                <AiFillCamera className="inline" /> Upload file
-              </span>
-            </label>
-            <input
-              required
-              id="image_upload"
-              type="file"
-              accept=".JPEG,.PNG,.JPG"
-              className="hidden"
-              onChange={loadfileImage}
-              ref={fileImageInputRef}
-            />
+            {image ? (
+              <div className="relative">
+                <div className="absolute top-[-26px] right-1 z-10 flex items-center">
+                  Close
+                  <AiOutlineCloseCircle
+                    size={15}
+                    onClick={() => setImage(undefined)}
+                  />
+                </div>
+                <ReactCrop
+                  // src={URL.createObjectURL(image)}
+                  // onImageLoaded={onImageLoaded}
+                  crop={crop}
+                  onChange={onCropChange}
+                  aspect={1}
+                >
+                  <img
+                    src={URL.createObjectURL(image)}
+                    className="w-[200px] h-[200px] object-contain"
+                  />
+                </ReactCrop>
+              </div>
+            ) : (
+              <div>
+                <label
+                  ref={ref}
+                  htmlFor="image_upload"
+                  className="inline-block cursor-pointer px-2 pt-[150px] w-[200px] lg:px-5 bg-cover pb-5 bg-slate-600 bg-no-repeat bg-center"
+                >
+                  <span className="bg-red-100 p-2 flex justify-center items-center">
+                    <AiFillCamera className="inline" /> Upload file
+                  </span>
+                </label>
+                <input
+                  required
+                  id="image_upload"
+                  type="file"
+                  accept=".JPEG,.PNG,.JPG"
+                  className="hidden"
+                  onChange={loadfileImage}
+                  ref={fileImageInputRef}
+                />
+              </div>
+            )}
           </div>
           {/* right infor */}
           <div className="pl-5 w-8/12">
@@ -178,9 +258,14 @@ export const UploadPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <div className="pt-3">
+            <div className="pt-3 text-sm">
               <span className="pr-4">Privacy:</span>
-              <input type="radio" name="privacy" value="public" />
+              <input
+                type="radio"
+                name="privacy"
+                value="public"
+                defaultChecked
+              />
               <label className="pl-1 pr-1" htmlFor="privacy">
                 Public
               </label>
@@ -215,6 +300,7 @@ export const UploadPage = () => {
                 )}
               </button>
             </div>
+            <div className="text-red-400 italic">{error}</div>
           </div>
         </div>
       </div>

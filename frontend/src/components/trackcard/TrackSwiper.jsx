@@ -16,7 +16,7 @@ const TrackSwiper = ({ playlist }) => {
       {playlist ? (
         <>
           <div className="mb-8">
-            <h2 className="mb-8 font-thin text-xl">{playlist.name}</h2>
+            <h2 className="mb-8 font-thin text-xl xl">{playlist.name}</h2>
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
