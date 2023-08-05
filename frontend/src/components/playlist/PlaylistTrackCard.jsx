@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import Favorite from "../buttons/Favorite";
 
 const PlaylistTrackCard = ({
   track,
@@ -69,7 +70,7 @@ const PlaylistTrackCard = ({
 
   return (
     <div
-      className={`flex flex-row border-solid border-b p-[5px] bg-white justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
+      className={`relative flex flex-row border-solid border-b p-[5px] bg-white justify-between group hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
       onClick={toggleAudio}
     >
       <div className="flex flex-row">
@@ -82,16 +83,20 @@ const PlaylistTrackCard = ({
         <span>&bull;</span>
         <span className="ml-2">{track.name}</span>
       </div>
-      <div className="flex flex-row text-[#999] items-center">
+
+      {/* total played time */}
+      <div
+        className={`flex flex-row text-[#999] items-center group-hover:invisible`}
+      >
         <span>
-          {!isPlaying ? (
-            <BsFillPlayFill className="transform" />
-          ) : (
-            <BsFillPauseFill className="transform" size={20} />
-          )}
-          {/* <BsFillPlayFill className="transform" /> */}
+          <BsFillPlayFill className="transform" />
         </span>
         <span>{track.listenedTime}</span>
+      </div>
+
+      {/* hovering button */}
+      <div className="invisible absolute right-0 top-50% group-hover:visible">
+        <Favorite track={track} haveBorder={true} />
       </div>
     </div>
   );

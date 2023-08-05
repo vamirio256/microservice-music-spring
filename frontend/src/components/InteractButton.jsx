@@ -6,6 +6,7 @@ import Share from "./buttons/Share";
 import CopyLink from "./buttons/CopyLink";
 import Edit from "./buttons/Edit";
 import Like from "./buttons/Like";
+import More from "./buttons/More";
 
 const InteractButton = ({ className }) => {
   const dispatch = useDispatch();
@@ -21,15 +22,7 @@ const InteractButton = ({ className }) => {
         <Share />
         <CopyLink />
         <Edit />
-        <button
-          className={`${buttonStyle}`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
-        >
-          <BsThreeDots className="text-[14px]" />
-          <span className="ml-1">More</span>
-        </button>
+        <More />
       </div>
     </>
   );

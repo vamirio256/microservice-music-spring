@@ -43,7 +43,7 @@ export const SideBarTrackCard = ({ track }) => {
   }, [historySongs, currentSong]);
 
   return (
-    <div className="flex mb-4">
+    <div className="flex mb-4 relative group">
       {/* image right */}
       <div className="cursor-pointer relative w-[50px] h-[50px] group">
         <img
@@ -82,6 +82,12 @@ export const SideBarTrackCard = ({ track }) => {
           <Favorite track={track} className="relative top-1 mx-2" />
           <div>0</div>
         </div>
+      </div>
+
+      {/* hover button */}
+      <div className="">
+        <Favorite haveBorder={true}/>
+        
       </div>
     </div>
   );

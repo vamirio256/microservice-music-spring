@@ -18,7 +18,7 @@ const Favorite = ({ track, className, haveBorder, haveText }) => {
   };
 
   return (
-    <div className={`text-xs ${className}`}>
+    <div title="Like" className={`text-xs ${className}`}>
       {isFavorite ? (
         <button
           onClick={handleRemoveFavorite}

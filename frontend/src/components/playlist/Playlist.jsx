@@ -36,6 +36,7 @@ const Playlist = ({ playlist }) => {
     });
     setQueue();
   }
+
   useEffect(() => {
     if (
       !currentPlaying ||
@@ -91,10 +92,11 @@ const Playlist = ({ playlist }) => {
               <Waveform audioUrl={currentPlaying.audioUrl} />
 
               {/* tracks in playlist */}
-              <div className="border-[1px] border-solid mt-3">
+              <div className="border-[1px] border-solid mt-3 h-[100px] overflow-auto">
                 {playlist.tracks.map((track, index) => (
                   <PlaylistTrackCard
                     key={index}
+                    size={"small"}
                     track={track}
                     setCurrentPlaying={setCurrentPlaying}
                     playTrack={playTrack}
