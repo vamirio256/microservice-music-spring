@@ -22,6 +22,7 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
         overlay: {
           display: "flex",
           justifyContent: "center",
+          // alignItems:"baseline"
           alignItems: "center",
         },
         content: {
