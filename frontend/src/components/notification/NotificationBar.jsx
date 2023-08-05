@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 const NotificationBar = ({ children, message, className }) => {
   const notification = useSelector((state) => state.notificationReducer);
   const dispatch = useDispatch();
-  const test = useSelector((state) => state.notificationReducer);
+
   useEffect(() => {
     if (notification.isShowed) {
       const timeout = setTimeout(() => {
         dispatch({
           type: "CLOSE_NOTIFICATION",
         });
-      }, 4800);
+      }, 4500);
 
       return () => clearTimeout(timeout);
     }
@@ -28,11 +28,12 @@ const NotificationBar = ({ children, message, className }) => {
     <>
       {notification.isShowed && (
         <div
-          className={`${className} notification-bar fixed h-[100px] w-[200px] overflow-hidden left-0 right-0 m-auto bottom-[60px] bg-[#fff] p-3 rounded-md shadow-md border-[1px] border-solid cursor-pointer flex flex-col z-max`}
+          className={`${className} notification-bar fixed h-fit w-[200px] overflow-hidden right-0 g-[#fff] p-3 rounded-md shadow-md border-[1px] border-solid cursor-pointer flex flex-col z-max bg-white m-auto bottom-[60px] left-0 right-0"
+          }`}
           onClick={hideNotification}
         >
           <div className="flex flex-row items-center">
-            <IoNotifications size={50} className="text-[#f50] mr-3"/>
+            <IoNotifications size={50} className="text-[#f50] mr-3" />
             {notification.text}
             {children}
           </div>

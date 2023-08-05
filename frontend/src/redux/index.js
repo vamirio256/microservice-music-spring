@@ -12,6 +12,7 @@ import notificationReducer from "./reducers/notification";
 import queueReducer from "./reducers/queue";
 import userReducer from "./reducers/user";
 import historyReducer from "./reducers/history";
+import notificationListReducer from "./reducers/notificationList";
 
 const allReducers = combineReducers({
   historyReducer: historyReducer,
@@ -25,5 +26,6 @@ const allReducers = combineReducers({
   notificationReducer: notificationReducer,
   queueReducer: queueReducer,
   userReducer: userReducer,
+  notificationListReducer: notificationListReducer,
 });
 export default allReducers;

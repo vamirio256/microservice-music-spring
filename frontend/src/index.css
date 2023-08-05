@@ -85,6 +85,20 @@ body{
     width: 0;
   }
 }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
 .notification-bar::after {
   content: "";
   display: block;
