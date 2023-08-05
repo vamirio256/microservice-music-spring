@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { formatDuration } from "../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,8 @@ const Waveform = ({ className, audioUrl }) => {
   const timeRef = useRef(null);
   const currentProgress = useSelector((state) => state.progressReducer);
   const currentSong = useSelector((state) => state.currentSongReducer);
+
+  const [isClickEvent, setIsClickEvent] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (wavesurfer.current) {
@@ -22,6 +24,7 @@ const Waveform = ({ className, audioUrl }) => {
         }
       });
     }
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -74,6 +77,7 @@ const Waveform = ({ className, audioUrl }) => {
       barGap: 0.75,
       normalize: true,
     });
+    // wavesurfer.current.on("click", handleClickSuffer);
 
     // wavesurfer.current.on("ready", () => {
     //   // Start the AudioContext after a user gesture
@@ -81,36 +85,11 @@ const Waveform = ({ className, audioUrl }) => {
     // });
 
     wavesurfer.current.load(audioUrl);
-    wavesurfer.current.on("click", () => {
-      // Handle logic for the 'ontimeupdate' equivalent here
-      // For example, update the current time or progress bar
 
-      const currentTime = wavesurfer.current.getCurrentTime();
-      dispatch({
-        type: "MODIFYPROGRESS",
-        progress: currentTime,
-      });
-    });
-
-    wavesurfer.current.on("ready", () => {
-      console.log("ready");
-
-      const buffer = wavesurfer.current.getDecodedData();
-      // console.log(buffer);
-
-      let channel0Peaks = buffer.getChannelData(0);
-      console.log("channel0Peaks : ", channel0Peaks);
-
-      let channel1Peaks = buffer.getChannelData(1);
-      console.log("channel1Peaks : ", channel1Peaks);
-
-      console.log("buffer length : ", buffer.length);
-      console.log("buffer duration : ", buffer.duration);
-      console.log("buffer sampleRate : ", buffer.sampleRate);
-      console.log("buffer numberOfChannels : ", buffer.numberOfChannels);
-    });
     return () => {
-      // Clean up the WaveSurfer instance on component unmount
+      // Clean up the WaveSurfer instance on component unmount\
+
+      // wavesurfer.current.un("click", handleClickSuffer);
       wavesurfer.current.destroy();
     };
   }, [audioUrl]);
@@ -133,6 +112,38 @@ const Waveform = ({ className, audioUrl }) => {
       );
     }
   }, [currentProgress]);
+
+  function handleClickSuffer() {
+    // Handle logic for the 'ontimeupdate' equivalent here
+    // For example, update the current time or progress bar
+
+    if (!audioUrl || !currentSong || audioUrl !== currentSong.audioUrl) {
+      wavesurfer.current.setTime(0);
+
+      return;
+    }
+
+    const currentTime = wavesurfer.current.getCurrentTime();
+    dispatch({
+      type: "MODIFYPROGRESS",
+      progress: currentTime,
+    });
+  }
+  useEffect(() => {
+    // console.log(audioUrl !== currentSong?.audioUrl);
+    // if (audioUrl !== currentSong?.audioUrl) {
+    //   wavesurfer.current.un("click", handleClickSuffer);
+    // }
+    wavesurfer.current.on("click", handleClickSuffer);
+    return () => {
+      wavesurfer.current.un("click", handleClickSuffer);
+      if (timeRef.current) {
+        timeRef.current.textContent = "0:00";
+      }
+
+      wavesurfer.current.setTime(0);
+    };
+  }, [currentSong]);
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 

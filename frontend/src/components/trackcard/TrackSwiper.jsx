@@ -11,20 +11,29 @@ import image from "../../assets/images/temp_track_cover.jfif";
 import TrackCard from "./TrackCard";
 
 const TrackSwiper = ({ playlist }) => {
-  console.log(playlist);
-
   return (
     <>
       {playlist ? (
         <>
           <div className="mb-8">
-            <h2 className="mb-8 font-thin text-xl">{playlist.name}</h2>
+            <h2 className="mb-8 font-thin text-xl xl">{playlist.name}</h2>
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               spaceBetween={10}
-              slidesPerView={4}
+              slidesPerView={2}
               navigation
+              breakpoints={{
+                640: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 50,
+                },
+              }}
             >
               <ul>
                 {playlist.tracks.map((track, index) => (

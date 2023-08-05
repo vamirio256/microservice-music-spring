@@ -25,29 +25,30 @@ public class ZyanBackEndApplication {
 			S3Service s3Service,
 			S3Bucket s3Bucket,
 			UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder
-	){
+			PasswordEncoder passwordEncoder) {
 		return args -> {
-//			TestBucketUploadAndDownload(s3Service, s3Bucket);
-//			ApplyAdmin(userService, passwordEncoder);
+			// TestBucketUploadAndDownload(s3Service, s3Bucket);
+			// ApplyAdmin(userService, passwordEncoder);
 		};
 	}
 
 	private void ApplyAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		User user = User.builder()
 				.username("admin")
-//				.email("admin@gmail.com")
+				// .email("admin@gmail.com")
 				.password(passwordEncoder.encode("admin"))
-//				.roles("ADMIN")
+				// .roles("ADMIN")
 				.build();
 		userRepository.save(user);
+
 	}
 
-//	private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket s3Bucket) {
-//		s3Service.putObject(s3Bucket.getCustomer(),"foo","Hello World".getBytes());
-//
-//		byte[] obj = s3Service.getObject(s3Bucket.getCustomer(),"foo");
-//
-//		System.out.println("Hooray: " + new String(obj));
-//	}
+	// private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket
+	// s3Bucket) {
+	// s3Service.putObject(s3Bucket.getCustomer(),"foo","Hello World".getBytes());
+	//
+	// byte[] obj = s3Service.getObject(s3Bucket.getCustomer(),"foo");
+	//
+	// System.out.println("Hooray: " + new String(obj));
+	// }
 }

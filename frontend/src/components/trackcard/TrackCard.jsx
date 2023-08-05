@@ -13,6 +13,7 @@ import PlaylistModal from "../modals/PlaylistModal";
 const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
+  const historySongs = useSelector((state) => state.historyReducer);
   const openModal = () => {
     return;
   };
@@ -54,7 +55,7 @@ const TrackCard = ({ className, track }) => {
     } else {
       setIsPlaying(currentSong.isPlaying);
     }
-  }, [currentSong]);
+  }, [currentSong, historySongs]);
 
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
@@ -68,7 +69,7 @@ const TrackCard = ({ className, track }) => {
             <img
               src={track.coverUrl}
               alt={track.name}
-              className={`w-full h-full object-cover border-[1px] border-[#ccc] duration-300 ease-in-out 
+              className={`w-[176px] h-[176px] object-contain  border-[1px] border-[#ccc] duration-300 ease-in-out 
             group-hover:scale-105 group-hover:opacity-80 ${
               isPlaying && "scale-105 opacity-80"
             }`}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsHeartFill, BsHeart } from "react-icons/bs";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const Favorite = ({ track, className, haveBorder, haveText }) => {
   const [isFavorite, setIsFavorite] = useState(track ? track.favorite : false);
@@ -31,7 +32,8 @@ const Favorite = ({ track, className, haveBorder, haveText }) => {
           onClick={handleAddFavorite}
           className={haveBorder && `border border-solid`}
         >
-          <BsHeartFill className="text-white" />
+          <AiOutlineHeart />
+
           {haveText && <div> Like</div>}
         </button>
       )}

@@ -9,7 +9,7 @@ const PlaylistTrackCard = ({
   playTrack,
   stopTrack,
   setQueue,
-  className
+  className,
 }) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,20 +37,28 @@ const PlaylistTrackCard = ({
           isPlaying: true,
         },
       });
+
+      if (!setCurrentPlaying) {
+        return;
+      }
       setQueue();
+      setCurrentPlaying(track);
+      setIsPlaying(true);
     }
   };
   useEffect(() => {
-    if (!setCurrentPlaying) {
+    if (!stopTrack || !currentSong) {
       return;
     }
-    setCurrentPlaying(track);
-    if (isPlaying) {
-      playTrack();
-    } else {
-      stopTrack();
+    if (currentSong.audioUrl == track.audioUrl) {
+      if (isPlaying) {
+        playTrack();
+      } else {
+        stopTrack();
+      }
     }
   }, [isPlaying]);
+
   useEffect(() => {
     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
       setIsPlaying(false);

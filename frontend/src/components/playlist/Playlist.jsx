@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  BsFillPauseFill,
-  BsFillPlayFill
-} from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import InteractButton from "../InteractButton";
 import Waveform from "../Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 
 const Playlist = ({ playlist }) => {
   // const [playlist, setPlaylist] = useState();
-
+  const [shouldUpdateCurrentPlaying, setShouldUpdateCurrentPlaying] =
+    useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlaying, setCurrentPlaying] = useState();
-
+  const currentSong = useSelector((state) => state.currentSongReducer);
   const dispatch = useDispatch();
-
 
   const playTrack = () => {
     setIsPlaying(true);
@@ -39,7 +36,15 @@ const Playlist = ({ playlist }) => {
     });
     setQueue();
   }
-
+  useEffect(() => {
+    if (
+      !currentPlaying ||
+      !currentSong ||
+      currentPlaying.audioUrl !== currentSong.audioUrl
+    ) {
+      setIsPlaying(false);
+    }
+  }, [currentSong]);
   useEffect(() => {
     setCurrentPlaying(playlist.tracks[0]);
   }, [playlist]);
@@ -49,13 +54,14 @@ const Playlist = ({ playlist }) => {
       {playlist && currentPlaying ? (
         <>
           <h1 className="text-xl mb-5">{playlist.name}</h1>
-          <div className="flex flex-row">
+
+          <div className="flex flex-col justify-center items-center md:flex-row md:items-start">
             <img
               src={currentPlaying.coverUrl}
-              className="h-[160px] w-[160px] mr-4"
+              className="h-[160px] w-[160px] mr-4 mb-10"
             />
             <div className="w-full flex flex-col">
-              <div className="mb-3 flex flex-row justify-between">
+              <div className="mb-3 flex flex-row justify-between ">
                 <div className="flex flex-row items-center">
                   {/* play button */}
                   {!isPlaying ? (

@@ -28,8 +28,9 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
         content: {
           inset: "0",
           position: "relative",
-          // borderRadius: "20px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          marginLeft: "10px",
+          marginRight: "10px",
           // width: "500px",
           // height: "500px",
         },

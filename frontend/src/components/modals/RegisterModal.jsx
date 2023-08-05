@@ -105,7 +105,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
   return (
     <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
       {!confirmEmail ? (
-        <>
+        <div className="max-w-md md:max-w-xl m-2">
           <button onClick={closeModal} className="ml-auto mr-0 block">
             <RxCross1 />
           </button>
@@ -219,7 +219,7 @@ const RegisterModal = ({ setIsAuthenticated }) => {
             </p>
             <NotificationBar />
           </form>
-        </>
+        </div>
       ) : (
         <div className="flex flex-col items-center">
           <p>

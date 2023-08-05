@@ -9,10 +9,12 @@ import { RxCross1 } from "react-icons/rx";
 import { googleLogin } from "../../apis/auth/googleLogin";
 import { FcGoogle } from "react-icons/fc";
 
+import loading_gif from "../../assets/icons/loading.gif";
 const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
   const [password, setPassword] = useState("user1");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const modalIsOpen = useSelector((state) => state.modalReducer.login.isShowed);
@@ -31,7 +33,9 @@ const LoginModal = ({ setIsAuthenticated }) => {
     }
     try {
       // login
+      setLoading(true);
       const response = await login(email, password);
+      setLoading(false);
       const token = response.jwtToken;
       localStorage.setItem("token", token);
 
@@ -44,6 +48,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
       navigate("/home");
     } catch (err) {
       setError(true);
+      setLoading(false);
       console.error(err);
     }
   };
@@ -78,7 +83,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
         >
           Continue with Facebook
         </button> */}
-        {/* <button
+          {/* <button
           type="button"
           className={`${style} text-black border-[1px] border-[#e5e5e5]`}
           onClick={handleGoogleLogin}
