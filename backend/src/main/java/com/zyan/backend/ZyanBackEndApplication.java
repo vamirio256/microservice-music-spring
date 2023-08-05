@@ -40,6 +40,7 @@ public class ZyanBackEndApplication {
 				// .roles("ADMIN")
 				.build();
 		userRepository.save(user);
+
 	}
 
 	// private static void TestBucketUploadAndDownload(S3Service s3Service, S3Bucket
