@@ -5,6 +5,7 @@ import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Favorite from "../buttons/Favorite";
 import { Link } from "react-router-dom";
+import UserHoverBar from "../trackcard/UserHoverBar";
 
 export const SideBarTrackCard = ({ track }) => {
   const dispatch = useDispatch();
@@ -67,12 +68,7 @@ export const SideBarTrackCard = ({ track }) => {
 
       {/* right information */}
       <div className="pl-2">
-        <Link
-          to={`/user/${currentSong.user.id}`}
-          className="text-gray-500 text-xs"
-        >
-          {track.user.username}
-        </Link>
+        <UserHoverBar user={currentSong.user} />
         <Link
           to={`/track/${track.id}`}
           className="text-sm line-clamp-1 text-black my-[-3px]"

@@ -10,7 +10,7 @@ const SideBarSection = ({ header, icon, children, sideButton }) => {
             <span>{icon}</span>
             <span className="ml-3">{header}</span>
           </div>
-          <Link className="text-xs">{sideButton}</Link>
+          {sideButton}
         </div>
       </div>
       {children}

@@ -121,12 +121,8 @@ const TrackCard = ({ className, track }) => {
         {track.name}
       </Link>
       {/* track artist*/}
-      <Link
-        to={`/user/${track.user.id}`}
-        className={`text-xs font-extralight text-gray-400 truncate`}
-      >
-        <UserHoverBar user={track.user} />
-      </Link>
+
+      <UserHoverBar user={track.user} />
     </div>
   );
 };

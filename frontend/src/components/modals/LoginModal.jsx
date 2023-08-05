@@ -7,6 +7,8 @@ import { getUserData } from "../../apis/user/getUserData";
 import NotificationBar from "./NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 import { googleLogin } from "../../apis/auth/googleLogin";
+import { FcGoogle } from "react-icons/fc";
+
 import loading_gif from "../../assets/icons/loading.gif";
 const LoginModal = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("user1@gmail.com");
@@ -61,25 +63,18 @@ const LoginModal = ({ setIsAuthenticated }) => {
     }
   };
 
-  const style =
-    "w-full h-[40px] rounded-[9px] mt-2.5 border border-solid shadow-sm";
+  const style = "w-full h-[40px] rounded-[5px] mt-2.5 border border-solid border-[#ccc]";
 
   return (
     <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
-      <div className="max-w-md md:max-w-xl m-2">
-        <button onClick={closeModal} className="ml-auto mr-0 block">
-          <RxCross1 />
-        </button>
-        <div className="flex flex-col items-center">
-          <h1 className="text-xl font-normal">Sign in</h1>
-          <div className="flex flex-row items-center w-full">
-            <div className="h-[1px] bg-[#e5e5e5] w-full" />
-            <p className="mx-2">with</p>
-            <div className="h-[1px] bg-[#e5e5e5] w-full" />
-          </div>
-        </div>
-        <form onSubmit={handleLogin} className="w-full">
-          {/* <button
+      <button onClick={closeModal} className="ml-auto mr-0 block">
+        <RxCross1 />
+      </button>
+      <div className="flex flex-col items-center">
+        <h1 className="text-xl font-normal">Sign in</h1>
+      </div>
+      <form onSubmit={handleLogin} className="w-[350px]">
+        {/* <button
           type="button"
           className={`${style} text-white bg-[#3578e5]`}
           onClick={() => {
@@ -95,63 +90,71 @@ const LoginModal = ({ setIsAuthenticated }) => {
         >
           Continue with Google
         </button> */}
-          {/* <form
-            action="http://localhost:8080/oauth2/authorization/google"
-            method="post"
-          >
-            <input type="submit" value="Continue with Google" />
-          </form>
-          <div
-            className={`${style} flex flex-row items-center border-none shadow-none`}
-          >
-            <div className="h-[1px] bg-[#e5e5e5] w-full" />
-            <p className="mx-2">or</p>
-            <div className="h-[1px] bg-[#e5e5e5] w-full" />
-          </div> */}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            className={`${style} p-3 focus:outline-none `}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          ></input>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            className={`${style} p-3 border-[#e5e5e5] focus:outline-none`}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          ></input>
-          <button
-            className={`${style} text-white bg-[#f50] border-none`}
-            type="submit"
-          >
-            {loading ? (
-              <img
-                src={loading_gif}
-                width={30}
-                height={30}
-                alt=""
-                className="inline"
-              />
-            ) : (
-              "Login"
-            )}
-          </button>
-          <p>
-            {error ? (
-              <i className="text-red-700">
-                Tài khoản hoặc mật khẩu không chính xác
-              </i>
-            ) : (
-              <i>The account above for demo purpose.</i>
-            )}
-          </p>
-          <NotificationBar />
+        <form
+          action={`${process.env.REACT_APP_API_BASE_URL}/oauth2/authorization/google`}
+          method="post"
+        >
+          <div className={`flex items-center justify-center ${style} cursor-pointer hover:border-black`}>
+            <span>
+              <FcGoogle />
+            </span>
+            <input
+              type="submit"
+              value="Continue with Google"
+              className="ml-2"
+            />
+          </div>
         </form>
-      </div>
+        <div
+          className={`w-full h-10 mt-2.5 flex flex-row items-center border-none shadow-none`}
+        >
+          <div className="h-[1px] bg-black w-full" />
+          <p className="mx-2 font-normal">or</p>
+          <div className="h-[1px] bg-black w-full" />
+        </div>
+        <input
+          type="email"
+          placeholder="Your email address"
+          value={email}
+          className={`${style} p-3 focus:outline-none focus:border-black`}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        ></input>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          className={`${style} p-3 focus:outline-none focus:border-black`}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        ></input>
+        <button
+          className={`${style} text-white bg-[#f50] border-none`}
+          type="submit"
+        >
+          Login
+        </button>
+        <p className="mt-2.5 text-[13px]">
+          {error ? (
+            <i className="text-red-700">
+              Email or password is not correct.
+            </i>
+          ) : (
+            <i>The account above for demo purpose.</i>
+          )}
+        </p>
+        <p className="text-gray-400 text-[11px] mt-2.5">
+          When registering, you agree that we may use your provided data for the
+          registration and to send you notifications on our products and
+          services. You can unsubscribe from notifications at any time in your
+          settings. For additional info please refer to our
+          <span className="text-blue-700 cursor-pointer">
+            <a> Privacy Policy</a>
+          </span>
+          .
+        </p>
+        <NotificationBar />
+      </form>
     </CustomModal>
   );
 };
