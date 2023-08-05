@@ -54,7 +54,7 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
           {/* login and register button */}
           <div className="absolute top-5 right-8 text-sm">
             <button
-              className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3 "
+              className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3"
               onClick={openLoginModal}
             >
               Sign in
@@ -71,16 +71,25 @@ const UnauthenticatedHomePage = ({ setIsAuthenticated }) => {
           <div className="flex justify-center items-center h-full text-center">
             <div className="flex flex-col justify-center items-center">
               <h1 className="text-3xl">Connect on SoundCloud</h1>
-              <p className="w-1/2">
+              <p className="w-1/2 mt-4">
                 Discover, stream, and share a constantly expanding mix of music
                 from emerging and major artists around the world.
               </p>
               <button
-                className="bg-[#f50] px-2 py-2 rounded-sm"
+                className="bg-[#f50] px-3 py-2 rounded-sm mt-4"
                 onClick={openRegisterModal}
               >
                 Sign up for free
               </button>
+              <div className="flex mt-4 items-center">
+                <p className="text-[13px] mr-3">Already have an account?</p>
+                <button
+                  className="border-white border-[1px] bg-transparent text-white py-1 px-3 rounded-sm mr-3"
+                  onClick={openLoginModal}
+                >
+                  Sign in
+                </button>
+              </div>
             </div>
           </div>
         </div>

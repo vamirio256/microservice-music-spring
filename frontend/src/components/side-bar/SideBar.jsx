@@ -8,6 +8,7 @@ import { BiSolidMobile } from "react-icons/bi";
 import { getRecommentUser } from "../../apis/user/getRecommendUser";
 import SideBarUserCard from "./SideBarUserCard";
 import { BsFillCalendarEventFill, BsFillPeopleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const historySongs = useSelector((state) => state.historyReducer);
@@ -46,7 +47,7 @@ const SideBar = () => {
       ) : (
         <SideBarSection
           icon={<BsFillCalendarEventFill />}
-          sideButton={"View all"}
+          sideButton={<Link to="/library/history">View all</Link>}
           header={"Listening history"}
         >
           {historySongs.slice(0, 3).map((item, index) => {
