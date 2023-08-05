@@ -4,7 +4,7 @@ import CustomModal from "./CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../apis/auth/login";
 import { getUserData } from "../../apis/user/getUserData";
-import NotificationBar from "./NotificationBar";
+import NotificationBar from "../notification/NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 import { register } from "../../apis/auth/register";
 import gifLoading from "../../assets/icons/loading.gif";
@@ -217,7 +217,6 @@ const RegisterModal = ({ setIsAuthenticated }) => {
               </span>
               .
             </p>
-            <NotificationBar />
           </form>
         </div>
       ) : (

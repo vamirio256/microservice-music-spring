@@ -9,7 +9,7 @@ import TopBar from "./layouts/topbar/TopBar";
 import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
-import NotificationBar from "./components/modals/NotificationBar";
+import NotificationBar from "./components/notification/NotificationBar";
 import { useDispatch } from "react-redux";
 import { validateToken } from "./apis/auth/validateToken";
 import TrackPage from "./pages/track-page/TrackPage";
@@ -17,6 +17,7 @@ import LoginModal from "./components/modals/LoginModal";
 import PlaylistModal from "./components/modals/PlaylistModal";
 import LibraryPage from "./pages/library-page/LibraryPage";
 import NotFoundPage from "./pages/notfound-page/NotFoundPage";
+import NotificationList from "./components/notification/NotificationList";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -83,6 +84,7 @@ function App() {
             </div>
           </div>
           <NotificationBar />
+          <NotificationList />
           <PlaylistModal />
           <MediaControl />
         </>

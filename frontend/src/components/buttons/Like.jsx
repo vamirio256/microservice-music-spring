@@ -9,7 +9,10 @@ const Like = ({ className }) => {
     <button
       className={`${className} border-[1px] border-solid px-2 py-1 text-xs rounded-sm hover:border-[#999] flex flex-row item-center mr-2`}
       onClick={() => {
-        dispatch({ type: "SHOW_NOTIFICATION" });
+        dispatch({
+          type: "SHOW_NOTIFICATION_RIGHTBAR",
+          text: "" + Math.random(),
+        });
       }}
     >
       <BsHeartFill className="text-[14px]" />

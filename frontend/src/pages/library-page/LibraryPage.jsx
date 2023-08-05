@@ -29,7 +29,7 @@ const LibraryPage = () => {
   return (
     <>
       {loading ? (
-        <img src={loading_gif} alt="" /> // Show a loading indicator when loading is true
+        <img src={loading_gif} alt="" className="block m-auto" /> // Show a loading indicator when loading is true
       ) : (
         <div className="px-8 pt-4">
           <TabNavigateBar />
