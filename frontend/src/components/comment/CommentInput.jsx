@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addComment } from "../../apis/track/addComment";
 import { BsFillSendFill } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { addComment } from "../../apis/track/addComment";
 import { getTrack } from "../../apis/track/getTrack";
 
 const CommentInput = ({ className, trackId, setComments }) => {
@@ -16,7 +16,7 @@ const CommentInput = ({ className, trackId, setComments }) => {
 
   return (
     <div className={`${className} flex flex-row h-[40px]`}>
-      <img src={user.avatarUrl} className="w-[40px] h-full" />
+      <img src={user.avatarUrl} className="w-[40px] h-full" alt="user avatar" />
       <div className="bg-[#F2F2F2] w-full p-2 h-full flex flex-row item-center">
         <input
           value={comment}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-import { formatDuration } from "../utils/formatDuration";
+import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
 
 const Waveform = ({ className, audioUrl }) => {
@@ -12,7 +12,6 @@ const Waveform = ({ className, audioUrl }) => {
   const currentProgress = useSelector((state) => state.progressReducer);
   const currentSong = useSelector((state) => state.currentSongReducer);
 
-  const [isClickEvent, setIsClickEvent] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (wavesurfer.current) {
@@ -144,6 +143,7 @@ const Waveform = ({ className, audioUrl }) => {
       wavesurfer.current.setTime(0);
     };
   }, [currentSong]);
+  
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 

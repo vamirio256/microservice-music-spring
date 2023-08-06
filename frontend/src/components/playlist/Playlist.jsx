@@ -2,83 +2,65 @@ import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import InteractButton from "../InteractButton";
-import Waveform from "../Waveform";
+import Waveform from "../waveform/Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 
 const Playlist = ({ playlist }) => {
-  // const [playlist, setPlaylist] = useState();
-  const [shouldUpdateCurrentPlaying, setShouldUpdateCurrentPlaying] =
-    useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPlaying, setCurrentPlaying] = useState();
-  const currentSong = useSelector((state) => state.currentSongReducer);
+  const [playlistPlaying, setPlaylistPlaying] = useState("");
+  const playing = useSelector((state) => state.playing);
   const dispatch = useDispatch();
 
   const playTrack = () => {
-    setIsPlaying(true);
-  };
-
-  const stopTrack = () => {
-    setIsPlaying(false);
-  };
-
-  function setQueue() {
-    dispatch({ type: "ADD_TO_QUEUE", songs: playlist.tracks });
-  }
-
-  function toggleTrack() {
     dispatch({
-      type: "CHANGESONG",
-      song: {
-        ...currentPlaying,
-        isPlaying: !isPlaying,
-      },
+      type: "PLAY_TRACK",
+      track: playlistPlaying.track,
     });
-    setQueue();
+    setPlaylistPlaying({
+      ...playlistPlaying,
+      isPlaying: true,
+    });
+  };
+
+  const pauseTrack = () => {
+    setPlaylistPlaying({
+      ...playlistPlaying,
+      isPlaying: false,
+    })
   }
 
   useEffect(() => {
-    if (
-      !currentPlaying ||
-      !currentSong ||
-      currentPlaying.audioUrl !== currentSong.audioUrl
-    ) {
-      setIsPlaying(false);
-    }
-  }, [currentSong]);
-  useEffect(() => {
-    setCurrentPlaying(playlist.tracks[0]);
+    setPlaylistPlaying({ track: playlist.tracks[0], isPlaying: false });
   }, [playlist]);
 
   return (
     <div>
-      {playlist && currentPlaying ? (
+      {playlistPlaying ? (
         <>
           <h1 className="text-xl mb-5">{playlist.name}</h1>
 
           <div className="flex flex-col justify-center items-center md:flex-row md:items-start">
             <img
-              src={currentPlaying.coverUrl}
+              src={playlist.tracks[0].coverUrl}
               className="h-[160px] w-[160px] mr-4 mb-10"
             />
             <div className="w-full flex flex-col">
               <div className="mb-3 flex flex-row justify-between ">
                 <div className="flex flex-row items-center">
                   {/* play button */}
-                  {!isPlaying ? (
+                  {playlistPlaying.isPlaying ? (
                     <BsFillPlayFill
                       className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer"
-                      onClick={toggleTrack}
+                      onClick={pauseTrack}
                     />
                   ) : (
                     <BsFillPauseFill
                       className="text-4xl bg-[#f50] text-white rounded-full p-[5px] cursor-pointer"
-                      onClick={toggleTrack}
+                      onClick={playTrack}
                     />
                   )}
                   <div className="ml-3">
                     <h3 className="text-[#999] text-xs cursor-pointer">
-                      {currentPlaying.user.username}
+                      {playlistPlaying.track.user.username}
                     </h3>
                     <h2 className="text-[14px] cursor-pointer">
                       {playlist.name}
@@ -89,7 +71,7 @@ const Playlist = ({ playlist }) => {
               </div>
 
               {/* waveform */}
-              <Waveform audioUrl={currentPlaying.audioUrl} />
+              <Waveform audioUrl={playlistPlaying.track.audioUrl} />
 
               {/* tracks in playlist */}
               <div className="border-[1px] border-solid mt-3 h-[100px] overflow-auto">
@@ -98,10 +80,8 @@ const Playlist = ({ playlist }) => {
                     key={index}
                     size={"small"}
                     track={track}
-                    setCurrentPlaying={setCurrentPlaying}
                     playTrack={playTrack}
-                    stopTrack={stopTrack}
-                    setQueue={setQueue}
+                    setPlaylistPlaying={setPlaylistPlaying}
                   />
                 ))}
               </div>

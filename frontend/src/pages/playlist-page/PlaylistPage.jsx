@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Waveform from "../../components/Waveform";
+import Waveform from "../../components/waveform/Waveform";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTrack } from "../../apis/track/getTrack";
 import TrackCard from "../../components/trackcard/TrackCard";
@@ -10,50 +10,38 @@ import Comment from "../../components/comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPlay } from "react-icons/fa";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
-import Follow from "../../components/buttons/Follow";
+import Follow from "../../components/buttons/FollowButton";
 
-const PlaylistPage = ({playlist}) => {
+const PlaylistPage = ({ playlist }) => {
   const { playlistId } = useParams();
   const [track, setTrack] = useState("");
   const [comments, setComments] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentSong = useSelector((state) => state.currentSongReducer);
-  const queue = useSelector((state) => state.queueReducer);
 
   const toggleAudio = () => {
-    // set music and set play
-    if (isPlaying) {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: false,
-        },
-      });
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: true,
-        },
-      });
-      // add to queue if songs not include
-      if (!queue.find((item) => item.audioUrl === track.audioUrl)) {
-        dispatch({ type: "ADD_TO_QUEUE", songs: [track] });
-      }
-    }
+    dispatch({
+      type: "PLAY_TRACK",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_HISTORY",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_QUEUE",
+      track: track,
+    });
   };
 
-  useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(currentSong.isPlaying);
-    }
-  }, [currentSong]);
+//   useEffect(() => {
+//     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
+//       setIsPlaying(false);
+//     } else {
+//       setIsPlaying(currentSong.isPlaying);
+//     }
+//   }, [currentSong]);
 
   useEffect(() => {
     const getTrackOnInitial = async () => {

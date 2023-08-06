@@ -9,7 +9,6 @@ import TopBar from "./layouts/topbar/TopBar";
 import { UploadPage } from "./pages/upload-page/UploadPage";
 import UserPage from "./pages/user-page/UserPage";
 import loading from "./assets/images/soundcloud-loading.gif";
-import NotificationBar from "./components/notification/NotificationBar";
 import { useDispatch } from "react-redux";
 import { validateToken } from "./apis/auth/validateToken";
 import TrackPage from "./pages/track-page/TrackPage";
@@ -83,7 +82,6 @@ function App() {
               </Routes>
             </div>
           </div>
-          <NotificationBar />
           <NotificationList />
           <PlaylistModal />
           <MediaControl />

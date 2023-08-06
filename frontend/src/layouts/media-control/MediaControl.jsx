@@ -1,61 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  BsFillSkipEndFill,
-  BsFillSkipStartFill,
-  BsFillPauseFill,
-  BsFillPlayFill,
-  BsShuffle,
-  BsRepeat,
-} from "react-icons/bs";
 import { BiSolidPlaylist } from "react-icons/bi";
-import VolumeControl from "./VolumeControl";
-import PlaybackTimeLine from "./PlaybackTimeLine";
-import { formatDuration } from "../../utils/formatDuration";
 import { useDispatch, useSelector } from "react-redux";
-import Queue from "./Queue";
-import { func } from "prop-types";
-import Shuffle from "../../components/buttons/Shuffle";
-import Favorite from "../../components/buttons/Favorite";
 import { Link } from "react-router-dom";
+import Favorite from "../../components/buttons/Favorite";
+import PlaybackTimeLine from "./PlaybackTimeLine";
+import Queue from "./Queue";
+import VolumeControl from "./VolumeControl";
+import LoopButton from "./buttons/LoopButton";
+import NextButton from "./buttons/NextButton";
+import PlayButton from "./buttons/PlayButton";
+import PreviousButton from "./buttons/PreviousButton";
+import ShuffleButton from "./buttons/ShuffleButton";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
-  // const [isPLaying, setIsPlaying] = useState(false);
-
-  // playing redux
   const dispatch = useDispatch();
-  const progress = useSelector((state) => state.progressReducer);
-  const queue = useSelector((state) => state.queueReducer);
   const [duration, setDuration] = useState(0);
-  // const [progress, setProgress] = useState(0);
-  // state queue show
   const [isShowed, setIsShowed] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const modifyProgressReducer = useSelector(
-    (state) => state.modifyProgressReducer
-  );
-
+  const playing = useSelector((state) => state.playingReducer);
   const VOLUME_MAX = 100;
-
-  const currentSong = useSelector((state) => state.currentSongReducer);
-
-  const toggleAudio = () => {
-    if (currentSong.isPlaying) {
-      // audioRef.current?.pause();
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...currentSong, isPlaying: false },
-      });
-      // setIsPlaying(false);
-    } else {
-      // void audioRef.current?.play();
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...currentSong, isPlaying: true },
-      });
-      // setIsPlaying(true);
-    }
-  };
 
   const handleVolume = (e) => {
     const { value } = e.target;
@@ -68,18 +32,25 @@ const MediaControl = () => {
     const time = (duration * currentTimeLine) / 100;
     audioRef.current.currentTime = time;
   };
+
   function onPlaying() {
     const duration = audioRef.current.duration;
     const currentTime = audioRef.current.currentTime;
     setCurrentTime(currentTime);
     dispatch({
-      type: "CHANGEPROGRESS",
+      type: "UPDATE_PROGRESS",
       progress: (currentTime / duration) * 100,
     });
-    // setProgress((currentTime / duration) * 100);
   }
+
+  // useEffect(() => {
+  //   if (audioRef.current) {
+  //     audioRef.current.currentTime = modifyProgressReducer;
+  //   }
+  // }, [modifyProgressReducer]);
+
   useEffect(() => {
-    if (!currentSong) {
+    if (!playing.track) {
       return;
     }
 
@@ -87,14 +58,13 @@ const MediaControl = () => {
       setDuration(audioRef.current.duration);
     };
 
-    if (currentSong.isPlaying) {
+    if (playing.isPlaying) {
       audioRef.current?.play();
 
       // add to history when play song
-
       dispatch({
-        type: "APPEND_TRACK",
-        song: { ...currentSong },
+        type: "APPEND_HISTORY",
+        track: { ...playing.track },
       });
     } else {
       audioRef.current?.pause();
@@ -107,68 +77,15 @@ const MediaControl = () => {
         handleLoadedMetadata
       );
     };
-  }, [currentSong]);
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = modifyProgressReducer;
-    }
-  }, [modifyProgressReducer]);
+  }, [playing]);
 
-  const buttonStyle = "text-xl ml-3";
-  function playPrevious() {
-    let index = -1;
-
-    for (let i = 0; i < queue.length; i++) {
-      if (queue[i].audioUrl === currentSong.audioUrl) {
-        index = i;
-        break;
-      }
-    }
-    if (index == -1) {
-      return;
-    }
-    if (index == 0) {
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...queue[queue.length - 1], isPlaying: true },
-      });
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...queue[index - 1], isPlaying: true },
-      });
-    }
-  }
-  function playNext() {
-    let index = -1;
-
-    for (let i = 0; i < queue.length; i++) {
-      if (queue[i].audioUrl === currentSong.audioUrl) {
-        index = i;
-        break;
-      }
-    }
-    if (index == -1) {
-      return;
-    }
-    if (index == queue.length - 1) {
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...queue[0], isPlaying: true },
-      });
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: { ...queue[index + 1], isPlaying: true },
-      });
-    }
-  }
   return (
-    currentSong && (
+    playing.track !== null &&
+    playing.track !== undefined && (
       <div className="sticky bottom-0 pb-5 lg:pb-0 w-full z-10 bg-[#f2f2f2] border-[#ccc] border-t text-xs flex justify-center px-2">
         <audio
           ref={audioRef}
-          src={currentSong.audioUrl}
+          src={playing.track.audioUrl}
           onTimeUpdate={onPlaying}
         />
 
@@ -177,41 +94,17 @@ const MediaControl = () => {
           <Queue isShowed={isShowed} setIsShowed={setIsShowed} />
           {/* control button */}
           <div className="flex flex-row">
-            <button>
-              {/* play previous */}
-              <BsFillSkipStartFill
-                className={`${buttonStyle}`}
-                onClick={playPrevious}
-              />
-            </button>
-            {/* play btn */}
-            <button onClick={toggleAudio}>
-              {!currentSong.isPlaying ? (
-                <BsFillPlayFill className={`${buttonStyle}`} />
-              ) : (
-                <BsFillPauseFill className={`${buttonStyle}`} />
-              )}
-            </button>
-            <button>
-              {/* playnext */}
-              <BsFillSkipEndFill
-                className={`${buttonStyle}`}
-                onClick={playNext}
-              />
-            </button>
-            <Shuffle className={buttonStyle} />
-            <button>
-              <BsRepeat
-                className={`${buttonStyle}`}
-                style={{ fontSize: "1.15rem" }}
-              />
-            </button>
+            <PreviousButton />
+            <PlayButton />
+            <NextButton />
+            <ShuffleButton />
+            <LoopButton />
           </div>
 
           {/* track control */}
           <div className="flex justify-center items-center">
             <PlaybackTimeLine
-              progress={progress}
+              progress={playing.progress}
               handleTimeline={handleTimeline}
               currentTime={currentTime}
               duration={duration}
@@ -230,25 +123,25 @@ const MediaControl = () => {
             {/* track info */}
             <div className="flex flex-row mx-3 max-w-[200px]">
               <img
-                src={currentSong.coverUrl}
+                src={playing.track.coverUrl}
                 className="h-[30px] w-[30px] mr-5"
               />
               <div className="flex flex-col">
-                <Link to={`/track/${currentSong.id}`} className="">
-                  {currentSong.name}
+                <Link to={`/track/${playing.track.id}`} className="">
+                  {playing.track.name}
                 </Link>
                 <Link
-                  to={`/user/${currentSong.user.id}`}
+                  to={`/user/${playing.track.user.id}`}
                   className="text-[11px] text-gray-400"
                 >
-                  {currentSong.user.username}
+                  {playing.track.user.username}
                 </Link>
               </div>
             </div>
 
-            {/* favorite, queue */}
+            {/* favorite, follow, queue */}
             <div className="flex flex-row item-center justify-center">
-              <Favorite track={currentSong} className="relative top-0.5" />
+              <Favorite track={playing.track} className="relative top-0.5" />
               <BiSolidPlaylist
                 size={15}
                 className="ml-2 cursor-pointer"

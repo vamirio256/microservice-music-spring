@@ -4,7 +4,6 @@ import CustomModal from "./CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../apis/auth/login";
 import { getUserData } from "../../apis/user/getUserData";
-import NotificationBar from "../notification/NotificationBar";
 import { RxCross1 } from "react-icons/rx";
 import { googleLogin } from "../../apis/auth/googleLogin";
 import { FcGoogle } from "react-icons/fc";
@@ -75,22 +74,6 @@ const LoginModal = ({ setIsAuthenticated }) => {
         <h1 className="text-xl font-normal">Sign in</h1>
       </div>
       <form onSubmit={handleLogin} className="w-full max-w-[350px]">
-        {/* <button
-          type="button"
-          className={`${style} text-white bg-[#3578e5]`}
-          onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION" });
-          }}
-        >
-          Continue with Facebook
-        </button> */}
-        {/* <button
-          type="button"
-          className={`${style} text-black border-[1px] border-[#e5e5e5]`}
-          onClick={handleGoogleLogin}
-        >
-          Continue with Google
-        </button> */}
         <form
           action={`${process.env.REACT_APP_API_BASE_URL}/oauth2/authorization/google`}
           method="post"

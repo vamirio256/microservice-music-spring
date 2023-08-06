@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NotificationItem from "./NotificationItem";
 
 const NotificationList = () => {
-  const notification = useSelector((state) => state.notificationListReducer);
+  const notification = useSelector((state) => state.notificationReducer);
   const prevCountRef = useRef([]);
   const dispatch = useDispatch();
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Waveform from "../../components/Waveform";
+import Waveform from "../../components/waveform/Waveform";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTrack } from "../../apis/track/getTrack";
 import TrackCard from "../../components/trackcard/TrackCard";
@@ -10,50 +10,23 @@ import Comment from "../../components/comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPlay } from "react-icons/fa";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
-import Follow from "../../components/buttons/Follow";
+import Follow from "../../components/buttons/FollowButton";
 
 const TrackPage = () => {
   const { trackId } = useParams();
   const [track, setTrack] = useState("");
   const [comments, setComments] = useState("");
-  const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentSong = useSelector((state) => state.currentSongReducer);
-  const queue = useSelector((state) => state.queueReducer);
+  const playing = useSelector((state) => state.playingReducer);
 
-  const toggleAudio = () => {
-    // set music and set play
-    if (isPlaying) {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: false,
-        },
-      });
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: true,
-        },
-      });
-      // add to queue if songs not include
-      if (!queue.find((item) => item.audioUrl === track.audioUrl)) {
-        dispatch({ type: "ADD_TO_QUEUE", songs: [track] });
-      }
-    }
+  const playTrack = () => {
+    console.log(playing.track.id == track.id && playing.isPlaying == true);
+    dispatch({
+      type: "PLAY_TRACK",
+      track: track,
+    });
   };
-
-  useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(currentSong.isPlaying);
-    }
-  }, [currentSong]);
 
   useEffect(() => {
     const getTrackOnInitial = async () => {
@@ -86,11 +59,12 @@ const TrackPage = () => {
                 {/* play button */}
                 <button
                   className="rounded-full bg-[#f30] h-[60px] w-[60px] flex justify-center items-center mr-5"
-                  onClick={toggleAudio}
+                  onClick={playTrack}
                 >
                   {/* play btn */}
 
-                  {!isPlaying ? (
+                  {!playing.track.id == track.id &&
+                  playing.isPlaying == true ? (
                     <BsFillPlayFill className="text-white" size={40} />
                   ) : (
                     <BsFillPauseFill className="text-white" size={40} />

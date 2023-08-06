@@ -4,8 +4,15 @@ import PlaylistTrackCard from "../../components/playlist/PlaylistTrackCard";
 import { useDispatch, useSelector } from "react-redux";
 
 const Queue = ({ isShowed, setIsShowed }) => {
-  const queueList = useSelector((state) => state.queueReducer);
+  const queue = useSelector((state) => state.queueReducer);
   const dispatch = useDispatch();
+  
+  const handleEmptyQueue = () => {
+    dispatch({
+      type: "EMPTY_QUEUE",
+    });
+  };
+
   return (
     <>
       {isShowed ? (
@@ -15,7 +22,7 @@ const Queue = ({ isShowed, setIsShowed }) => {
             <h1 className="text-xl">Next up</h1>
             <div className="flex flex-row justify-center">
               <button
-                onClick={() => dispatch({ type: "ADDTOQUEUE", songs: [] })}
+                onClick={handleEmptyQueue}
                 className="border px-2 py-1 mr-3"
               >
                 Clear
@@ -28,9 +35,9 @@ const Queue = ({ isShowed, setIsShowed }) => {
               </button>
             </div>
           </div>
-          {queueList ? (
+          {queue ? (
             <>
-              {queueList.map((track, index) => (
+              {queue.map((track, index) => (
                 <PlaylistTrackCard key={index} track={track} />
               ))}
             </>

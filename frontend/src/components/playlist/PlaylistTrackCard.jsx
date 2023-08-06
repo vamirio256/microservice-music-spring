@@ -6,72 +6,22 @@ import Favorite from "../buttons/Favorite";
 
 const PlaylistTrackCard = ({
   track,
-  setCurrentPlaying,
+  setPlaylistPlaying,
   playTrack,
-  stopTrack,
-  setQueue,
   className,
 }) => {
-  const dispatch = useDispatch();
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const currentSong = useSelector((state) => state.currentSongReducer);
-
-  const toggleAudio = () => {
-    // set music and set play
-    if (isPlaying) {
-      // dispatch({ type: "SETPLAYING", play: false });
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: false,
-        },
-      });
-
-      // setIsPlaying(false);
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: true,
-        },
-      });
-
-      if (!setCurrentPlaying) {
-        return;
-      }
-      setQueue();
-      setCurrentPlaying(track);
-      setIsPlaying(true);
-    }
+  const handlePlayTrack = () => {
+    setPlaylistPlaying({
+      track: track,
+      isPlaying: true,
+    });
+    playTrack();
   };
-  useEffect(() => {
-    if (!stopTrack || !currentSong) {
-      return;
-    }
-    if (currentSong.audioUrl == track.audioUrl) {
-      if (isPlaying) {
-        playTrack();
-      } else {
-        stopTrack();
-      }
-    }
-  }, [isPlaying]);
-
-  useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(currentSong.isPlaying);
-    }
-  }, [currentSong]);
 
   return (
     <div
       className={`relative flex flex-row border-solid border-b p-[5px] bg-white justify-between group hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
-      onClick={toggleAudio}
+      onClick={handlePlayTrack}
     >
       <div className="flex flex-row">
         <span className="mr-3">
