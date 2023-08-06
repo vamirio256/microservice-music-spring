@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {} from "react-icons/io";
+import { } from "react-icons/io";
 import { IoNotifications } from "react-icons/io5";
 
 const NotificationDropDown = () => {

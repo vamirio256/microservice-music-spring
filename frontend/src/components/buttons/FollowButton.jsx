@@ -3,7 +3,7 @@ import { FaUserCheck, FaUserPlus } from "react-icons/fa";
 import { followUser } from "../../apis/user/followUser";
 import { unfollowUser } from "../../apis/user/unfollowUser";
 
-const Follow = ({ user }) => {
+const FollowButton = ({ user }) => {
   const [isFollowed, setIsFollower] = useState(user ? user.following : false);
 
   const handleFollowUser = () => {
@@ -39,4 +39,4 @@ const Follow = ({ user }) => {
   );
 };
 
-export default Follow;
+export default FollowButton;

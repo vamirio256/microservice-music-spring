@@ -23,6 +23,7 @@
     "redux": "^4.2.1",
     "swiper": "^8.4.5",
     "tailwind-merge": "^1.13.2",
+    "tailwind-scrollbar": "^3.0.4",
     "video.js": "^8.3.0",
     "wavesurfer.js": "^7.0.3",
     "web-vitals": "^2.1.4"

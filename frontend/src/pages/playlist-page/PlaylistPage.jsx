@@ -12,21 +12,36 @@ import { FaPlay } from "react-icons/fa";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import Follow from "../../components/buttons/FollowButton";
 
-const TrackPage = () => {
-  const { trackId } = useParams();
+const PlaylistPage = ({ playlist }) => {
+  const { playlistId } = useParams();
   const [track, setTrack] = useState("");
   const [comments, setComments] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const playing = useSelector((state) => state.playingReducer);
 
-  const playTrack = () => {
-    console.log(playing.track.id == track.id && playing.isPlaying == true);
+  const toggleAudio = () => {
     dispatch({
       type: "PLAY_TRACK",
       track: track,
     });
+    dispatch({
+      type: "APPEND_HISTORY",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_QUEUE",
+      track: track,
+    });
   };
+
+//   useEffect(() => {
+//     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
+//       setIsPlaying(false);
+//     } else {
+//       setIsPlaying(currentSong.isPlaying);
+//     }
+//   }, [currentSong]);
 
   useEffect(() => {
     const getTrackOnInitial = async () => {
@@ -59,12 +74,11 @@ const TrackPage = () => {
                 {/* play button */}
                 <button
                   className="rounded-full bg-[#f30] h-[60px] w-[60px] flex justify-center items-center mr-5"
-                  onClick={playTrack}
+                  onClick={toggleAudio}
                 >
                   {/* play btn */}
 
-                  {!playing.track.id == track.id &&
-                  playing.isPlaying == true ? (
+                  {!isPlaying ? (
                     <BsFillPlayFill className="text-white" size={40} />
                   ) : (
                     <BsFillPauseFill className="text-white" size={40} />
@@ -89,12 +103,6 @@ const TrackPage = () => {
           </div>
           <div className="flex pl-8 pr-8">
             <div className="w-[72%] border-r-[1px] border-solid pt-3 pr-8">
-              {/* comment input */}
-              <CommentInput
-                className={"mb-4"}
-                trackId={track.id}
-                setComments={setComments}
-              />
               {/* interact button */}
               <InteractButton className={"border-b pb-3"} />
 
@@ -134,4 +142,4 @@ const TrackPage = () => {
   );
 };
 
-export default TrackPage;
+export default PlaylistPage;

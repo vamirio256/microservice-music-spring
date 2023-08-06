@@ -1,6 +1,6 @@
 const progressReducer = (state = 0, action) => {
   switch (action.type) {
-    case "CHANGEPROGRESS":
+    case "UPDATE_PROGRESS":
       return action.progress;
 
     default:

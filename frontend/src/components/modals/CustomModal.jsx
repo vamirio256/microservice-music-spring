@@ -1,8 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 import Modal from "react-modal";
-import { CSSTransition } from "react-transition-group";
 
 Modal.setAppElement("#root");
 

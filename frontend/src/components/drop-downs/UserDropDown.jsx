@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Follow from "../buttons/Follow";
+import FollowButton from "../buttons/FollowButton";
 
 const UserDropDown = ({ user }) => {
   const [isHover, setIsHover] = useState(false);
@@ -8,7 +8,7 @@ const UserDropDown = ({ user }) => {
     <div className="bg-white p-5">
       <img src={user.avatarUrl} className="w-[50px] h-[50px]" />
       <p>{user.username}</p>
-      <Follow user={user} />
+      <FollowButton user={user} />
     </div>
   );
 };

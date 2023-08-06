@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { BsHeartFill, BsHeart } from "react-icons/bs";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BsHeartFill } from "react-icons/bs";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
-import { AiOutlineHeart } from "react-icons/ai";
 
 const Favorite = ({ track, className, haveBorder, haveText }) => {
   const [isFavorite, setIsFavorite] = useState(track ? track.favorite : false);
@@ -18,7 +18,7 @@ const Favorite = ({ track, className, haveBorder, haveText }) => {
   };
 
   return (
-    <div className={`text-xs ${className}`}>
+    <div title="Like" className={`text-xs ${className}`}>
       {isFavorite ? (
         <button
           onClick={handleRemoveFavorite}

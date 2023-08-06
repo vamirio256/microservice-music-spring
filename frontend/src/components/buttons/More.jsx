@@ -1,8 +1,8 @@
 import React from "react";
-import { BsShareFill } from "react-icons/bs";
+import { BsThreeDots } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
-const Share = ({ className }) => {
+const More = ({ className }) => {
   const dispatch = useDispatch();
 
   return (
@@ -12,10 +12,10 @@ const Share = ({ className }) => {
         dispatch({ type: "APPEND_NOTIFICATION" });
       }}
     >
-      <BsShareFill className="text-[14px]" />
-      <span className="ml-1">Share</span>
+      <BsThreeDots className="text-[14px]" />
+      <span className="ml-1">More</span>
     </button>
   );
 };
 
-export default Share;
+export default More;

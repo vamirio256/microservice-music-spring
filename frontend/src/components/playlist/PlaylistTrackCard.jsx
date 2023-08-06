@@ -2,75 +2,26 @@ import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import Favorite from "../buttons/Favorite";
 
 const PlaylistTrackCard = ({
   track,
-  setCurrentPlaying,
+  setPlaylistPlaying,
   playTrack,
-  stopTrack,
-  setQueue,
   className,
 }) => {
-  const dispatch = useDispatch();
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const currentSong = useSelector((state) => state.currentSongReducer);
-
-  const toggleAudio = () => {
-    // set music and set play
-    if (isPlaying) {
-      // dispatch({ type: "SETPLAYING", play: false });
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: false,
-        },
-      });
-
-      // setIsPlaying(false);
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: true,
-        },
-      });
-
-      if (!setCurrentPlaying) {
-        return;
-      }
-      setQueue();
-      setCurrentPlaying(track);
-      setIsPlaying(true);
-    }
+  const handlePlayTrack = () => {
+    setPlaylistPlaying({
+      track: track,
+      isPlaying: true,
+    });
+    playTrack();
   };
-  useEffect(() => {
-    if (!stopTrack || !currentSong) {
-      return;
-    }
-    if (currentSong.audioUrl == track.audioUrl) {
-      if (isPlaying) {
-        playTrack();
-      } else {
-        stopTrack();
-      }
-    }
-  }, [isPlaying]);
-
-  useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(currentSong.isPlaying);
-    }
-  }, [currentSong]);
 
   return (
     <div
-      className={`flex flex-row border-solid border-b p-[5px] bg-white justify-between hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
-      onClick={toggleAudio}
+      className={`relative flex flex-row border-solid border-b p-[5px] bg-white justify-between group hover:bg-[#f2f2f2] cursor-pointer text-xs ${className}`}
+      onClick={handlePlayTrack}
     >
       <div className="flex flex-row">
         <span className="mr-3">
@@ -82,16 +33,20 @@ const PlaylistTrackCard = ({
         <span>&bull;</span>
         <span className="ml-2">{track.name}</span>
       </div>
-      <div className="flex flex-row text-[#999] items-center">
+
+      {/* total played time */}
+      <div
+        className={`flex flex-row text-[#999] items-center group-hover:invisible`}
+      >
         <span>
-          {!isPlaying ? (
-            <BsFillPlayFill className="transform" />
-          ) : (
-            <BsFillPauseFill className="transform" size={20} />
-          )}
-          {/* <BsFillPlayFill className="transform" /> */}
+          <BsFillPlayFill className="transform" />
         </span>
         <span>{track.listenedTime}</span>
+      </div>
+
+      {/* hovering button */}
+      <div className="invisible absolute right-0 top-50% group-hover:visible">
+        <Favorite track={track} haveBorder={true} />
       </div>
     </div>
   );

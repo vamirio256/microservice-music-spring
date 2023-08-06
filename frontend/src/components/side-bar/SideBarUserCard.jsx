@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Follow from "../buttons/Follow";
+import FollowButton from "../buttons/FollowButton";
 import { Link } from "react-router-dom";
 
 const SideBarUserCard = ({ className, user }) => {
@@ -17,7 +17,7 @@ const SideBarUserCard = ({ className, user }) => {
             <Link to={`/user/${user.id}`} className="hover:text-black">
               {user.username}
             </Link>
-            <Follow user={user}/>
+            <FollowButton user={user}/>
           </div>
         </div>
       )}

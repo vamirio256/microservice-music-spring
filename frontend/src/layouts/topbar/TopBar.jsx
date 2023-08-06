@@ -99,7 +99,7 @@ const TopBar = () => {
             />
             <button
               onClick={() => {
-                dispatch({ type: "SHOW_NOTIFICATION" });
+                dispatch({ type: "APPEND_NOTIFICATION" });
               }}
               className="w-full lg:w-auto"
             >
@@ -115,7 +115,7 @@ const TopBar = () => {
             {/* premium button */}
             <button
               onClick={() => {
-                dispatch({ type: "SHOW_NOTIFICATION" });
+                dispatch({ type: "APPEND_NOTIFICATION" });
               }}
               className="w-full lg:w-auto"
             >

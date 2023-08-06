@@ -4,7 +4,6 @@ import {
   AiFillCloseSquare,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
-import NotificationBar from "../../components/notification/NotificationBar";
 import loadingimage from "../../assets/images/loading-gif.gif";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";

@@ -1,61 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsFillPauseFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import Favorite from "../buttons/Favorite";
-import PlaylistPopup from "../modals/PlaylistModal";
 import { Link } from "react-router-dom";
+import Favorite from "../buttons/Favorite";
 import UserHoverBar from "./UserHoverBar";
-import PlaylistModal from "../modals/PlaylistModal";
 
 const TrackCard = ({ className, track }) => {
   const dispatch = useDispatch();
+  const playing = useSelector((state) => state.playingReducer);
   const [isPlaying, setIsPlaying] = useState(false);
-  const historySongs = useSelector((state) => state.historyReducer);
-  const openModal = () => {
-    return;
-  };
-  const currentSong = useSelector((state) => state.currentSongReducer);
-  const queue = useSelector((state) => state.queueReducer);
-  const toggleAudio = () => {
-    // set music and set play
-    if (isPlaying) {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: false,
-        },
-      });
-    } else {
-      dispatch({
-        type: "CHANGESONG",
-        song: {
-          ...track,
-          isPlaying: true,
-        },
-      });
-      // add to queue if songs not include
-      if (!queue.find((item) => item.audioUrl === track.audioUrl)) {
-        dispatch({ type: "ADD_TO_QUEUE", songs: [track] });
-      }
-    }
-  };
 
-  function openPlaylistModel() {
-    dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
-    // dispatch({ type: "SET_TRACK_ONCLICK", track: track });
-  }
+  const playTrack = () => {
+    dispatch({
+      type: "PLAY_TRACK",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_QUEUE",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_HISTORY",
+      track: track,
+    });
+  };
 
   useEffect(() => {
-    if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-      setIsPlaying(false);
-    } else {
-      setIsPlaying(currentSong.isPlaying);
+    if (!playing) {
+      return;
     }
-  }, [currentSong, historySongs]);
+    if (playing.track.id == track.id && playing.isPlaying == true)
+      setIsPlaying(true);
+    else setIsPlaying(false);
+  }, [playing]);
+
+  function openPlaylistModal() {
+    dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
+  }
+
+  // useEffect(() => {
+  //   if (!currentSong || currentSong.audioUrl != track.audioUrl) {
+  //     setIsPlaying(false);
+  //   } else {
+  //     setIsPlaying(currentSong.isPlaying);
+  //   }
+  // }, [currentSong, historySongs]);
 
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
@@ -84,14 +76,16 @@ const TrackCard = ({ className, track }) => {
               {/* Play button */}
               <a
                 className="rounded-full bg-[#f30]  w-full h-full flex justify-center items-center z-20"
-                onClick={toggleAudio}
+                onClick={playTrack}
               >
                 {/* play btn */}
 
-                {!isPlaying ? (
-                  <FaPlay className="text-white" />
-                ) : (
+                {playing &&
+                playing.track.id === track.id &&
+                playing.isPlaying === true ? (
                   <BsFillPauseFill className="text-white" size={20} />
+                ) : (
+                  <FaPlay className="text-white" />
                 )}
 
                 {/* <FaPlay className="text-white" /> */}
@@ -105,7 +99,7 @@ const TrackCard = ({ className, track }) => {
 
               <MdPlaylistAdd
                 className="absolute right-2 bottom-2 text-white"
-                onClick={openPlaylistModel}
+                onClick={openPlaylistModal}
               />
             </div>
           </div>
