@@ -20,10 +20,20 @@ const playTrack = (state, track) => {
   }
 };
 
-const playingReducer = (state = "", action) => {
+const playingReducer = (state = {}, action) => {
   switch (action.type) {
     case "PLAY_TRACK":
       return playTrack(state, action.track);
+    case "UPDATE_PROGRESS":
+      return {
+        ...state,
+        currentProgress: action.progress,
+      };
+    case "UPDATE_WAVEFROM_PROGRESS":
+      return {
+        ...state,
+        waveformProgress: action.progress,
+      };
     default:
       return state;
   }

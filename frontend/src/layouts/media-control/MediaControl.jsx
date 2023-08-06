@@ -43,11 +43,11 @@ const MediaControl = () => {
     });
   }
 
-  // useEffect(() => {
-  //   if (audioRef.current) {
-  //     audioRef.current.currentTime = modifyProgressReducer;
-  //   }
-  // }, [modifyProgressReducer]);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = playing.waveformProgress;
+    }
+  }, [playing.waveformProgress]);
 
   useEffect(() => {
     if (!playing.track) {
@@ -77,7 +77,7 @@ const MediaControl = () => {
         handleLoadedMetadata
       );
     };
-  }, [playing]);
+  }, [playing.track, playing.isPlaying]);
 
   return (
     playing.track !== null &&
@@ -104,7 +104,7 @@ const MediaControl = () => {
           {/* track control */}
           <div className="flex justify-center items-center">
             <PlaybackTimeLine
-              progress={playing.progress}
+              progress={playing.currentProgress}
               handleTimeline={handleTimeline}
               currentTime={currentTime}
               duration={duration}

@@ -9,8 +9,12 @@ const Waveform = ({ className, audioUrl }) => {
   const canvasRef = useRef(null);
   const durationRef = useRef(null);
   const timeRef = useRef(null);
-  const currentProgress = useSelector((state) => state.progressReducer);
-  const currentSong = useSelector((state) => state.currentSongReducer);
+  const currentProgress = useSelector(
+    (state) => state.playingReducer.currentProgress
+  );
+  const currentMediaPlaying = useSelector(
+    (state) => state.playingReducer.track
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -95,7 +99,11 @@ const Waveform = ({ className, audioUrl }) => {
 
   // set progress
   useEffect(() => {
-    if (!audioUrl || !currentSong || audioUrl !== currentSong.audioUrl) {
+    if (
+      !audioUrl ||
+      !currentMediaPlaying ||
+      audioUrl !== currentMediaPlaying.audioUrl
+    ) {
       return;
     }
     if (currentProgress) {
@@ -116,7 +124,11 @@ const Waveform = ({ className, audioUrl }) => {
     // Handle logic for the 'ontimeupdate' equivalent here
     // For example, update the current time or progress bar
 
-    if (!audioUrl || !currentSong || audioUrl !== currentSong.audioUrl) {
+    if (
+      !audioUrl ||
+      !currentMediaPlaying ||
+      audioUrl !== currentMediaPlaying.audioUrl
+    ) {
       wavesurfer.current.setTime(0);
 
       return;
@@ -124,13 +136,13 @@ const Waveform = ({ className, audioUrl }) => {
 
     const currentTime = wavesurfer.current.getCurrentTime();
     dispatch({
-      type: "MODIFYPROGRESS",
+      type: "UPDATE_WAVEFROM_PROGRESS",
       progress: currentTime,
     });
   }
   useEffect(() => {
-    // console.log(audioUrl !== currentSong?.audioUrl);
-    // if (audioUrl !== currentSong?.audioUrl) {
+    // console.log(audioUrl !== currentMediaPlaying?.audioUrl);
+    // if (audioUrl !== currentMediaPlaying?.audioUrl) {
     //   wavesurfer.current.un("click", handleClickSuffer);
     // }
     wavesurfer.current.on("click", handleClickSuffer);
@@ -142,8 +154,8 @@ const Waveform = ({ className, audioUrl }) => {
 
       wavesurfer.current.setTime(0);
     };
-  }, [currentSong]);
-  
+  }, [currentMediaPlaying.track]);
+
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 

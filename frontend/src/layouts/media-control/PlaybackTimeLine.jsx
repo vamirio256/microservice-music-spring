@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatDuration } from "../../utils/formatDuration";
 
 const PlaybackTimeLine = ({
-  progress = 0,
+  progress,
   handleTimeline,
   currentTime,
   duration,
@@ -11,7 +11,7 @@ const PlaybackTimeLine = ({
   // const handleTimeline = (event) => {
   //   console.log(event.target.value);
   // };
-
+  console.log(progress);
   return (
     <div className="absolute bottom-[-15px] lg:relative lg:bottom-0 left-0 px-2 items-center flex w-full lg:w-[500px] xl:[w-600px] ">
       {/* current time */}
