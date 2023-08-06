@@ -16,7 +16,7 @@ const playTrack = (state, track) => {
   }
 };
 
-const playingReducer = (state = {}, action) => {
+const playingReducer = (state = "", action) => {
   switch (action.type) {
     case "PLAY_TRACK":
       return playTrack(state, action.track);

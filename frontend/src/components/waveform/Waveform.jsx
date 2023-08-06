@@ -141,10 +141,6 @@ const Waveform = ({ className, audioUrl }) => {
     });
   }
   useEffect(() => {
-    // console.log(audioUrl !== currentMediaPlaying?.audioUrl);
-    // if (audioUrl !== currentMediaPlaying?.audioUrl) {
-    //   wavesurfer.current.un("click", handleClickSuffer);
-    // }
     wavesurfer.current.on("click", handleClickSuffer);
     return () => {
       wavesurfer.current.un("click", handleClickSuffer);
@@ -154,7 +150,7 @@ const Waveform = ({ className, audioUrl }) => {
 
       wavesurfer.current.setTime(0);
     };
-  }, [currentMediaPlaying.track]);
+  }, [currentMediaPlaying]);
 
   const timeStyle =
     "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";

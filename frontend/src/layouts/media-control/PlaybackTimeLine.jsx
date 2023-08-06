@@ -11,7 +11,6 @@ const PlaybackTimeLine = ({
   // const handleTimeline = (event) => {
   //   console.log(event.target.value);
   // };
-  console.log(progress);
   return (
     <div className="absolute bottom-[-15px] lg:relative lg:bottom-0 left-0 px-2 items-center flex w-full lg:w-[500px] xl:[w-600px] ">
       {/* current time */}
@@ -26,7 +25,7 @@ const PlaybackTimeLine = ({
         }}
         min={0}
         max={100}
-        value={progress.toString()}
+        value={progress ? progress.toString() : 0}
         onChange={(e) => handleTimeline(e)}
       />
       {/* total duration */}

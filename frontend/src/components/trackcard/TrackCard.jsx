@@ -29,9 +29,7 @@ const TrackCard = ({ className, track }) => {
   };
 
   useEffect(() => {
-    if (!playing) {
-      return;
-    }
+    if (!playing || playing === undefined) return;
     if (playing.track.id === track.id && playing.isPlaying === true)
       setIsPlaying(true);
     else setIsPlaying(false);
@@ -40,15 +38,7 @@ const TrackCard = ({ className, track }) => {
   function openPlaylistModal() {
     dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
   }
-
-  // useEffect(() => {
-  //   if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-  //     setIsPlaying(false);
-  //   } else {
-  //     setIsPlaying(currentSong.isPlaying);
-  //   }
-  // }, [currentSong, historySongs]);
-
+  
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">

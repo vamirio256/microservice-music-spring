@@ -44,7 +44,7 @@ const MediaControl = () => {
   }
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && playing.waveformProgress) {
       audioRef.current.currentTime = playing.waveformProgress;
     }
   }, [playing.waveformProgress]);
@@ -102,14 +102,14 @@ const MediaControl = () => {
           </div>
 
           {/* track control */}
-          <div className="flex justify-center items-center">
-            <PlaybackTimeLine
-              progress={playing.currentProgress}
-              handleTimeline={handleTimeline}
-              currentTime={currentTime}
-              duration={duration}
-            />
-          </div>
+            <div className="flex justify-center items-center">
+              <PlaybackTimeLine
+                progress={playing.currentProgress}
+                handleTimeline={handleTimeline}
+                currentTime={currentTime}
+                duration={duration}
+              />
+            </div>
 
           <div className="flex items-center">
             {/* volume control */}

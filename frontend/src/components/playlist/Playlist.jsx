@@ -8,7 +8,7 @@ import PlaylistTrackCard from "./PlaylistTrackCard";
 const Playlist = ({ playlist }) => {
   const [track, setTrack] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const playing = useSelector((state) => state.playing);
+  const playing = useSelector((state) => state.playingReducer);
   const dispatch = useDispatch();
 
   const playTrack = (track) => {
@@ -34,13 +34,13 @@ const Playlist = ({ playlist }) => {
   }, [playlist]);
 
   useEffect(() => {
-    if (!playing) {
+    if (!playing || playlist === undefined) {
       return;
     }
     if (playing.track.id === track.id && playing.isPlaying === true)
       setIsPlaying(true);
     else setIsPlaying(false);
-  }, [playing]);
+  }, [playing.track, playing.isPlaying]);
 
   return (
     <div>
@@ -50,7 +50,8 @@ const Playlist = ({ playlist }) => {
 
           <div className="flex flex-col justify-center items-center md:flex-row md:items-start">
             <img
-              src={playlist.tracks[0].coverUrl}
+              src={track.coverUrl}
+              alt="track cover"
               className="h-[160px] w-[160px] mr-4 mb-10"
             />
             <div className="w-full flex flex-col">
