@@ -35,7 +35,7 @@ const TrackCard = ({ className, track }) => {
     if (playing.track.id === track.id && playing.isPlaying === true)
       setIsPlaying(true);
     else setIsPlaying(false);
-  }, [playing]);
+  }, [playing.track, playing.isPlaying]);
 
   function openPlaylistModal() {
     dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
