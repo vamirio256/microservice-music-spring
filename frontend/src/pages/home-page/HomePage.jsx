@@ -37,7 +37,7 @@ const HomePage = () => {
   return (
     <div className="flex pl-8 pr-8 flex-col md:flex-row">
       {/* home leftside */}
-      <div className="w-full md:w-[72%] md:border-r-[1px] md:border-solid pt-8 ">
+      <div className="w-full md:w-[72%] md:border-r-[1px] md:border-solid pt-8 pr-8">
         {latestTracks && popularTracks ? (
           <>
             <HomePageTrackHorizontalSwipe playlist={latestTracks} />

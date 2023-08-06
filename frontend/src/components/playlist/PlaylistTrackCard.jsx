@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import Favorite from "../buttons/Favorite";
+import Favorite from "../buttons/FavoriteButton";
 
 const PlaylistTrackCard = ({
   track,
-  setPlaylistPlaying,
+  setTrack,
+  setIsPlaying,
   playTrack,
   className,
 }) => {
   const handlePlayTrack = () => {
-    setPlaylistPlaying({
-      track: track,
-      isPlaying: true,
-    });
-    playTrack();
+    setTrack(track);
+    setIsPlaying(true);
+    playTrack(track);
   };
 
   return (

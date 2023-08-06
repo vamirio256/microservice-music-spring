@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiSolidPlaylist } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Favorite from "../../components/buttons/Favorite";
+import Favorite from "../../components/buttons/FavoriteButton";
 import PlaybackTimeLine from "./PlaybackTimeLine";
 import Queue from "./Queue";
 import VolumeControl from "./VolumeControl";

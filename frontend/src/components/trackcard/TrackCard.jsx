@@ -5,7 +5,7 @@ import { FaPlay } from "react-icons/fa";
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Favorite from "../buttons/Favorite";
+import Favorite from "../buttons/FavoriteButton";
 import UserHoverBar from "./UserHoverBar";
 
 const TrackCard = ({ className, track }) => {
@@ -32,7 +32,7 @@ const TrackCard = ({ className, track }) => {
     if (!playing) {
       return;
     }
-    if (playing.track.id == track.id && playing.isPlaying == true)
+    if (playing.track.id === track.id && playing.isPlaying === true)
       setIsPlaying(true);
     else setIsPlaying(false);
   }, [playing]);
@@ -80,9 +80,7 @@ const TrackCard = ({ className, track }) => {
               >
                 {/* play btn */}
 
-                {playing &&
-                playing.track.id === track.id &&
-                playing.isPlaying === true ? (
+                {isPlaying ? (
                   <BsFillPauseFill className="text-white" size={20} />
                 ) : (
                   <FaPlay className="text-white" />

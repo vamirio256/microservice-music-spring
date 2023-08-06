@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import CopyLink from "./buttons/CopyLink";
 import Edit from "./buttons/Edit";
-import Like from "./buttons/Like";
-import More from "./buttons/More";
+import FavoriteButton from "./buttons/FavoriteButton";
+import More from "./buttons/MoreButton";
 import Share from "./buttons/Share";
 
 const InteractButton = ({ className }) => {
@@ -16,7 +16,7 @@ const InteractButton = ({ className }) => {
     <>
       {/* interact button */}
       <div className={`${className} flex row mt-3`}>
-        <Like haveBorder={true} haveText={true} />
+        <FavoriteButton haveBorder={true} haveText={true} />
         <Share />
         <CopyLink />
         <Edit />

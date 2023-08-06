@@ -1,6 +1,8 @@
 const addTrackToQueue = (queue, track) => {
   if (!queue.find((item) => item.id === track.id)) {
     return [...queue, track];
+  } else {
+    return queue;
   }
 };
 const queueReducer = (state = [], action) => {

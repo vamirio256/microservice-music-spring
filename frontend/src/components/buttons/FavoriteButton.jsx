@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsHeartFill } from "react-icons/bs";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
 
-const Favorite = ({ track, className, haveBorder, haveText }) => {
+const FavoriteButton = ({ track, className, haveBorder, haveText }) => {
   const [isFavorite, setIsFavorite] = useState(track ? track.favorite : false);
 
   const handleAddFavorite = () => {
@@ -18,22 +18,22 @@ const Favorite = ({ track, className, haveBorder, haveText }) => {
   };
 
   return (
-    <div title="Like" className={`text-xs ${className}`}>
+    <div
+      title="Like"
+      className={`
+    ${haveText ? "px-2 py-1" : "px-1 py-0.5"}
+    ${haveBorder ? "border-[1px] hover:border-[#f50]" : ""}
+      h-fit text-xs rounded-sm flex flex-row justify-center item-center 
+      ${className}`}
+    >
       {isFavorite ? (
-        <button
-          onClick={handleRemoveFavorite}
-          className={haveBorder && `border border-solid border-[#f50]`}
-        >
-          <BsHeartFill className="text-[#f50]" />
+        <button onClick={handleRemoveFavorite}>
+          <GoHeartFill className="text-[#f50]" />
           {haveText && <div> Like</div>}
         </button>
       ) : (
-        <button
-          onClick={handleAddFavorite}
-          className={haveBorder && `border border-solid`}
-        >
-          <AiOutlineHeart />
-
+        <button onClick={handleAddFavorite}>
+          <GoHeart />
           {haveText && <div> Like</div>}
         </button>
       )}
@@ -41,4 +41,4 @@ const Favorite = ({ track, className, haveBorder, haveText }) => {
   );
 };
 
-export default Favorite;
+export default FavoriteButton;
