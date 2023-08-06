@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 
 import currentSongReducer from "./reducers/currentSong";
 
-import isPlayingReducer from "./reducers/isPlaying";
 import likeReducer from "./reducers/like";
 import playlistReducer from "./reducers/playlist";
 import modalReducer from "./reducers/modal";
@@ -17,7 +16,7 @@ import notificationListReducer from "./reducers/notificationList";
 const allReducers = combineReducers({
   historyReducer: historyReducer,
   currentSongReducer: currentSongReducer,
-  isPlayingReducer: isPlayingReducer,
+
   likeReducer: likeReducer,
   playlistReducer: playlistReducer,
   modalReducer: modalReducer,
