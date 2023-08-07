@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function NotificationItem({ item, index }) {
   const [opacity, setOpacity] = useState(false);
-  const notificationReducer = useSelector((state) => state.notificationReducer);
-  const dispatch = useDispatch();
+
   const ref = useRef(null);
   function hideElement() {
     setOpacity(false);

@@ -12,6 +12,9 @@ const notificationReducer = (state = [], action) => {
       state.shift();
       return [...state];
     case "REMOVE_ALL_NOTIFICATION":
+      if (state.length == 0) {
+        return state;
+      }
       return [];
     default:
       return state;

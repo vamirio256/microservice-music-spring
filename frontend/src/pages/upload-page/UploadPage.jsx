@@ -7,35 +7,20 @@ import {
 import loadingimage from "../../assets/images/loading-gif.gif";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import ImageCrop from "../../components/image/ImageCrop";
+
 export const UploadPage = () => {
   const fileInputRef = useRef(null);
-  const fileImageInputRef = useRef(null);
+  const ref = useRef();
   const [upload_display, set_upload_display] = useState(true);
   const [fileMusic, setFileMusic] = useState();
   const [name, setName] = useState("");
-  const [image, setImage] = useState(undefined);
 
-  const [crop, setCrop] = useState({
-    unit: "px",
-    width: 150,
-    height: 150,
-  });
-
-  const imageRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const ref = useRef(null);
 
-  function loadfileImage(event) {
-    setImage(event.target.files[0]);
-  }
-  const onImageLoaded = (e) => {
-    // getCroppedImage();
-  };
-
-  const onCropChange = (crop) => {
-    setCrop(crop);
-  };
+  // file ảnh cop
+  const [fileImageCrop, setFileImageCrop] = useState(undefined);
 
   const handleFileMusic = (e) => {
     set_upload_display(false);
@@ -43,60 +28,17 @@ export const UploadPage = () => {
     setFileMusic(e.target.files[0]);
   };
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
-  async function getCroppedImage() {
-    if (imageRef && crop.width && crop.height) {
-      const canvas = document.createElement("canvas");
-      const scaleX = imageRef.current.naturalWidth / imageRef.current.width;
-      const scaleY = imageRef.current.naturalHeight / imageRef.current.height;
-      const ctx = canvas.getContext("2d");
-
-      canvas.width = crop.width * scaleX;
-      canvas.height = crop.height * scaleY;
-
-      console.log(imageRef.current.naturalWidth);
-      ctx.drawImage(
-        imageRef.current,
-        crop.x * scaleX,
-        crop.y * scaleY,
-        crop.width * scaleX,
-        crop.height * scaleY,
-        0,
-        0,
-        crop.width * scaleX,
-        crop.height * scaleY
-      );
-
-      const file = await canvasToFile(canvas, "cropped.jpg", "image/jpeg");
-      return file;
-    }
-  }
-  function canvasToFile(canvas, fileName, mimeType) {
-    return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => {
-          const file = new File([blob], fileName, { type: mimeType });
-          resolve(file);
-        },
-        mimeType,
-        1 // Quality (1 is the maximum quality)
-      );
-    });
-  }
-
   const uploadFile = async () => {
-    if (image == undefined) {
+    if (fileImageCrop == undefined) {
       setError("Please choose music image");
       return;
     }
-    const fileImage2 = await getCroppedImage();
-    console.log(URL.createObjectURL(fileImage2));
     if (name == "") {
       setError("Please provide music name");
       return;
     }
-
     setLoading(true); // Start loading
-    const fileImage = await getCroppedImage();
+
     const formData = new FormData();
     formData.append(
       "track",
@@ -104,9 +46,8 @@ export const UploadPage = () => {
         type: "application/json",
       })
     );
-    formData.append("cover", fileImage);
+    formData.append("cover", fileImageCrop);
     formData.append("audio", fileMusic);
-
     try {
       const response = await fetch(uploadUrl, {
         method: "POST",
@@ -115,12 +56,11 @@ export const UploadPage = () => {
         },
         body: formData,
       });
-
       if (response.status === 200) {
         alert("Upload success");
         set_upload_display(true);
         fileInputRef.current.value = "";
-        setImage(undefined);
+        setFileImageCrop(undefined);
       } else {
         alert("Something went wrong");
       }
@@ -128,10 +68,9 @@ export const UploadPage = () => {
       console.log(error);
       alert("Error occurred while uploading");
     }
-
     setLoading(false); // Stop loading
   };
-  function cancalUpload() {
+  function cancelUpload() {
     set_upload_display(true);
     fileInputRef.current.value = "";
   }
@@ -211,54 +150,7 @@ export const UploadPage = () => {
           }`}
         >
           {/* image */}
-          <div>
-            {image ? (
-              <div className="relative">
-                <div
-                  className="absolute top-[-26px] right-1 z-10 flex items-center"
-                  onClick={() => setImage(undefined)}
-                >
-                  Close
-                  <AiOutlineCloseCircle size={15} />
-                </div>
-                <ReactCrop
-                  // src={URL.createObjectURL(image)}
-
-                  crop={crop}
-                  onChange={onCropChange}
-                  aspect={1}
-                >
-                  <img
-                    onLoad={onImageLoaded}
-                    src={URL.createObjectURL(image)}
-                    className="w-[200px] h-[200px] object-contain"
-                    ref={imageRef}
-                  />
-                </ReactCrop>
-              </div>
-            ) : (
-              <div>
-                <label
-                  ref={ref}
-                  htmlFor="image_upload"
-                  className="inline-block cursor-pointer px-2 pt-[150px] w-[200px] lg:px-5 bg-cover pb-5 bg-slate-600 bg-no-repeat bg-center"
-                >
-                  <span className="bg-red-100 p-2 flex justify-center items-center">
-                    <AiFillCamera className="inline" /> Upload file
-                  </span>
-                </label>
-                <input
-                  required
-                  id="image_upload"
-                  type="file"
-                  accept=".JPEG,.PNG,.JPG"
-                  className="hidden"
-                  onChange={loadfileImage}
-                  ref={fileImageInputRef}
-                />
-              </div>
-            )}
-          </div>
+          <ImageCrop setFile={setFileImageCrop} />
           {/* right infor */}
           <div className="pl-5 w-8/12">
             {/* name */}
@@ -292,7 +184,7 @@ export const UploadPage = () => {
 
             {/* button */}
             <div className="mt-5 text-right">
-              <button className="secondary-button" onClick={cancalUpload}>
+              <button className="secondary-button" onClick={cancelUpload}>
                 Cancel
               </button>
 
