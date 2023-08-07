@@ -40,7 +40,7 @@ const TrackCard = ({ className, track }) => {
   }
 
   return (
-    <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
+    <div className="flex flex-col sm:w-22 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">
         <div className="relative max-w-xs overflow-hidden bg-no-repeat bg-cover">
           <div

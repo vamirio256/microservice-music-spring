@@ -9,25 +9,23 @@ const NotificationList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (prevCountRef.current.length < notification.length) {
-      setTimeout(() => {
-        dispatch({
-          type: "CLOSE_NOTIFICATION_RIGHTBAR",
-        });
-      }, 5000);
-    }
+    const timeout = setTimeout(() => {
+      dispatch({
+        type: "REMOVE_ALL_NOTIFICATION",
+      });
+    }, 3500);
 
     return () => {
-      prevCountRef.current = notification;
+      clearTimeout(timeout);
     };
   }, [notification]);
 
   return (
-    <>
+    <div className="flex flex-col fixed right-10 top-12 ">
       {notification?.map((item, key) => (
         <NotificationItem item={item} key={key} index={key} />
       ))}
-    </>
+    </div>
   );
 };
 
