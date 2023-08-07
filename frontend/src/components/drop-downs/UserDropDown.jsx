@@ -6,7 +6,7 @@ const UserDropDown = ({ user }) => {
 
   return (
     <div className="bg-white p-5">
-      <img src={user.avatarUrl} className="w-[50px] h-[50px]" />
+      <img src={user.avatarUrl} className="username w-[50px] h-[50px]" />
       <p>{user.username}</p>
       <FollowButton user={user} />
     </div>

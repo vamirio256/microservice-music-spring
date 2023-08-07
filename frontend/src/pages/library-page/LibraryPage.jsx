@@ -7,6 +7,7 @@ import PlaylistTab from "./tabs/PlaylistTab";
 import HistoryTab from "./tabs/HistoryTab";
 import FavoriteTab from "./tabs/FavoriteTab";
 import loading_gif from "../../assets/icons/loading.gif";
+import Footer from "../../components/footer/Footer";
 const LibraryPage = () => {
   const [user, setUser] = useState("");
   const userId = useSelector((state) => state.userReducer.id);
@@ -27,11 +28,11 @@ const LibraryPage = () => {
   }, []);
 
   return (
-    <>
+    <div className="px-8 pt-4">
       {loading ? (
         <img src={loading_gif} alt="" className="block m-auto" /> // Show a loading indicator when loading is true
       ) : (
-        <div className="px-8 pt-4">
+        <div>
           <TabNavigateBar />
           {user && (
             <Routes>
@@ -48,7 +49,8 @@ const LibraryPage = () => {
           )}
         </div>
       )}
-    </>
+      <Footer />
+    </div>
   );
 };
 

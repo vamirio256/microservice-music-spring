@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BsFillPauseFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 
 import { MdPlaylistAdd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Favorite from "../buttons/FavoriteButton";
+import FavoriteButton from "../buttons/FavoriteButton";
 import UserHoverBar from "./UserHoverBar";
 
 const TrackCard = ({ className, track }) => {
@@ -38,7 +38,7 @@ const TrackCard = ({ className, track }) => {
   function openPlaylistModal() {
     dispatch({ type: "OPEN_MODAL_PLAYLIST", track: track });
   }
-  
+
   return (
     <div className="flex flex-col sm:w-32 lg:w-44 mx-auto bg-white overflow-hidden text-left">
       <div className="group cursor-pointer">
@@ -79,8 +79,10 @@ const TrackCard = ({ className, track }) => {
                 {/* <FaPlay className="text-white" /> */}
               </a>
               {/* Favorite button */}
-              <Favorite
+              <FavoriteButton
                 track={track}
+                haveBorder={false}
+                haveText={false}
                 className="absolute right-7 bottom-2 text-white"
               />
               {/* add to playlist button */}

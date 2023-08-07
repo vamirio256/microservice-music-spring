@@ -8,7 +8,6 @@ const TabNavigateBar = ({ className, userId }) => {
         <NavigateBarItem label={"Uploaded Tracks"} to={`/user/${userId}`} />
         <NavigateBarItem label={"Playlists"} to={`/user/${userId}/playlist`} />
       </div>
-      <hr className="block h-[1px] w-full mt-2" />
     </div>
   );
 };

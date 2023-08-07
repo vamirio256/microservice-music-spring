@@ -1,5 +1,5 @@
 import React from "react";
-import { BsThreeDots } from "react-icons/bs";
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 
 const MoreButton = ({ className, haveBorder, haveText }) => {
@@ -8,15 +8,15 @@ const MoreButton = ({ className, haveBorder, haveText }) => {
   return (
     <button
       className={`
-      ${haveText ? "px-2 py-1" : "px-1 py-0.5"}
-       h-fit border-[1px] border-solid text-xs rounded-sm hover:border-[#999] flex flex-row item-center
+      ${haveText ? "px-3 py-1" : "px-1 py-0.5"}
+       h-fit w-fit border-[1px] border-solid text-xs rounded-[3px] max-h-[25px] hover:border-[#999] flex flex-row item-center bg-white
       ${className}`}
       onClick={() => {
         dispatch({ type: "APPEND_NOTIFICATION" });
       }}
     >
-      <BsThreeDots className="text-[14px]" />
-      {haveText && <span className="ml-1">More</span>}
+      <PiDotsThreeOutlineFill className="text-[16px]" />
+      {haveText && <span className="ml-2">More</span>}
     </button>
   );
 };

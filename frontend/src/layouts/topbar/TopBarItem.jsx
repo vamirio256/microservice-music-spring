@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BiLogoSoundcloud } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
-import useScreenDimensions from "../../components/useScreenDimensions";
+import useScreenDimensions from "../../utils/useScreenDimensions";
 
 const TopBarItem = ({
   icon: Icon,

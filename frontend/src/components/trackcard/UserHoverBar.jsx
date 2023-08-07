@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const UserHoverBar = ({ user }) => {
+const UserHoverBar = ({ className, user }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(true);
 
   const handleMouseEnter = () => {
@@ -15,12 +15,12 @@ const UserHoverBar = ({ user }) => {
   return (
     <Link
       to={`/user/${user.id}`}
-      className={`text-xs font-extralight text-gray-400 truncate relative`}
+      className={`text-xs font-extralight text-gray-400 truncate relative ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Component that triggers the dropdown on hover */}
-      <a className="text-xs font-extralight text-gray-400 truncate">
+      <a className="username text-xs font-extralight text-gray-400 truncate">
         {user.username}
       </a>
 

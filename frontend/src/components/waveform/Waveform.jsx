@@ -153,7 +153,7 @@ const Waveform = ({ className, audioUrl }) => {
   }, [currentMediaPlaying]);
 
   const timeStyle =
-    "absolute z-10 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
+    "absolute z-9 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";
 
   return (
     <div className={`overflow-hidden h-[50px] relative w-full ${className} `}>

@@ -10,7 +10,9 @@ const CommentInput = ({ className, trackId, setComments }) => {
 
   const handleAddComment = async (e) => {
     await addComment(comment, trackId);
-    const track = await getTrack(trackId);
+    const response = await getTrack(trackId);
+    const track = await response.json();
+    console.log(track);
     setComments(track.comments);
   };
 

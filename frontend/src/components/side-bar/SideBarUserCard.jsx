@@ -14,10 +14,10 @@ const SideBarUserCard = ({ className, user }) => {
             />
           </Link>
           <div className="flex flex-row items-center w-full justify-between ml-3">
-            <Link to={`/user/${user.id}`} className="hover:text-black">
+            <Link to={`/user/${user.id}`} className="username hover:text-black">
               {user.username}
             </Link>
-            <FollowButton user={user}/>
+            <FollowButton user={user} haveBorder={true} haveText={true} />
           </div>
         </div>
       )}

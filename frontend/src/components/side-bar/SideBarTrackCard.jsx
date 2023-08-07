@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import FavoriteButton from "../buttons/FavoriteButton";
 import MoreButton from "../buttons/MoreButton";
 import UserHoverBar from "../trackcard/UserHoverBar";
+import ShareButton from "../buttons/ShareButton";
+import CopyLinkButton from "../buttons/CopyLinkButton";
 
 export const SideBarTrackCard = ({ track }) => {
   const dispatch = useDispatch();
@@ -41,11 +43,12 @@ export const SideBarTrackCard = ({ track }) => {
 
   return (
     <div className="flex mb-4 relative group w-full">
+      
       {/* image right */}
-      <div className="cursor-pointer relative min-w-[50px] h-[50px] group">
+      <div className="cursor-pointer w-[50px] relative group mt-1">
         <img
           src={track.coverUrl}
-          className="object-cover w-[50px] h-[50px] border-[0.5px] border-[#ccc]"
+          className="object-cover min-w-[50px] h-[50px] border-[0.5px] border-[#ccc]"
         />
         {/* play button */}
         {isPlaying ? (
@@ -68,23 +71,23 @@ export const SideBarTrackCard = ({ track }) => {
         <UserHoverBar user={track.user} />
         <Link
           to={`/track/${track.id}`}
-          className="text-sm line-clamp-1 text-black my-[-3px]"
+          className={`text-sm line-clamp-1 mt-[-2px] ${isPlaying ? "text-[#f50]" : "text-black"}`}
         >
           {track.name}
         </Link>
         {/* icon infor */}
-        <div className="grid grid-cols-3 gap-1 items-center w-fit">
-          <div className="grid grid-cols-2 items-center">
-            <IoIosPlay color="#999"/>
+        <div className="grid grid-cols-3 gap-3 items-center text-xs mt-[2px] w-fit">
+          <div className="grid grid-cols-2 gap-0.5 items-center ">
+            <IoIosPlay color="#999" />
             <p>{track.listenedTime}</p>
           </div>
-          <div className="grid grid-cols-2 items-center">
-            <GoHeartFill color="#999" />
-            <p>0</p>
+          <div className="grid grid-cols-2 gap-0.5 items-center">
+            <GoHeartFill color="#999" className="text-[10px]"/>
+            <p>11</p>
           </div>
-          <div className="grid grid-cols-2 items-center">
-            <BiSolidComment color="#999" />
-            <p>0</p>
+          <div className="grid grid-cols-2 gap-0.5 items-center">
+            <BiSolidComment color="#999" className="text-[10px]"/>
+            <p>12</p>
           </div>
         </div>
       </div>
@@ -93,9 +96,9 @@ export const SideBarTrackCard = ({ track }) => {
       <div
         className={`
         ${isPlaying ? "visible" : "invisible group-hover:visible"}
-        flex flex-row items-center justify-end`}
+        flex flex-row items-center justify-end text-black`}
       >
-        <FavoriteButton haveBorder={true} />
+        <FavoriteButton track={track} haveBorder={true} className={"mr-2"} />
         <MoreButton haveBorder={true} />
       </div>
     </div>

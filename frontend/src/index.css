@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;500;700&display=swap");
 
+
 html,
 body:root {
   height: 100%;
@@ -109,26 +110,8 @@ body{
   bottom: 0;
   left: 0;
   animation: reduceWidth 5s linear infinite;
-} /*
-}
-/* .animate-reduce-width {
-  animation: reduceWidth 8s linear;
-} */
-
-/* .modal-appear {
-  transform: scale(1);
-  opacity: 1;
 }
 
-.modal-appear-active {
-  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+.username {
+  letter-spacing: 0.05em;
 }
-
-.modal-enter {
-  transform: scale(0);
-  opacity: 0;
-}
-
-.modal-enter-active {
-  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-} */

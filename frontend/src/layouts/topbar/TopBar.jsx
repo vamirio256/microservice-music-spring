@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import NotificationDropDown from "../../components/drop-downs/NotificationDropDown";
 import { AiOutlineClose } from "react-icons/ai";
-import useScreenDimensions from "../../components/useScreenDimensions";
+import useScreenDimensions from "../../utils/useScreenDimensions";
 
 const TopBar = () => {
   const pathname = useLocation().pathname;

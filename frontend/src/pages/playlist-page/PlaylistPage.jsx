@@ -90,7 +90,7 @@ const PlaylistPage = ({ playlist }) => {
                   <p className="text-white text-xl bg-black p-2 w-fit mb-2">
                     {track.name}
                   </p>
-                  <p className="text-gray-300 text-sm bg-black p-3 w-fit mb-2">
+                  <p className="username text-gray-300 text-sm bg-black p-3 w-fit mb-2">
                     {track.user.username}
                   </p>
                 </div>

@@ -2,12 +2,12 @@ import React from "react";
 import { MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
 
-const Edit = ({className, handleFunc}) => {
+const EditButton = ({className, handleFunc}) => {
   const dispatch = useDispatch();
 
   return (
     <button
-      className={`${className} border-[1px] border-solid px-2 py-1 text-xs rounded-sm hover:border-[#999] flex flex-row item-center mr-2`}
+      className={`${className} border-[1px] border-solid px-2 py-1 text-xs rounded-sm bg-white hover:border-[#999] flex flex-row item-center mr-2`}
       onClick={() => {
         dispatch({ type: "APPEND_NOTIFICATION" });
       }}
@@ -18,4 +18,4 @@ const Edit = ({className, handleFunc}) => {
   );
 };
 
-export default Edit;
+export default EditButton;

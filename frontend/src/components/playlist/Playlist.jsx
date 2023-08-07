@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import InteractButton from "../InteractButton";
+import FavoriteButton from "../buttons/FavoriteButton";
+import MoreButton from "../buttons/MoreButton";
 import Waveform from "../waveform/Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
+import CopyLinkButton from "../buttons/CopyLinkButton";
 
 const Playlist = ({ playlist }) => {
   const [track, setTrack] = useState("");
@@ -70,7 +72,7 @@ const Playlist = ({ playlist }) => {
                     />
                   )}
                   <div className="ml-3">
-                    <h3 className="text-[#999] text-xs cursor-pointer">
+                    <h3 className="username text-[#999] text-xs cursor-pointer">
                       {track.user.username}
                     </h3>
                     <h2 className="text-[14px] cursor-pointer">
@@ -85,7 +87,7 @@ const Playlist = ({ playlist }) => {
               <Waveform audioUrl={track.audioUrl} />
 
               {/* tracks in playlist */}
-              <div className="border-[1px] border-solid mt-3 h-[100px] overflow-auto">
+              <div className="border-[1px] border-solid mt-3 max-h-[200px] overflow-auto">
                 {playlist.tracks.map((track, index) => (
                   <PlaylistTrackCard
                     key={index}
@@ -98,7 +100,11 @@ const Playlist = ({ playlist }) => {
                 ))}
               </div>
 
-              <InteractButton />
+              <div className="flex mt-3">
+                <FavoriteButton haveBorder={true} haveText={true} className={"mr-2"}/>
+                <CopyLinkButton haveBorder={true} haveText={true} className={"mr-2"} />
+                <MoreButton haveBorder={true} haveText={true} />
+              </div>
             </div>
           </div>
         </>
