@@ -66,11 +66,15 @@ const EditPlaylistModal = () => {
           </button>
         </div>
         {tab == "basicInfo" ? (
-          <div className={`w-full mt-5 p-5 lg:p-10 flex lg:w-[1000px] `}>
+          <div
+            className={`w-full mt-5 p-5 lg:p-10 flex-col lg:flex-row flex lg:w-[1000px] `}
+          >
             {/* image */}
-            <ImageCrop setFile={setFileImageCrop} />
+            <div className="w-full lg:w-3/12 flex justify-center">
+              <ImageCrop setFile={setFileImageCrop} />
+            </div>
             {/* right infor */}
-            <div className="pl-5 w-8/12 text-sm">
+            <div className="lg:pl-5 lg:w-9/12 text-sm w-full pt-2">
               {/* name */}
               <div>
                 Title <span className="text-red-500">*</span>
@@ -88,7 +92,7 @@ const EditPlaylistModal = () => {
               <div className="mt-3">
                 Permalink <span className="text-red-500">*</span>
               </div>
-              <div className="relative flex items-center">
+              <div className="relative md:flex items-center">
                 <label className="inline">
                   soundcloud.com/nguyennhulong9d1/sets/
                 </label>
@@ -101,7 +105,7 @@ const EditPlaylistModal = () => {
                   ref={permalinkRef}
                 />
                 <BiEdit
-                  className="absolute top-1 right-0 hover:cursor-pointer"
+                  className="absolute top-5 md:top-1 right-0 hover:cursor-pointer"
                   size={20}
                   onClick={() => permalinkRef.current.focus()}
                 />
