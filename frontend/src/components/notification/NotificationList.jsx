@@ -13,7 +13,7 @@ const NotificationList = () => {
       dispatch({
         type: "REMOVE_ALL_NOTIFICATION",
       });
-    }, 3500);
+    }, 5500);
 
     return () => {
       clearTimeout(timeout);
@@ -21,7 +21,7 @@ const NotificationList = () => {
   }, [notification]);
 
   return (
-    <div className="flex flex-col fixed right-10 top-12 ">
+    <div className="flex flex-col fixed right-10 top-20">
       {notification?.map((item, key) => (
         <NotificationItem item={item} key={key} index={key} />
       ))}

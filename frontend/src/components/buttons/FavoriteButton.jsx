@@ -3,29 +3,50 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
+import { useDispatch } from "react-redux";
 
 const FavoriteButton = ({ track, className, haveBorder, haveText }) => {
   const [isFavorite, setIsFavorite] = useState(track ? track.favorite : false);
+  const dispatch = useDispatch();
 
   const handleAddFavorite = () => {
     addFavorite(track.id);
     setIsFavorite(true);
+    dispatch({
+      type: "ADD_FAVORITE",
+      track: track,
+    });
+    dispatch({
+      type: "APPEND_NOTIFICATION",
+      name: track.name,
+      text: "was saved to your Favorites",
+      image: track.coverUrl,
+    });
   };
 
   const handleRemoveFavorite = () => {
     removeFavorite(track.id);
     setIsFavorite(false);
+    dispatch({
+      type: "REMOVE_FAVORITE",
+      id: track.id,
+    });
+    dispatch({
+      type: "APPEND_NOTIFICATION",
+      name: track.name,
+      text: "was removed from Favorites",
+      image: track.coverUrl,
+    });
   };
 
   return (
     <div
       title="Like"
-      className={`
+      className={`${className}
     ${haveText ? "px-3 py-1" : "px-1 py-0.5"}
     ${haveBorder ? "border-[1px] hover:border-[#f50]" : ""}
     ${isFavorite ? "text-[#f50] border-[#f50]" : ""}
-      h-fit w-fit text-xs rounded-[3px] flex flex-row justify-center  items-center max-h-[26px] min-h-[20px] cursor-pointer
-      ${className}`}
+      h-fit w-fit text-xs rounded-[3px] flex flex-row justify-center  items-center max-h-[26px] min-h-[20px] cursor-pointer bg-[#fff] `}
     >
       {isFavorite ? (
         <button onClick={handleRemoveFavorite} className="flex">

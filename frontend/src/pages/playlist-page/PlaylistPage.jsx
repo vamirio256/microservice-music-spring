@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Waveform from "../../components/waveform/Waveform";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTrack } from "../../apis/track/getTrack";
-import TrackCard from "../../components/trackcard/TrackCard";
+import TrackCard from "../../components/track/TrackCard";
 import InteractButton from "../../components/InteractButton";
 import CommentInput from "../../components/comment/CommentInput";
 import SideBar from "../../components/side-bar/SideBar";

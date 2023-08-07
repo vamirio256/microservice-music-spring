@@ -9,28 +9,26 @@ import FavoriteTab from "./tabs/FavoriteTab";
 import loading_gif from "../../assets/icons/loading.gif";
 import Footer from "../../components/footer/Footer";
 const LibraryPage = () => {
-  const [user, setUser] = useState("");
-  const userId = useSelector((state) => state.userReducer.id);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const getUserDataOnInitial = async () => {
-      try {
-        const response = await getUserData(userId);
-        const userData = await response.json();
-        setUser(userData);
-        setLoading(false);
-      } catch (e) {
-        console.error(e);
-        setLoading(false);
-      }
-    };
-    getUserDataOnInitial();
-  }, []);
+  const user = useSelector((state) => state.userReducer);
+  // useEffect(() => {
+  //   const getUserDataOnInitial = async () => {
+  //     try {
+  //       const response = await getUserData(userId);
+  //       const userData = await response.json();
+  //       setUser(userData);
+  //       setLoading(false);
+  //     } catch (e) {
+  //       console.error(e);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   getUserDataOnInitial();
+  // }, []);
 
   return (
     <div className="px-8 pt-4">
-      {loading ? (
-        <img src={loading_gif} alt="" className="block m-auto" /> // Show a loading indicator when loading is true
+      {!user ? (
+        <img src={loading_gif} alt="" className="block m-auto" />
       ) : (
         <div>
           <TabNavigateBar />

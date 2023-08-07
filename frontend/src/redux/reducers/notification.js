@@ -5,7 +5,9 @@ const notificationReducer = (state = [], action) => {
         ...state,
         {
           text: action.text ? action.text : "Service is under development.",
-          // isVisible: false,
+          image: action.image,
+          name: action.name,
+          icon: action.icon
         },
       ];
     case "REMOVE_NOTIFICATION":

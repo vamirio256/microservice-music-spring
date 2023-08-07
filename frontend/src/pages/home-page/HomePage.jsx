@@ -3,7 +3,7 @@ import { getLatestTracks } from "../../apis/playlist/getLatestTracks";
 import { getPopularTracks } from "../../apis/playlist/getPopularTracks";
 import Playlist from "../../components/playlist/Playlist";
 import SideBar from "../../components/side-bar/SideBar";
-import HomePageTrackHorizontalSwipe from "../../components/trackcard/TrackSwiper";
+import HomePageTrackHorizontalSwipe from "../../components/track/TrackSwiper";
 import loading_gif from "../../assets/images/loading-gif.gif";
 
 const HomePage = () => {

@@ -8,9 +8,9 @@ const SideBarSection = ({ header, icon, children, sideButton }) => {
         <div className="flex flex-row items-center border-b mb-3 pb-2 justify-between">
           <div className="flex flex-row items-center">
             <span>{icon}</span>
-            <span className="ml-3">{header}</span>
+            <span className="ml-2">{header}</span>
           </div>
-          {sideButton}
+          <div className="text-xs">{sideButton}</div>
         </div>
       </div>
       {children}
