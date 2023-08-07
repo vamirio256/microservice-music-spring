@@ -70,9 +70,13 @@ const modalReducer = (
         state[modal].context = "";
       });
     case "OPEN_MODAL_EDIT_PLAYLIST":
-      return openModal(state, "editPlaylist");
+      return openModal(state, "editPlaylist", (state, modal) => {
+        state[modal].playlist = action.playlist;
+      });
     case "CLOSE_MODAL_EDIT_PLAYLIST":
-      return closeModal(state, "editPlaylist");
+      return closeModal(state, "editPlaylist", (state, modal) => {
+        state[modal].track = {};
+      });
     default:
       return state;
   }

@@ -117,7 +117,11 @@ const Playlist = ({ playlist }) => {
                   haveText={true}
                   className={"mr-2"}
                 />
-                <EditButton haveBorder={true} haveText={true} />
+                <EditButton
+                  haveBorder={true}
+                  haveText={true}
+                  playlist={playlist}
+                />
               </div>
             </div>
           </div>
