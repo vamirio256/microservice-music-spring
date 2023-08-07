@@ -6,6 +6,7 @@ import MoreButton from "../buttons/MoreButton";
 import Waveform from "../waveform/Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 import CopyLinkButton from "../buttons/CopyLinkButton";
+import EditButton from "../buttons/EditButton";
 
 const Playlist = ({ playlist }) => {
   const [track, setTrack] = useState("");
@@ -101,9 +102,26 @@ const Playlist = ({ playlist }) => {
               </div>
 
               <div className="flex mt-3">
-                <FavoriteButton haveBorder={true} haveText={true} className={"mr-2"}/>
-                <CopyLinkButton haveBorder={true} haveText={true} className={"mr-2"} />
-                <MoreButton haveBorder={true} haveText={true} />
+                <FavoriteButton
+                  haveBorder={true}
+                  haveText={true}
+                  className={"mr-2"}
+                />
+                <CopyLinkButton
+                  haveBorder={true}
+                  haveText={true}
+                  className={"mr-2"}
+                />
+                <MoreButton
+                  haveBorder={true}
+                  haveText={true}
+                  className={"mr-2"}
+                />
+                <EditButton
+                  haveBorder={true}
+                  haveText={true}
+                  playlist={playlist}
+                />
               </div>
             </div>
           </div>

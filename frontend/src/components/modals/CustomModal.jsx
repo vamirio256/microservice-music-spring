@@ -15,8 +15,8 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
-      shouldCloseOnOverlayClick={true}
       contentLabel="Example Modal"
+      shouldCloseOnOverlayClick={true}
       style={{
         overlay: {
           display: "flex",

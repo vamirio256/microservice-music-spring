@@ -17,6 +17,7 @@ import PlaylistModal from "./components/modals/PlaylistModal";
 import LibraryPage from "./pages/library-page/LibraryPage";
 import NotFoundPage from "./pages/notfound-page/NotFoundPage";
 import NotificationList from "./components/notification/NotificationList";
+import EditPlaylistModal from "./components/modals/EditPlaylistModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -85,6 +86,7 @@ function App() {
           <NotificationList />
           <PlaylistModal />
           <MediaControl />
+          <EditPlaylistModal />
         </>
       )}
     </div>

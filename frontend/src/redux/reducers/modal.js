@@ -37,6 +37,10 @@ const modalReducer = (
       isShowed: false,
       context: "",
     },
+    editPlaylist: {
+      isShowed: false,
+      context: "",
+    },
   },
   action
 ) => {
@@ -64,6 +68,14 @@ const modalReducer = (
     case "CLOSE_MODAL_CONFIRM":
       return closeModal(state, "confirm", (state, modal) => {
         state[modal].context = "";
+      });
+    case "OPEN_MODAL_EDIT_PLAYLIST":
+      return openModal(state, "editPlaylist", (state, modal) => {
+        state[modal].playlist = action.playlist;
+      });
+    case "CLOSE_MODAL_EDIT_PLAYLIST":
+      return closeModal(state, "editPlaylist", (state, modal) => {
+        state[modal].track = {};
       });
     default:
       return state;
