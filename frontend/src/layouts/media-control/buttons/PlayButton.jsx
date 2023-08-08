@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
-const PlayButton = () => {
+const PlayButton = ({className}) => {
   const playing = useSelector((state) => state.playingReducer);
   const dispatch = useDispatch();
 
@@ -16,9 +16,9 @@ const PlayButton = () => {
   return (
     <button onClick={playTrack}>
       {!playing.isPlaying ? (
-        <BsFillPlayFill className="text-xl ml-3" />
+        <BsFillPlayFill className={`${className}`} />
       ) : (
-        <BsFillPauseFill className="text-xl ml-3" />
+        <BsFillPauseFill className={`${className}`} />
       )}
     </button>
   );

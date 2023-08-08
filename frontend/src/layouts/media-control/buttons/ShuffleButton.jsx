@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { BsShuffle } from "react-icons/bs";
 
 const ShuffleButton = () => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isSuffle, setIsSuffle] = useState(false);
   // const textColor = isFocused : "text-black" ? ""
 
-  const toggleIsFocused = () => {
-    setIsFocused(!isFocused);
+  const toggleIsShuffle = () => {
+    setIsSuffle(!isSuffle);
   };
 
   return (
-    <button onClick={toggleIsFocused}>
-      <BsShuffle className="text-xl ml-3" />
+    <button onClick={toggleIsShuffle}>
+      <BsShuffle className={`
+      ${isSuffle ? "text-[#f50]" : "text-black"}
+      text-xl ml-3`} />
     </button>
   );
 };

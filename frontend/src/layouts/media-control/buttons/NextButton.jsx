@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {BsFillSkipEndFill} from "react-icons/bs"
 
-const NextButton = () => {
+const NextButton = ({className}) => {
   const dispatch = useDispatch();
   const queue = useSelector((state) => state.queueReducer);
   const playing = useSelector((state) => state.playingReducer);
@@ -34,7 +34,7 @@ const NextButton = () => {
 
   return (
     <button>
-      <BsFillSkipEndFill className="text-xl ml-3" onClick={playNext} />
+      <BsFillSkipEndFill className={`${className}`} onClick={playNext} />
     </button>
   );
 };

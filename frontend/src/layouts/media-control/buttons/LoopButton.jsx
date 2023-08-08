@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsRepeat } from "react-icons/bs";
 
-const LoopButton = () => {
+const LoopButton = ({ className }) => {
+  const [isLoop, setIsLoop] = useState(false);
+
   return (
     <button>
-      <BsRepeat className="text-xl ml-3" style={{ fontSize: "1.15rem" }} />
+      <BsRepeat className={`${className}`} style={{ fontSize: "1.15rem" }} />
     </button>
   );
 };

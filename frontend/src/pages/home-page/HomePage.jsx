@@ -55,6 +55,7 @@ const HomePage = () => {
           <>
             <HomePageTrackHorizontalSwipe playlist={latestTracks} />
             <Playlist playlist={popularTracks} />
+            <Playlist playlist={popularTracks} isGradient={true}/>
           </>
         ) : (
           <img

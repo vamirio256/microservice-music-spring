@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GrClose } from "react-icons/gr";
-import PlaylistTrackCard from "../../components/playlist/PlaylistTrackCard";
+import PlaylistTrackCard from "../../../components/playlist/PlaylistTrackCard";
 import { useDispatch, useSelector } from "react-redux";
 
 const Queue = ({ isShowed, setIsShowed }) => {
@@ -16,7 +16,7 @@ const Queue = ({ isShowed, setIsShowed }) => {
   return (
     <>
       {isShowed ? (
-        <div className="absolute right-2 bottom-[56px] border boder-solid shadow-sm h-[400px] w-[90%] md:w-[500px] bg-white transition-opacity duration-500 ease-in-out">
+        <div className="absolute right-2 bottom-[56px] border boder-solid shadow-sm h-[400px] w-[90%] md:w-[500px] bg-white drop-shadow-md">
           {/* header */}
           <div className="flex flex-row justify-between border-b item-center px-5 py-4">
             <h1 className="text-xl">Next up</h1>

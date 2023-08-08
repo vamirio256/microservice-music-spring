@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FavoriteButton from "../../components/buttons/FavoriteButton";
 import PlaybackTimeLine from "./PlaybackTimeLine";
-import Queue from "./Queue";
+import Queue from "./queue/Queue";
 import VolumeControl from "./VolumeControl";
 import LoopButton from "./buttons/LoopButton";
 import NextButton from "./buttons/NextButton";
@@ -95,11 +95,11 @@ const MediaControl = () => {
           <Queue isShowed={isShowed} setIsShowed={setIsShowed} />
           {/* control button */}
           <div className="flex flex-row">
-            <PreviousButton />
-            <PlayButton />
-            <NextButton />
-            <ShuffleButton />
-            <LoopButton />
+            <PreviousButton className={"text-xl ml-5"} />
+            <PlayButton className={"text-xl ml-5"} />
+            <NextButton className={"text-xl ml-5"} />
+            <ShuffleButton className={"text-xl ml-5"} />
+            <LoopButton className={"text-xl ml-5"} />
           </div>
 
           {/* track control */}
@@ -122,9 +122,9 @@ const MediaControl = () => {
           <div className="flex flex-row mx-3 max-w-[200px]">
             <img
               src={playing.track.coverUrl}
-              className="h-[30px] w-[30px] mr-5"
+              className="h-[35px] w-[35px] mr-5 border"
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center">
               <Link to={`/track/${playing.track.id}`}>
                 {playing.track.name}
               </Link>
@@ -138,13 +138,19 @@ const MediaControl = () => {
           </div>
           {/* favorite, follow, queue */}
           <div className="flex flex-row items-center justify-center">
-            <FavoriteButton track={playing.track} className={"!bg-[#f2f2f2]"} />
+            <FavoriteButton
+              track={playing.track}
+              className={"!bg-[#f2f2f2] mr-2"}
+            />
             {playing.track.user.id !== userId && (
-              <FollowButton user={playing.track.user} />
+              <FollowButton
+                user={playing.track.user}
+                className={"!bg-[#f2f2f2] mr-1"}
+              />
             )}
             <BiSolidPlaylist
               size={15}
-              className="ml-2 cursor-pointer"
+              className="ml-2 cursor-pointer mr-2"
               onClick={() => setIsShowed(!isShowed)}
             />
           </div>
