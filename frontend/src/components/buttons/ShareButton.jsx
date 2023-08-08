@@ -2,7 +2,7 @@ import React from "react";
 import { FaShare } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
-const ShareButton = ({ className, haveText, haveBorder }) => {
+const ShareButton = ({ className, haveText, haveBorder, share }) => {
   const dispatch = useDispatch();
 
   return (

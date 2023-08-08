@@ -47,7 +47,6 @@ const RegisterModal = ({ setIsAuthenticated }) => {
         setPasswordMatchAlert(false);
       } else {
         setPasswordMatchAlert(true);
-        console.log("alert");
       }
     };
     const debounceTimeout = setTimeout(comparePasswords, 1000);

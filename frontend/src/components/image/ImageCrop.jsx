@@ -31,7 +31,6 @@ export default function ImageCrop({ setFile }) {
       canvas.width = crop.width * scaleX;
       canvas.height = crop.height * scaleY;
 
-      console.log(imageRef.current.naturalWidth);
       ctx.drawImage(
         imageRef.current,
         crop.x * scaleX,

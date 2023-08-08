@@ -35,8 +35,8 @@ const Waveform = ({ className, audioUrl }) => {
     const ctx = canvas.getContext("2d");
 
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 1.35);
-    gradient.addColorStop(0, "#656666"); // Top color
-    gradient.addColorStop((canvas.height * 0.7) / canvas.height, "#656666"); // Top color
+    gradient.addColorStop(0, "#999999"); // Top color
+    gradient.addColorStop((canvas.height * 0.7) / canvas.height, "#999999"); // Top color
     gradient.addColorStop((canvas.height * 0.7 + 1) / canvas.height, "#ffffff"); // White line
     gradient.addColorStop((canvas.height * 0.7 + 2) / canvas.height, "#ffffff"); // White line
     gradient.addColorStop((canvas.height * 0.7 + 3) / canvas.height, "#B1B1B1"); // Bottom color

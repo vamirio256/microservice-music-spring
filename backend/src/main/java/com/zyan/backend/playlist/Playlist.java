@@ -49,6 +49,7 @@ public class Playlist {
                         .map(track -> track.mapTrackToTrackSummaryDTO(profileId))
                         .collect(Collectors.toList())
                         : Collections.emptyList())
+                .coverUrl(getCoverUrl())
                 .createdAt(getCreatedAt())
                 .build();
     }

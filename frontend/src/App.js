@@ -54,7 +54,8 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col h-[100vh] relative overflow-x-hidden">
+    // <div className="flex flex-col h-[100vh] relative overflow-x-hidden">
+    <div className="flex flex-col h-[100vh] relative">
       {!isAuthenticated ? (
         <Routes>
           <Route

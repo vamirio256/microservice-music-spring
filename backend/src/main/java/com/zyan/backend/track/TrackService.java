@@ -2,9 +2,11 @@ package com.zyan.backend.track;
 
 import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.User;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -27,4 +29,6 @@ public interface TrackService {
 
     void postComment(User user, int trackid, String context);
     void deleteComment(User user, int commentId);
+
+    List<TrackSummaryDTO> getTrackWithPagination(User user, int offset, int page);
 }

@@ -102,11 +102,11 @@ const Playlist = ({ playlist }) => {
               </div>
 
               <div className="flex mt-3">
-                <FavoriteButton
+                {/* <FavoriteButton
                   haveBorder={true}
                   haveText={true}
                   className={"mr-2"}
-                />
+                /> */}
                 <CopyLinkButton
                   haveBorder={true}
                   haveText={true}
@@ -117,11 +117,11 @@ const Playlist = ({ playlist }) => {
                   haveText={true}
                   className={"mr-2"}
                 />
-                <EditButton
+                {/* <EditButton
                   haveBorder={true}
                   haveText={true}
                   playlist={playlist}
-                />
+                /> */}
               </div>
             </div>
           </div>

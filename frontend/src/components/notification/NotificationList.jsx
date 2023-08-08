@@ -9,7 +9,6 @@ const NotificationList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("hello world");
     const timeout = setTimeout(() => {
       dispatch({
         type: "REMOVE_ALL_NOTIFICATION",

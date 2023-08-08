@@ -11,7 +11,7 @@ logging:
 
 spring:
   profiles:
-    active: dev
+    active: prod
   datasource:
     url: ${MYSQL_URL}
     username: ${MYSQL_USERNAME}
