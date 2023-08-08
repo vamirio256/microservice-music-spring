@@ -74,7 +74,6 @@ const HomePage = () => {
         fetchOnScroll();
 
         setLoadMore(true);
-      } else {
       }
     }
 
