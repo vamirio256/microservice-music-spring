@@ -65,7 +65,6 @@ export const UploadPage = () => {
         alert("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
       alert("Error occurred while uploading");
     }
     setLoading(false); // Stop loading

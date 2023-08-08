@@ -49,7 +49,6 @@ const TrackPage = () => {
         const track = await response.json();
 
         setTrack(track);
-        console.log(track);
         setComments(track.comments);
       } catch (e) {
         console.error(e);

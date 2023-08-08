@@ -138,7 +138,7 @@ const MediaControl = () => {
           </div>
           {/* favorite, follow, queue */}
           <div className="flex flex-row items-center justify-center">
-            <FavoriteButton track={playing.track} className={"bg-[#f2f2f2]"} />
+            <FavoriteButton track={playing.track} className={"!bg-[#f2f2f2]"} />
             {playing.track.user.id !== userId && (
               <FollowButton user={playing.track.user} />
             )}

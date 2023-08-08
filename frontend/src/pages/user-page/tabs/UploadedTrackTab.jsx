@@ -1,5 +1,5 @@
 import React from "react";
-import TrackCard from "../../../components/trackcard/TrackCard";
+import TrackCard from "../../../components/track/TrackCard";
 
 const UploadedTrackTab = ({ tracks }) => {
   return (

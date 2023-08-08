@@ -11,6 +11,4 @@ export const formatDate = (time) => {
     second,
     Math.floor(nanoOfSecond / 1000000)
   );
-
-  console.log("JavaScript Date: " + date.toISOString());
 };

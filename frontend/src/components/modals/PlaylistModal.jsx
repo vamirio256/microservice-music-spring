@@ -42,7 +42,6 @@ const PlaylistModal = () => {
     );
 
     const response = await createPlaylist(formData);
-    console.log(response);
     setLoading(false);
     closeModal();
   }

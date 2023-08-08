@@ -6,6 +6,7 @@ import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.s3.S3Bucket;
 import com.zyan.backend.s3.S3Service;
 import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import com.zyan.backend.track.entities.Comment;
 import com.zyan.backend.track.entities.Track;
 import com.zyan.backend.track.repository.CommentRepository;
@@ -15,6 +16,8 @@ import com.zyan.backend.user.entities.User;
 import com.zyan.backend.user.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -162,7 +165,7 @@ public class TrackServiceImpl implements TrackService {
     public PlaylistDTO getPopularTracks(User user) {
         return PlaylistDTO.builder()
                 .name("Popular Tracks")
-                .tracks(trackRepository.findLatestTracks()
+                .tracks(trackRepository.findPopularTracks()
                         .stream()
                         .map(track -> track.mapTrackToTrackSummaryDTO(user.getId()))
                         .collect(Collectors.toList()))
@@ -188,6 +191,15 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public void deleteComment(User user, int commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public List<TrackSummaryDTO> getTrackWithPagination(User user, int offset, int page) {
+        return trackRepository.findAll(PageRequest.of(page, offset))
+                .getContent()
+                .stream()
+                .map(track -> track.mapTrackToTrackSummaryDTO(user.getId()))
+                .collect(Collectors.toList());
     }
 }
 

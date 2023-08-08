@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FavoriteButton from "../buttons/FavoriteButton";
 import MoreButton from "../buttons/MoreButton";
-import UserHoverBar from "../trackcard/UserHoverBar";
+import UserHoverBar from "../track/UserHoverBar";
 import ShareButton from "../buttons/ShareButton";
 import CopyLinkButton from "../buttons/CopyLinkButton";
 

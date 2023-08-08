@@ -2,14 +2,14 @@ package com.zyan.backend.track;
 
 import com.zyan.backend.playlist.PlaylistDTO;
 import com.zyan.backend.track.dto.TrackDTO;
+import com.zyan.backend.track.dto.TrackSummaryDTO;
 import com.zyan.backend.track.entities.Track;
-import com.zyan.backend.user.dto.UserDTO;
 import com.zyan.backend.user.entities.User;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -96,5 +96,13 @@ public class TrackController {
             @PathVariable int commentId) {
         trackService.deleteComment(user, commentId);
         return ResponseEntity.status(HttpStatusCode.valueOf(204)).body("Deleted comment succesfully");
+    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<List<TrackSummaryDTO>> getTrackWithPagination(
+            @AuthenticationPrincipal User user,
+            @RequestParam("offset") int offset,
+            @RequestParam("page") int page) {
+        return ResponseEntity.ok(trackService.getTrackWithPagination(user, offset, page));
     }
 }

@@ -47,7 +47,7 @@ const UserPage = () => {
   }, []);
 
   const handleChangeAvatar = () => {};
-  console.log(userReducer.id)
+
   return (
     <>
       {user && (

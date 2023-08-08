@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void unfollowUser(int followedId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (user.getId() == followedId) {
             throw new MethodArgumentTypeMismatchException("Following and followed user can not be the same");

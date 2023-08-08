@@ -51,7 +51,7 @@ const TrackCard = ({ className, track }) => {
             <img
               src={track.coverUrl}
               alt={track.name}
-              className={`w-[176px] h-[176px] object-contain  border-[1px] border-[#ccc] duration-300 ease-in-out 
+              className={`w-[176px] h-[176px] object-contain border-[1px] border-[#ccc] duration-300 ease-in-out 
             group-hover:scale-105 group-hover:opacity-80 ${
               isPlaying && "scale-105 opacity-80"
             }`}
@@ -83,7 +83,7 @@ const TrackCard = ({ className, track }) => {
                 track={track}
                 haveBorder={false}
                 haveText={false}
-                className="absolute right-7 bottom-2 text-white"
+                className="absolute right-7 bottom-2 text-white !bg-transparent"
               />
               {/* add to playlist button */}
 
