@@ -23,6 +23,7 @@ const TrackSwiper = ({ playlist }) => {
               spaceBetween={10}
               slidesPerView={2}
               navigation
+              lazy={true}
               breakpoints={{
                 640: {
                   slidesPerView: 3,
