@@ -12,31 +12,21 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
     //   unmountOnExit
     //   appear
     // >
-    <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={closeModal}
-      contentLabel="Example Modal"
-      shouldCloseOnOverlayClick={true}
-      style={{
-        overlay: {
-          display: "flex",
-          justifyContent: "center",
-          // alignItems:"baseline"
-          alignItems: "center",
-        },
-        content: {
-          inset: "0",
-          position: "relative",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          marginLeft: "10px",
-          marginRight: "10px",
-          // width: "500px",
-          // height: "500px",
-        },
-      }}
-    >
-      {children}
-    </Modal>
+
+    modalIsOpen && (
+      <div className="w-full h-full fixed flex justify-center z-max">
+        {/* overlay */}
+        <div
+          className="bg-black bg-opacity-20 absolute w-full h-full"
+          onClick={closeModal}
+        ></div>
+        {/* content */}
+        <div className="relative bg-white w-fit p-10 rounded-md shadow-md h-fit  animate-slide-down top-[200px]">
+          {children}
+        </div>
+      </div>
+    )
+
     // </CSSTransition>
   );
 };
