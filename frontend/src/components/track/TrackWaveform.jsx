@@ -41,7 +41,7 @@ const TrackWaveform = ({ track, className }) => {
 
   return (
     <div className={`flex flex-col md:flex-row ${className}`}>
-      <Link to={`/track/${track.id}`} className="min-w-fit">
+      <Link to={`/track/${track.id}`} className="min-w-fit flex justify-center">
         <img
           src={track.coverUrl}
           alt="track cover"

@@ -72,7 +72,7 @@ const HomePage = () => {
     function checkScrollPosition() {
       var threshold = 100;
       if (window.window.innerWidth < 640) {
-        threshold = 1000;
+        threshold = 600;
       }
 
       const scrollY = window.scrollY || window.pageYOffset;

@@ -17,7 +17,7 @@ const ConfirmModal = ({ className, children, context }) => {
     window.location.href = "/";
   };
   return (
-    <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
+    <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
       <p>Do you really want to logout?</p>
       <div className="flex flex-row justify-center mt-4">
         <button
