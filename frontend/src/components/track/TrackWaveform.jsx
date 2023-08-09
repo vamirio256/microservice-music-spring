@@ -40,7 +40,7 @@ const TrackWaveform = ({ track, className }) => {
   }, [playing.track, playing.isPlaying]);
 
   return (
-    <div className={`flex ${className}`}>
+    <div className={`flex flex-col md:flex-row ${className}`}>
       <Link to={`/track/${track.id}`} className="min-w-fit">
         <img
           src={track.coverUrl}
@@ -85,12 +85,12 @@ const TrackWaveform = ({ track, className }) => {
         <CommentInput className={"mt-5"} />
 
         {/* interact button */}
-        <div className="flex mt-3">
+        <div className="flex mt-3 flex-wrap">
           <FavoriteButton
             track={track}
             haveBorder={true}
             haveText={true}
-            className={"mr-2"}
+            className={"mr-2 mb-2"}
           />
           <ShareButton haveBorder={true} haveText={true} className={"mr-2"} />
           <CopyLinkButton

@@ -43,23 +43,6 @@ const TopBar = () => {
 
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
-      <ConfirmModal context={"Do you really want to logout?"}>
-        <div className="flex flex-row justify-center mt-4">
-          <button
-            onClick={logout}
-            className="bg-[#f50] px-2 py-1 rounded-md border border-solid"
-          >
-            Yes
-          </button>
-          <button
-            onClick={closeConfirmModal}
-            className="px-2 py-1 rounded-md border border-solid"
-          >
-            Cancel
-          </button>
-        </div>
-      </ConfirmModal>
-
       <div className="max-w-[1240px] w-full">
         <div
           className={`bg-red h-12 flex items-center justify-between m-auto  `}
