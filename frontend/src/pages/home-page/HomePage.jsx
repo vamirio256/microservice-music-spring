@@ -30,6 +30,7 @@ const HomePage = () => {
         const popularTracks = await getPopularTracks();
         const latestTracks = await getLatestTracks();
         const trendingTracks = await getTrackWithPagination(5, 1);
+
         setPopularTrack(popularTracks);
         setLatestTracks(latestTracks);
         setTrendingTracks(trendingTracks);
@@ -50,6 +51,12 @@ const HomePage = () => {
     }
 
     const tracks = await getTrackWithPagination(5, page);
+    if (tracks.length == 0) {
+      setPage(-1);
+      setLoadMore(false);
+
+      return;
+    }
     await sleep(1000);
     const mergeTracks = [...trendingTracks, ...tracks];
 
@@ -68,13 +75,12 @@ const HomePage = () => {
       const bodyHeight = document.body.clientHeight;
 
       if (bodyHeight - (scrollY + innerHeight) < threshold) {
-        if (page === 3) {
+        if (page === -1) {
           return;
         }
         fetchOnScroll();
 
         setLoadMore(true);
-      } else {
       }
     }
 

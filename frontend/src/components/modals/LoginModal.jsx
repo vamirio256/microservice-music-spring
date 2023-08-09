@@ -66,7 +66,7 @@ const LoginModal = ({ setIsAuthenticated }) => {
     "w-full h-[40px] rounded-[5px] mt-2.5 border border-solid border-[#ccc]";
 
   return (
-    <CustomModal modalIsOpen={modalIsOpen} closeModel={closeModal}>
+    <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
       <button onClick={closeModal} className="ml-auto mr-0 block">
         <RxCross1 />
       </button>
