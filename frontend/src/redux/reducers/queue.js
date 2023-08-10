@@ -11,7 +11,11 @@ const queueReducer = (state = [], action) => {
       // add to queue if track not include
       return addTrackToQueue(state, action.track);
     case "EMPTY_QUEUE":
-      return [];
+      if (state.length > 0) {
+        return [];
+      }
+      return state;
+
     default:
       return state;
   }

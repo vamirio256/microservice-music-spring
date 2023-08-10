@@ -8,6 +8,7 @@ import SideBar from "../../components/side-bar/SideBar";
 import HomePageTrackHorizontalSwipe from "../../components/track/TrackSwiper";
 import TrackWaveform from "../../components/track/TrackWaveform";
 import InfiniteScroll from "react-infinite-scroller";
+import useScreenDimensions from "../../utils/useScreenDimensions";
 
 const HomePage = () => {
   const [popularTracks, setPopularTrack] = useState(null);
@@ -66,9 +67,13 @@ const HomePage = () => {
 
     setLoadMore(false);
   };
+
   useEffect(() => {
     function checkScrollPosition() {
-      const threshold = 100;
+      var threshold = 100;
+      if (window.window.innerWidth < 640) {
+        threshold = 600;
+      }
 
       const scrollY = window.scrollY || window.pageYOffset;
       const innerHeight = window.innerHeight;
@@ -94,7 +99,7 @@ const HomePage = () => {
     <div className="flex pl-8 pr-8 flex-col md:flex-row" ref={containerRef}>
       {/* home leftside */}
       <div
-        className="w-full md:w-[72%] md:border-r-[1px] md:border-solid pt-8 pr-8"
+        className="w-full md:w-[72%] md:border-r-[1px] md:border-solid pt-8 md:pr-8 "
         ref={scrollRef}
       >
         {latestTracks && popularTracks ? (

@@ -18,6 +18,7 @@ import LibraryPage from "./pages/library-page/LibraryPage";
 import NotFoundPage from "./pages/notfound-page/NotFoundPage";
 import NotificationList from "./components/notification/NotificationList";
 import EditPlaylistModal from "./components/modals/EditPlaylistModal";
+import ConfirmModal from "./components/modals/ConfirmModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,7 +56,10 @@ function App() {
 
   return (
     // <div className="flex flex-col h-[100vh] relative overflow-x-hidden">
-    <div className="flex flex-col h-full relative" id="container_all_page">
+    <div
+      className="flex flex-col h-full min-h-screen relative"
+      id="container_all_page"
+    >
       {!isAuthenticated ? (
         <Routes>
           <Route
@@ -88,6 +92,7 @@ function App() {
           <PlaylistModal />
           <MediaControl />
           <EditPlaylistModal />
+          <ConfirmModal />
         </>
       )}
     </div>
