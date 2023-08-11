@@ -33,6 +33,7 @@ export const SideBarTrackCard = ({ track }) => {
   }
 
   useEffect(() => {
+    console.log(track);
     if (!playing) {
       return;
     }
