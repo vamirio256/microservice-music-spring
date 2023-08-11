@@ -11,7 +11,9 @@ export default function NotificationItem({ item, index }) {
   function hideElement() {
     setOpacity(false);
     setTimeout(() => {
-      ref.current.style.display = "none";
+      if (ref.current) {
+        ref.current.style.display = "none";
+      }
     }, 500);
   }
 
@@ -51,7 +53,7 @@ export default function NotificationItem({ item, index }) {
       {item.image && (
         <img src={item.image} alt="" className="w-[40px] h-[40px]" />
       )}
-      {renderIcon()}  
+      {renderIcon()}
       <div className="flex h-full flex-col justify-start ml-3 m-auto">
         {item.name && <p className="font-normal truncate">{item.name}</p>}
         {item.text && <p className="text-xs">{item.text}</p>}

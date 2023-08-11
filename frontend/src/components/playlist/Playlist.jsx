@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import FavoriteButton from "../buttons/FavoriteButton";
+
 import MoreButton from "../buttons/MoreButton";
 import Waveform from "../waveform/Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
 import CopyLinkButton from "../buttons/CopyLinkButton";
-import EditButton from "../buttons/EditButton";
 
 const Playlist = ({ playlist }) => {
   const [track, setTrack] = useState("");

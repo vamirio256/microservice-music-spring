@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
-import { FaPlay } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import Favorite from "../buttons/FavoriteButton";
+
 import FavoriteButton from "../buttons/FavoriteButton";
 import MoreButton from "../buttons/MoreButton";
 import CopyLinkButton from "../buttons/CopyLinkButton";

@@ -5,13 +5,10 @@ import { useSelector } from "react-redux";
 import PlaceholderItem from "../../../components/placeholder/PlaceholderItem";
 
 const FavoriteTab = () => {
-  const user = useSelector((state) => state.userReducer);
-  const [favorites, setFavorites] = useState(user.profile.favorites);
-
+  const favorites = useSelector((state) => state.userReducer.profile.favorites);
   useEffect(() => {
-    setFavorites(user.profile.favorites);
     console.log(favorites);
-  }, [user.profile.favorites]);
+  }, [favorites]);
 
   return (
     <>

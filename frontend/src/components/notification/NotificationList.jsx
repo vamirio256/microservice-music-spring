@@ -9,6 +9,9 @@ const NotificationList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (notification.length == 0) {
+      return;
+    }
     const timeout = setTimeout(() => {
       dispatch({
         type: "REMOVE_ALL_NOTIFICATION",
