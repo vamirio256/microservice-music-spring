@@ -6,9 +6,6 @@ import PlaceholderItem from "../../../components/placeholder/PlaceholderItem";
 
 const FavoriteTab = () => {
   const favorites = useSelector((state) => state.userReducer.profile.favorites);
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
 
   return (
     <>

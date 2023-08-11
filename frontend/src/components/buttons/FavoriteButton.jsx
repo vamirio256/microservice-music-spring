@@ -6,18 +6,10 @@ import { removeFavorite } from "../../apis/user/removeFavorite";
 import { useDispatch, useSelector } from "react-redux";
 
 const FavoriteButton = ({ track, className, haveBorder, haveText }) => {
-  const [isFavorite, setIsFavorite] = useState(track ? track.favorite : false);
   const favoriteList = useSelector(
     (state) => state.userReducer.profile.favorites
   );
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(
-      favoriteList.findIndex(
-        (favoriteTrack) => favoriteTrack.track.id == track.id
-      )
-    );
-  }, [favoriteList]);
 
   const handleAddFavorite = () => {
     addFavorite(track.id);
