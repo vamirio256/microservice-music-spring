@@ -17,18 +17,6 @@ const Waveform = ({ className, audioUrl }) => {
   );
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (wavesurfer.current) {
-      wavesurfer.current.on("ready", () => {
-        if (durationRef.current) {
-          durationRef.current.textContent = formatDuration(
-            wavesurfer.current.getDuration().toFixed(0)
-          );
-        }
-      });
-    }
-    return () => {};
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -80,19 +68,17 @@ const Waveform = ({ className, audioUrl }) => {
       barGap: 0.75,
       normalize: true,
     });
-    // wavesurfer.current.on("click", handleClickSuffer);
-
-    // wavesurfer.current.on("ready", () => {
-    //   // Start the AudioContext after a user gesture
-    //   wavesurfer.current.backend.ac.resume();
-    // });
 
     wavesurfer.current.load(audioUrl);
 
+    wavesurfer.current.on("ready", () => {
+      if (durationRef.current) {
+        durationRef.current.textContent = formatDuration(
+          wavesurfer.current.getDuration().toFixed(0)
+        );
+      }
+    });
     return () => {
-      // Clean up the WaveSurfer instance on component unmount\
-
-      // wavesurfer.current.un("click", handleClickSuffer);
       wavesurfer.current.destroy();
     };
   }, [audioUrl]);
@@ -106,6 +92,7 @@ const Waveform = ({ className, audioUrl }) => {
     ) {
       return;
     }
+
     if (currentProgress) {
       wavesurfer.current.setTime(
         (currentProgress * wavesurfer.current.duration) / 100
@@ -150,7 +137,7 @@ const Waveform = ({ className, audioUrl }) => {
 
       wavesurfer.current.setTime(0);
     };
-  }, [currentMediaPlaying]);
+  }, [currentMediaPlaying, audioUrl]);
 
   const timeStyle =
     "absolute z-9 top-1/4 text-xs bg-[rgba(0, 0, 0, 0.75)] p-0.5 text-[#ddd] bg-black text-[8px]";

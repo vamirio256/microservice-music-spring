@@ -6,6 +6,7 @@ const ConfirmModal = ({ className, children, context }) => {
   const modalIsOpen = useSelector(
     (state) => state.modalReducer.confirm.isShowed
   );
+  const confirm = useSelector((state) => state.modalReducer.confirm);
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
@@ -17,7 +18,7 @@ const ConfirmModal = ({ className, children, context }) => {
     window.location.href = "/";
   };
   return (
-    <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+    <CustomModal modalIsOpen={confirm.isShowed} closeModal={closeModal}>
       <p>Do you really want to logout?</p>
       <div className="flex flex-row justify-center mt-4">
         <button

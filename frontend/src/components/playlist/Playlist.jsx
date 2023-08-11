@@ -19,8 +19,14 @@ const Playlist = ({ playlist }) => {
       type: "PLAY_TRACK",
       track: track,
     });
-    setTrack(track);
-    setIsPlaying(true);
+    // setTrack(track);
+    // setIsPlaying(true);
+    // set queue if current playlist track playing
+
+    dispatch({
+      type: "APPEND_QUEUE",
+      tracks: playlist.tracks,
+    });
   };
 
   const pauseTrack = (track) => {
@@ -40,9 +46,22 @@ const Playlist = ({ playlist }) => {
     if (!playing || playlist === undefined) {
       return;
     }
-    if (playing.track.id === track.id && playing.isPlaying === true)
-      setIsPlaying(true);
-    else setIsPlaying(false);
+
+    var index = playlist.tracks.findIndex(
+      (track) => track.id === playing.track.id
+    );
+    if (index !== -1) {
+      setTrack(playlist.tracks[index]);
+      // setTrack(playlist.tracks[index]);
+      if (playing.isPlaying) {
+        setIsPlaying(true);
+      } else {
+        setIsPlaying(false);
+      }
+    }
+    // if (playing.track.id === track.id && playing.isPlaying === true)
+    //   setIsPlaying(true);
+    // else setIsPlaying(false);
   }, [playing.track, playing.isPlaying]);
 
   return (
@@ -97,6 +116,7 @@ const Playlist = ({ playlist }) => {
                     playTrack={playTrack}
                     setTrack={setTrack}
                     setIsPlaying={setIsPlaying}
+                    currentPlayingTrack={playing.track}
                   />
                 ))}
               </div>
