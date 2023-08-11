@@ -9,6 +9,7 @@ module.exports = {
         searchbar_gray: "#f2f2f2",
         orange: "#f50",
         topbar: "#333",
+        secondary: "#f2f2f2",
       },
       backgroundImage: {
         lading_web: "url('/src/assets/images/cover_landing_web.jpg')",

@@ -1,19 +1,35 @@
 import React, { useState } from "react";
 import { BsShuffle } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 
-const ShuffleButton = () => {
-  const [isSuffle, setIsSuffle] = useState(false);
-  // const textColor = isFocused : "text-black" ? ""
+const ShuffleButton = ({className}) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [queueBeforeShuffle, setQueueBeforeShuffle] = useState([]);
 
-  const toggleIsShuffle = () => {
-    setIsSuffle(!isSuffle);
+  const dispatch = useDispatch();
+  const queue = useSelector((state) => state.queueReducer);
+  const playingTrack = useSelector((state) => state.playingReducer.track);
+
+  const toggleIsFocused = () => {
+    if (!isFocused) {
+      setQueueBeforeShuffle(queue); // Store the current queue before shuffling
+      dispatch({
+        type: "SHUFFLE_QUEUE",
+        playingTrack: playingTrack,
+      });
+      setIsFocused(true);
+    } else {
+      dispatch({
+        type: "SET_QUEUE",
+        tracks: queueBeforeShuffle, // Restore the original queue
+      });
+      setIsFocused(false);
+    }
   };
 
   return (
-    <button onClick={toggleIsShuffle}>
-      <BsShuffle className={`
-      ${isSuffle ? "text-[#f50]" : "text-black"}
-      text-xl ml-3`} />
+    <button onClick={toggleIsFocused}>
+      <BsShuffle className={`${className} ${isFocused && "text-primary"}`} />
     </button>
   );
 };

@@ -11,7 +11,9 @@ export default function NotificationItem({ item, index }) {
   function hideElement() {
     setOpacity(false);
     setTimeout(() => {
-      ref.current.style.display = "none";
+      if (ref.current) {
+        ref.current.style.display = "none";
+      }
     }, 500);
   }
 

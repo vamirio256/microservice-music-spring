@@ -27,18 +27,18 @@ const PlaylistPage = ({ playlist }) => {
       track: track,
     });
     dispatch({
-      type: "APPEND_QUEUE",
+      type: "SET_QUEUE",
       track: track,
     });
   };
 
-//   useEffect(() => {
-//     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
-//       setIsPlaying(false);
-//     } else {
-//       setIsPlaying(currentSong.isPlaying);
-//     }
-//   }, [currentSong]);
+  //   useEffect(() => {
+  //     if (!currentSong || currentSong.audioUrl != track.audioUrl) {
+  //       setIsPlaying(false);
+  //     } else {
+  //       setIsPlaying(currentSong.isPlaying);
+  //     }
+  //   }, [currentSong]);
 
   useEffect(() => {
     const getTrackOnInitial = async () => {

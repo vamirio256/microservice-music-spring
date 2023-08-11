@@ -18,11 +18,15 @@ const MediaControl = () => {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(0);
   const [isShowed, setIsShowed] = useState(false);
+
+  const [loop, setLoop] = useState(0);
+
   const [currentTime, setCurrentTime] = useState(0);
   const playing = useSelector((state) => state.playingReducer);
   const userId = useSelector((state) => state.userReducer.id);
   const VOLUME_MAX = 100;
 
+  const nextButtonRef = useRef(null);
   const handleVolume = (e) => {
     const { value } = e.target;
     const volume = Number(value) / VOLUME_MAX;
@@ -38,7 +42,17 @@ const MediaControl = () => {
   function onPlaying() {
     const duration = audioRef.current.duration;
     const currentTime = audioRef.current.currentTime;
+
     setCurrentTime(currentTime);
+    // kết thúc bài nhạc
+    if (currentTime == duration) {
+      if (loop == 1) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+      } else {
+        nextButtonRef.current.playNext();
+      }
+    }
     dispatch({
       type: "UPDATE_PROGRESS",
       progress: (currentTime / duration) * 100,
@@ -97,9 +111,17 @@ const MediaControl = () => {
           <div className="flex flex-row">
             <PreviousButton className={"text-xl ml-5"} />
             <PlayButton className={"text-xl ml-5"} />
-            <NextButton className={"text-xl ml-5"} />
+            <NextButton
+              className={"text-xl ml-5"}
+              ref={nextButtonRef}
+              loop={loop}
+            />
             <ShuffleButton className={"text-xl ml-5"} />
-            <LoopButton className={"text-xl ml-5"} />
+            <LoopButton
+              className={"text-xl ml-5"}
+              setLoop={setLoop}
+              loop={loop}
+            />
           </div>
 
           {/* track control */}

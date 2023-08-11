@@ -8,16 +8,29 @@ const userReducer = (state = {}, action) => {
       );
       return state;
     case "REMOVE_FAVORITE":
-      state.profile.favorites = state.profile.favorites.filter(
-        (fav) => fav.track.id !== action.id
-      );
-      return state;
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          favorites: state.profile.favorites.filter(
+            (fav) => fav.track.id !== action.id
+          ),
+        },
+      };
     case "ADD_FAVORITE":
-      state.profile.favorites.unshift({
-        addedAt: new Date(),
-        track: action.track,
-      });
-      return state;
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          favorites: [
+            {
+              addedAt: new Date(),
+              track: action.track,
+            },
+            ...state.profile.favorites,
+          ],
+        },
+      };
     default:
       return state;
   }

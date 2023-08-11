@@ -24,11 +24,11 @@ export const SideBarTrackCard = ({ track }) => {
     });
     dispatch({
       type: "APPEND_HISTORY",
-      track: track,
+      track: [track],
     });
     dispatch({
-      type: "APPEND_QUEUE",
-      track: track,
+      type: "SET_QUEUE",
+      tracks: [track],
     });
   }
 
@@ -43,7 +43,6 @@ export const SideBarTrackCard = ({ track }) => {
 
   return (
     <div className="flex mb-4 relative group w-full">
-      
       {/* image right */}
       <div className="cursor-pointer w-[50px] relative group mt-1">
         <img
@@ -71,7 +70,9 @@ export const SideBarTrackCard = ({ track }) => {
         <UserHoverBar user={track.user} />
         <Link
           to={`/track/${track.id}`}
-          className={`text-sm line-clamp-1 mt-[-2px] ${isPlaying ? "text-[#f50]" : "text-black"}`}
+          className={`text-sm line-clamp-1 mt-[-2px] ${
+            isPlaying ? "text-[#f50]" : "text-black"
+          }`}
         >
           {track.name}
         </Link>
@@ -82,11 +83,11 @@ export const SideBarTrackCard = ({ track }) => {
             <p>{track.listenedTime}</p>
           </div>
           <div className="grid grid-cols-2 gap-0.5 items-center">
-            <GoHeartFill color="#999" className="text-[10px]"/>
+            <GoHeartFill color="#999" className="text-[10px]" />
             <p>11</p>
           </div>
           <div className="grid grid-cols-2 gap-0.5 items-center">
-            <BiSolidComment color="#999" className="text-[10px]"/>
+            <BiSolidComment color="#999" className="text-[10px]" />
             <p>12</p>
           </div>
         </div>

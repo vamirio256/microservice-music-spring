@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import FavoriteButton from "../buttons/FavoriteButton";
+
 import MoreButton from "../buttons/MoreButton";
 import Waveform from "../waveform/Waveform";
 import PlaylistTrackCard from "./PlaylistTrackCard";
@@ -21,8 +21,14 @@ const Playlist = ({ playlist, isGradient, haveTitle }) => {
       type: "PLAY_TRACK",
       track: track,
     });
-    setTrack(track);
-    setIsPlaying(true);
+    // setTrack(track);
+    // setIsPlaying(true);
+    // set queue if current playlist track playing
+
+    dispatch({
+      type: "SET_QUEUE",
+      tracks: playlist.tracks,
+    });
   };
 
   const pauseTrack = (track) => {
@@ -42,9 +48,22 @@ const Playlist = ({ playlist, isGradient, haveTitle }) => {
     if (!playing || playlist === undefined) {
       return;
     }
-    if (playing.track.id === track.id && playing.isPlaying === true)
-      setIsPlaying(true);
-    else setIsPlaying(false);
+
+    var index = playlist.tracks.findIndex(
+      (track) => track.id === playing.track.id
+    );
+    if (index !== -1) {
+      setTrack(playlist.tracks[index]);
+      // setTrack(playlist.tracks[index]);
+      if (playing.isPlaying) {
+        setIsPlaying(true);
+      } else {
+        setIsPlaying(false);
+      }
+    }
+    // if (playing.track.id === track.id && playing.isPlaying === true)
+    //   setIsPlaying(true);
+    // else setIsPlaying(false);
   }, [playing.track, playing.isPlaying]);
 
   return (
@@ -117,6 +136,7 @@ const Playlist = ({ playlist, isGradient, haveTitle }) => {
                     setTrack={setTrack}
                     setIsPlaying={setIsPlaying}
                     isGradient={isGradient}
+                    currentPlayingTrack={playing.track}
                   />
                 ))}
               </div>

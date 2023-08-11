@@ -18,13 +18,15 @@ const TrackCard = ({ className, track }) => {
       type: "PLAY_TRACK",
       track: track,
     });
-    dispatch({
-      type: "APPEND_QUEUE",
-      track: track,
-    });
+
     dispatch({
       type: "APPEND_HISTORY",
       track: track,
+    });
+
+    dispatch({
+      type: "SET_QUEUE",
+      tracks: [track],
     });
   };
 
