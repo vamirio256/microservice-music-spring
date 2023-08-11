@@ -4,7 +4,7 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
+const CustomModal = ({ className, children, modalIsOpen, closeModal }) => {
   return (
     // <CSSTransition
     //   in={modalIsOpen}
@@ -14,14 +14,19 @@ const CustomModal = ({ classname, children, modalIsOpen, closeModal }) => {
     // >
 
     modalIsOpen && (
-      <div className="w-full h-full fixed flex justify-center z-max">
+      <div
+        className={`w-full h-full fixed flex justify-center z-max
+      `}
+      >
         {/* overlay */}
         <div
-          className="bg-black bg-opacity-20 absolute w-full h-full"
+          className="bg-[hsla(0,0%,94.9%,.9)] absolute w-full h-full"
           onClick={closeModal}
-        ></div>
+        />
         {/* content */}
-        <div className="relative bg-white w-fit p-10 rounded-md shadow-md h-fit  animate-slide-down top-[200px]">
+        <div
+          className={`relative bg-white w-fit p-8 shadow-md h-fit animate-slide-down top-[100px] ${className}`}
+        >
           {children}
         </div>
       </div>

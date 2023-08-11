@@ -105,8 +105,12 @@ const HomePage = () => {
         {latestTracks && popularTracks ? (
           <>
             <HomePageTrackHorizontalSwipe playlist={latestTracks} />
-            <Playlist playlist={popularTracks} />
-            <Playlist playlist={popularTracks} isGradient={true}/>
+            <Playlist playlist={popularTracks} haveTitle={true} />
+            <Playlist
+              playlist={popularTracks}
+              isGradient={true}
+              haveTitle={true}
+            />
           </>
         ) : (
           <img

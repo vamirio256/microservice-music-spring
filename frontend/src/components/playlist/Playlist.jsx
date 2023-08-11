@@ -8,8 +8,9 @@ import PlaylistTrackCard from "./PlaylistTrackCard";
 import CopyLinkButton from "../buttons/CopyLinkButton";
 import EditButton from "../buttons/EditButton";
 import loading from "../../assets/images/loading-gif.gif";
+import DeleteButton from "../buttons/DeleteButton";
 
-const Playlist = ({ playlist, isGradient }) => {
+const Playlist = ({ playlist, isGradient, haveTitle }) => {
   const [track, setTrack] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const playing = useSelector((state) => state.playingReducer);
@@ -50,7 +51,7 @@ const Playlist = ({ playlist, isGradient }) => {
     <div>
       {track ? (
         <>
-          <h1 className="text-xl mb-5">{playlist.name}</h1>
+          {haveTitle && <h1 className="text-xl mb-5">{playlist.name}</h1>}
 
           <div
             className={`flex flex-col justify-center items-center md:flex-row md:items-start ${
@@ -60,7 +61,7 @@ const Playlist = ({ playlist, isGradient }) => {
             <img
               src={track.coverUrl}
               alt="track cover"
-              className="h-[160px] w-[160px] mr-4"
+              className="h-[180px] w-[180px] mr-3"
             />
             <div className="w-full flex flex-col">
               {!isGradient && (
@@ -97,8 +98,14 @@ const Playlist = ({ playlist, isGradient }) => {
 
               {/* tracks in playlist */}
               <div
-                className={`border-[1px] border-solid overflow-auto scrollbar scrollbar-track-transparent scrollbar-w-2 scrollbar-thumb-rounded-full scrollbar-thumb-slate-400
-                ${isGradient ? "h-[160px]" : "max-h-[200px]"}
+                className={`
+                overflow-hidden hover:overflow-y-auto
+                scrollbar scrollbar-track-transparent scrollbar-w-2 scrollbar-thumb-rounded-full scrollbar-thumb-slate-400
+                ${
+                  isGradient
+                    ? "h-[180px]"
+                    : "max-h-[200px] border-[1px] border-solid "
+                }
                 `}
               >
                 {playlist.tracks.map((track, index) => (
@@ -109,7 +116,7 @@ const Playlist = ({ playlist, isGradient }) => {
                     playTrack={playTrack}
                     setTrack={setTrack}
                     setIsPlaying={setIsPlaying}
-                    className={"!bg-transparent !text-white"}
+                    isGradient={isGradient}
                   />
                 ))}
               </div>
@@ -130,6 +137,12 @@ const Playlist = ({ playlist, isGradient }) => {
                     haveBorder={true}
                     haveText={true}
                     className={"mr-2"}
+                  />
+                  <DeleteButton
+                    haveBorder={true}
+                    haveText={true}
+                    title={"Delete playlist"}
+                    context={`Are you sure you want to delete ${playlist.title}? This action cannot be undone.`}
                   />
                   {/* <EditButton
                   haveBorder={true}

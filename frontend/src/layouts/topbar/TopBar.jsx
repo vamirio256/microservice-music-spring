@@ -17,10 +17,7 @@ const TopBar = () => {
   const isDesktop = useScreenDimensions();
   const [openMenu, setOpenMenu] = useState(false);
   const [isTransition, setIsTransition] = useState(false);
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  };
+
   useEffect(() => {
     if (isDesktop) {
       setOpenMenu(true);
@@ -32,13 +29,15 @@ const TopBar = () => {
   const openConfirmModal = () => {
     dispatch({
       type: "OPEN_MODAL_CONFIRM",
+      onConfirm: logout,
+      context: "Are you sure to logout right now? There are many tracks waiting you to discover.",
+      title: "Logout",
     });
   };
 
-  const closeConfirmModal = () => {
-    dispatch({
-      type: "CLOSE_MODAL_CONFIRM",
-    });
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
   };
 
   return (

@@ -6,31 +6,38 @@ const ConfirmModal = ({ className, children, context }) => {
   const modalIsOpen = useSelector(
     (state) => state.modalReducer.confirm.isShowed
   );
+  const confirm = useSelector((state) => state.modalReducer.confirm);
   const dispatch = useDispatch();
+
   const closeModal = () => {
     dispatch({
       type: "CLOSE_MODAL_CONFIRM",
     });
   };
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+
+  const handleConfirm = () => {
+    confirm.onConfirm();
+    closeModal();
   };
+
   return (
-    <CustomModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
-      <p>Do you really want to logout?</p>
-      <div className="flex flex-row justify-center mt-4">
-        <button
-          onClick={logout}
-          className="bg-[#f50] px-2 py-1 rounded-md border border-solid"
-        >
-          Yes
+    <CustomModal
+      modalIsOpen={modalIsOpen}
+      closeModal={closeModal}
+      className={"text-[13px] !w-[450px]"}
+    >
+      {children}
+      <h1 className="border-b text-xl pb-2 font-normal">{confirm.title}</h1>
+      <p className="mt-4 ">{confirm.context}</p>
+      <div className="flex flex-row justify-end mt-4">
+        <button onClick={closeModal} className="px-1 py-0.5">
+          Cancel
         </button>
         <button
-          onClick={closeModal}
-          className="px-2 py-1 rounded-md border border-solid"
+          onClick={handleConfirm}
+          className="px-1.5 py-0.5 rounded-[3px] ml-3 border"
         >
-          Cancel
+          Confirm
         </button>
       </div>
     </CustomModal>

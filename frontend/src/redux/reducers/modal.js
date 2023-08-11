@@ -64,6 +64,8 @@ const modalReducer = (
     case "OPEN_MODAL_CONFIRM":
       return openModal(state, "confirm", (state, modal) => {
         state[modal].context = action.context;
+        state[modal].title = action.title;
+        state[modal].onConfirm = action.onConfirm;
       });
     case "CLOSE_MODAL_CONFIRM":
       return closeModal(state, "confirm", (state, modal) => {

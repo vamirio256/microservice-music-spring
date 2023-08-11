@@ -24,7 +24,7 @@ const UserPage = () => {
   const { userId } = useParams();
   const [notfound, setNotfound] = useState(false);
   const avatarInputRef = useRef(null);
-  const userReducer = useSelector((state) => state.userReducer);
+  let userReducer = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +45,6 @@ const UserPage = () => {
     };
     getUserDataOnInitial();
   }, []);
-
-  const handleChangeAvatar = () => {};
 
   return (
     <>
@@ -122,11 +120,15 @@ const UserPage = () => {
                   </div>
                   <div className="border-r ml-3">
                     <p className="text-xs">Following</p>
-                    <p className="text-xl">{Object.keys(user.profile.follows).length}</p>
+                    <p className="text-xl">
+                      {Object.keys(user.profile.follows).length}
+                    </p>
                   </div>
                   <div className="ml-3">
                     <p className="text-xs">Tracks</p>
-                    <p className="text-xl">{Object.keys(user.profile.tracks).length}</p>
+                    <p className="text-xl">
+                      {Object.keys(user.profile.tracks).length}
+                    </p>
                   </div>
                 </div>
               </div>

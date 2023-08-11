@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TrackCard from "../../../components/track/TrackCard";
+import TrackWaveform from "../../../components/track/TrackWaveform";
+import { deleteTrack } from "../../../apis/track/deleteTrack";
+import { useDispatch } from "react-redux";
 
 const UploadedTrackTab = ({ tracks }) => {
+
   return (
     <>
       {tracks.length != 0 ? (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="">
           {tracks.map((track, index) => (
-            <TrackCard track={track} key={index} />
+            <TrackWaveform track={track} key={index} haveOnDelete={true} />
           ))}
         </div>
       ) : (

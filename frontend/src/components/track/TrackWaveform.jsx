@@ -8,8 +8,10 @@ import MoreButton from "../buttons/MoreButton";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import DeleteButton from "../buttons/DeleteButton";
+import { deleteTrack } from "../../apis/track/deleteTrack";
 
-const TrackWaveform = ({ track, className }) => {
+const TrackWaveform = ({ track, className, haveOnDelete }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
   const playing = useSelector((state) => state.playingReducer);
@@ -28,6 +30,27 @@ const TrackWaveform = ({ track, className }) => {
       track: track,
     });
     setIsPlaying(false);
+  };
+
+  const handleDeleteTrack = async () => {
+    const response = await deleteTrack(track.id);
+    if (response.ok) {
+      dispatch({
+        type: "APPEND_NOTIFICATION",
+        text: "Link has been copied to the clipboard!",
+        icon: "success",
+      });
+      dispatch({
+        type: "REMOVE_TRACK",
+        id: track.id,
+      });
+    } else {
+      dispatch({
+        type: "APPEND_NOTIFICATION",
+        text: "Link has been copied to the clipboard!",
+        icon: "success",
+      });
+    }
   };
 
   useEffect(() => {
@@ -98,6 +121,16 @@ const TrackWaveform = ({ track, className }) => {
             haveText={true}
             className={"mr-2"}
           />
+          {haveOnDelete && (
+            <DeleteButton
+              haveBorder={true}
+              haveText={true}
+              onDelete={handleDeleteTrack}
+              title={"Permanently delete this track?"}
+              context={`Removing this track is irreversible. You will lose all the plays, likes and comments for this track with no way to get them back.`}
+              className={"mr-2"}
+            />
+          )}
           <MoreButton haveBorder={true} haveText={true} className={"mr-2"} />
         </div>
       </div>

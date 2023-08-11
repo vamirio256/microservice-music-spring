@@ -19,6 +19,7 @@ import NotFoundPage from "./pages/notfound-page/NotFoundPage";
 import NotificationList from "./components/notification/NotificationList";
 import EditPlaylistModal from "./components/modals/EditPlaylistModal";
 import ConfirmModal from "./components/modals/ConfirmModal";
+import PlaylistPage from "./pages/playlist-page/PlaylistPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -83,6 +84,10 @@ function App() {
                 <Route path="/user/:userId/*" element={<UserPage />} />
                 <Route path="/library/*" element={<LibraryPage />} />
                 <Route path="/track/:trackId" element={<TrackPage />} />
+                <Route
+                  path="/playlist/:playlistId"
+                  element={<PlaylistPage />}
+                />
                 <Route path="/login" element={<LoginModal />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

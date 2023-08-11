@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Waveform from "../../components/waveform/Waveform";
-import { useNavigate, useParams } from "react-router-dom";
-import { getTrack } from "../../apis/track/getTrack";
-import TrackCard from "../../components/track/TrackCard";
-import InteractButton from "../../components/InteractButton";
-import CommentInput from "../../components/comment/CommentInput";
-import SideBar from "../../components/side-bar/SideBar";
-import Comment from "../../components/comment/Comment";
-import { useDispatch, useSelector } from "react-redux";
-import { FaPlay } from "react-icons/fa";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getPlaylist } from "../../apis/playlist/getPlaylist";
+import FavoriteButton from "../../components/buttons/FavoriteButton";
 import Follow from "../../components/buttons/FollowButton";
+import Comment from "../../components/comment/Comment";
+import SideBar from "../../components/side-bar/SideBar";
+import Waveform from "../../components/waveform/Waveform";
 
 const PlaylistPage = ({ playlist }) => {
   const { playlistId } = useParams();
@@ -46,7 +43,7 @@ const PlaylistPage = ({ playlist }) => {
   useEffect(() => {
     const getTrackOnInitial = async () => {
       try {
-        const response = await getTrack(trackId);
+        const response = await getPlaylist(playlistId);
 
         if (response.status == 404) {
           navigate("/not-found");
@@ -104,7 +101,7 @@ const PlaylistPage = ({ playlist }) => {
           <div className="flex pl-8 pr-8">
             <div className="w-[72%] border-r-[1px] border-solid pt-3 pr-8">
               {/* interact button */}
-              <InteractButton className={"border-b pb-3"} />
+              <FavoriteButton haveBorder={true} haveText={true} />
 
               {/* comments and artist summary */}
               <div className="flex flex-row justify-between mt-2">

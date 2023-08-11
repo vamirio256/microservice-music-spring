@@ -12,15 +12,9 @@ body:root {
   /* @apply m-0 p-0; */
 }
 
-/* html{
-  display: table;
-  margin: auto;
+button {
+  letter-spacing: -0.01em;
 }
-
-body{
-  display: table-cell;
-  vertical-align: middle;
-} */
 
 @layer base {
   html {
@@ -124,5 +118,5 @@ body{
 }
 
 .animate-slide-down {
-  animation: slideDown 0.5s ease-in-out;
+  animation: slideDown 0.3s ease-in-out;
 }

@@ -10,7 +10,7 @@ const CopyLinkButton = ({ className, copyLink, haveBorder, haveText }) => {
     dispatch({
       type: "APPEND_NOTIFICATION",
       text: "Link has been copied to the clipboard!",
-      icon: "check",
+      icon: "success",
     });
   };
 

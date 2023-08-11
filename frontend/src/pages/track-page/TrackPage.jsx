@@ -12,6 +12,8 @@ import SideBar from "../../components/side-bar/SideBar";
 import Waveform from "../../components/waveform/Waveform";
 import CopyLinkButton from "../../components/buttons/CopyLinkButton";
 import { BiSolidComment } from "react-icons/bi";
+import DeleteButton from "../../components/buttons/DeleteButton";
+import { deleteTrack } from "../../apis/track/deleteTrack";
 
 const TrackPage = () => {
   const { trackId } = useParams();
@@ -29,6 +31,15 @@ const TrackPage = () => {
       track: track,
     });
   };
+
+  // const handleDeleteTrack = async() =>{
+  //   const response = await deleteTrack(trackId);
+  //   if(response.ok){
+  //     navigate
+  //   }else{
+  //     dispatch
+  //   }
+  // }
 
   useEffect(() => {
     if (!playing) return;
@@ -119,8 +130,19 @@ const TrackPage = () => {
                     haveText={true}
                     className={"mr-2"}
                   />
-                  <MoreButton haveBorder={true} haveText={true} />
+                  <MoreButton
+                    haveBorder={true}
+                    haveText={true}
+                    className={"mr-2"}
+                  />
+                  <DeleteButton
+                    haveBorder={true}
+                    haveText={true}
+                    title={"Permanently delete this track?"}
+                    context={`Removing this track is irreversible. You will lose all the plays, likes and comments for this track with no way to get them back.`}
+                  />
                 </div>
+
                 {/* info */}
                 <div className="text-[#999] flex">
                   <div
@@ -155,7 +177,14 @@ const TrackPage = () => {
                   <h3 className="text-sm mb-2 mt-2">{track.user.username}</h3>
 
                   {/* follow button */}
-                  {track.user.id !== userId && <Follow user={track.user} />}
+                  {track.user.id !== userId && (
+                    <Follow
+                      user={track.user}
+                      haveBorder={true}
+                      haveText={true}
+                      className={"w-fit"}
+                    />
+                  )}
                 </div>
 
                 <div className="w-full">

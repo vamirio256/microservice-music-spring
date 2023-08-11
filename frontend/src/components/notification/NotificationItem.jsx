@@ -24,15 +24,21 @@ export default function NotificationItem({ item, index }) {
 
   const renderIcon = () => {
     switch (item.icon) {
-      case "check":
+      case "success":
         return (
-          <div className="w-[40px] h-[40px] bg-[#f50] rounded-l-[3px] border border-[#a73a04] flex justify-center">
+          <div className="w-[40px] h-[40px] bg-[#00CC83] rounded-l-[3px] flex justify-center">
             <BsCheckLg className="text-[25px] text-white drop-shadow-md m-auto" />
           </div>
         );
-      case "alert":
+      case "warning":
         return (
-          <div className="w-[40px] h-[40px] bg-[#f50]">
+          <div className="w-[40px] h-[40px] bg-[#25A9EF]">
+            <BsCheckLg className="text-[40px] text-white" />
+          </div>
+        );
+      case "error":
+        return (
+          <div className="w-[40px] h-[40px] bg-[#E16744]">
             <BsCheckLg className="text-[40px] text-white" />
           </div>
         );
@@ -51,7 +57,7 @@ export default function NotificationItem({ item, index }) {
       {item.image && (
         <img src={item.image} alt="" className="w-[40px] h-[40px]" />
       )}
-      {renderIcon()}  
+      {renderIcon()}
       <div className="flex h-full flex-col justify-start ml-3 m-auto">
         {item.name && <p className="font-normal truncate">{item.name}</p>}
         {item.text && <p className="text-xs">{item.text}</p>}
