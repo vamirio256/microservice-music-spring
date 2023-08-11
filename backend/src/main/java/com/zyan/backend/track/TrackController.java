@@ -51,7 +51,7 @@ public class TrackController {
         return ResponseEntity.ok(trackService.updateTrack(user, track, cover, audio));
     }
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteTrack(@AuthenticationPrincipal User user,
                                               @PathVariable("id") int id) {
         trackService.deleteTrack(user, id);

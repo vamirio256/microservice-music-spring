@@ -39,14 +39,14 @@ public class Track {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isPublic = true;
-    @ManyToMany(mappedBy = "tracks")
+    @ManyToMany(mappedBy = "tracks", cascade = CascadeType.ALL)
 //    @JsonIgnoreProperties("tracks")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
     private List<Playlist> playlists = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     @JsonIgnoreProperties("tracks")
     private Profile profile;
 
