@@ -9,7 +9,6 @@ import FavoriteButton from "../buttons/FavoriteButton";
 import UserHoverBar from "./UserHoverBar";
 
 const TrackCard = ({ className, track }) => {
-  console.log(track);
   const dispatch = useDispatch();
   const playing = useSelector((state) => state.playingReducer);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -26,7 +25,7 @@ const TrackCard = ({ className, track }) => {
     });
 
     dispatch({
-      type: "APPEND_QUEUE",
+      type: "SET_QUEUE",
       tracks: [track],
     });
   };

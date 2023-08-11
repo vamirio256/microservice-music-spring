@@ -24,7 +24,7 @@ const Playlist = ({ playlist }) => {
     // set queue if current playlist track playing
 
     dispatch({
-      type: "APPEND_QUEUE",
+      type: "SET_QUEUE",
       tracks: playlist.tracks,
     });
   };

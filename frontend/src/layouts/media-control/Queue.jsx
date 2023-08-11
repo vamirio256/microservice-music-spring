@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Queue = ({ isShowed, setIsShowed }) => {
   const queue = useSelector((state) => state.queueReducer);
+  const playingTrack = useSelector((state) => state.playingReducer.track);
   const dispatch = useDispatch();
 
   const handleEmptyQueue = () => {
     dispatch({
       type: "EMPTY_QUEUE",
+      playingTrack: playingTrack,
     });
   };
   const playTrack = (track) => {
@@ -18,7 +20,7 @@ const Queue = ({ isShowed, setIsShowed }) => {
       track: track,
     });
   };
-  const playingTrack = useSelector((state) => state.playingReducer.track);
+
   return (
     <>
       {isShowed ? (

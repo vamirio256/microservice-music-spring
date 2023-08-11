@@ -27,7 +27,7 @@ export const SideBarTrackCard = ({ track }) => {
       track: [track],
     });
     dispatch({
-      type: "APPEND_QUEUE",
+      type: "SET_QUEUE",
       tracks: [track],
     });
   }
