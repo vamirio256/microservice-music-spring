@@ -47,8 +47,8 @@ const TrackWaveform = ({ track, className, haveOnDelete }) => {
     } else {
       dispatch({
         type: "APPEND_NOTIFICATION",
-        text: "Link has been copied to the clipboard!",
-        icon: "success",
+        text: "Error in deleting track!",
+        icon: "error",
       });
     }
   };

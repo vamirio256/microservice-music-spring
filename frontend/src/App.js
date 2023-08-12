@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "./pages/home-page/HomePage";
 
@@ -20,11 +20,13 @@ import NotificationList from "./components/notification/NotificationList";
 import EditPlaylistModal from "./components/modals/EditPlaylistModal";
 import ConfirmModal from "./components/modals/ConfirmModal";
 import PlaylistPage from "./pages/playlist-page/PlaylistPage";
+import PremiumPage from "./pages/premium-page/PremiumPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [tokenValidated, setTokenValidated] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -55,6 +57,7 @@ function App() {
     );
   }
 
+
   return (
     // <div className="flex flex-col h-[100vh] relative overflow-x-hidden">
     <div
@@ -74,13 +77,14 @@ function App() {
         </Routes>
       ) : (
         <>
-          <TopBar />
+          {location.pathname !== "/premium" && <TopBar />}
           <div className="flex justify-center flex-1 bg-[#F2F2F2]">
             <div className="max-w-[1240px] bg-white pb-8 w-full">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/upload" element={<UploadPage />} />
+                <Route path="/premium" element={<PremiumPage />} />
                 <Route path="/user/:userId/*" element={<UserPage />} />
                 <Route path="/library/*" element={<LibraryPage />} />
                 <Route path="/track/:trackId" element={<TrackPage />} />
@@ -95,9 +99,9 @@ function App() {
           </div>
           <NotificationList />
           <PlaylistModal />
-          <MediaControl />
           <EditPlaylistModal />
           <ConfirmModal />
+          {location.pathname !== "/premium" && <MediaControl />}
         </>
       )}
     </div>

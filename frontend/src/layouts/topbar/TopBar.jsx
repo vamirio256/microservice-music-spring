@@ -30,7 +30,8 @@ const TopBar = () => {
     dispatch({
       type: "OPEN_MODAL_CONFIRM",
       onConfirm: logout,
-      context: "Are you sure to logout right now? There are many tracks waiting you to discover.",
+      context:
+        "Are you sure to logout right now? There are many tracks waiting you to discover.",
       title: "Logout",
     });
   };
@@ -81,7 +82,7 @@ const TopBar = () => {
             />
             <button
               onClick={() => {
-                dispatch({ type: "APPEND_NOTIFICATION" });
+                dispatch({ type: "APPEND_NOTIFICATION", icon: "warning" });
               }}
               className="w-full lg:w-auto"
             >
@@ -95,17 +96,11 @@ const TopBar = () => {
             {/* search */}
             <SearchBar />
             {/* premium button */}
-            <button
-              onClick={() => {
-                dispatch({ type: "APPEND_NOTIFICATION" });
-              }}
-              className="w-full lg:w-auto"
-            >
-              <TopBarItem
-                label={<span className="text-[#f50]">Premium</span>}
-                setOpenMenu={setOpenMenu}
-              />
-            </button>
+            <TopBarItem
+              label={<span className="text-[#f50]">Premium</span>}
+              setOpenMenu={setOpenMenu}
+              to={"/premium"}
+            />
             <TopBarItem
               label={"Upload"}
               to={"/upload"}

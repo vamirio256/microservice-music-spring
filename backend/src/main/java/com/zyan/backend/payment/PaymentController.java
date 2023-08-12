@@ -3,7 +3,10 @@ package com.zyan.backend.payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,16 +25,15 @@ public class PaymentController {
         this.vnPayConfig = vnPayConfig;
     }
 
-    @GetMapping("/create-payment")
-    public ResponseEntity<?> createPayment(
-    ) throws UnsupportedEncodingException {
-//        String orderType = req.getParameter("ordertype");
+    @GetMapping("/vnpay")
+    public ResponseEntity<?> createPayment(@RequestParam("amount") String amountString) throws UnsupportedEncodingException {
+        //        String orderType = req.getParameter("ordertype");
 //        long amount = Integer.parseInt(req.getParameter("amount"))*100;
 //        String bankCode = req.getParameter("bankCode");
-        long amount = 1000000;
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPayConfig.getIpAddress();
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
+        long amount = Integer.parseInt(amountString)*100;
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VNPayConfig.vnp_Version);
@@ -54,7 +56,7 @@ public class PaymentController {
 //        }
 //        log.info("IP: {}",vnp_IpAddr);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-//
+        //
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
@@ -101,4 +103,6 @@ public class PaymentController {
 
         return ResponseEntity.status(HttpStatus.OK).body(vnPayResponseDTO);
     }
+
+
 }

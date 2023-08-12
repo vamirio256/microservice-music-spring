@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
+import { FaExclamation } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
+import { PiWarningDiamondFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function NotificationItem({ item, index }) {
@@ -34,8 +36,8 @@ export default function NotificationItem({ item, index }) {
         );
       case "warning":
         return (
-          <div className="w-[40px] h-[40px] bg-[#25A9EF]">
-            <BsCheckLg className="text-[40px] text-white" />
+          <div className="w-[40px] h-[40px] bg-[#25A9EF] rounded-l-[3px] flex justify-center items-center">
+            <FaExclamation className="text-[20px] text-white" />
           </div>
         );
       case "error":

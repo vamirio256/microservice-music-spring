@@ -120,3 +120,7 @@ button {
 .animate-slide-down {
   animation: slideDown 0.3s ease-in-out;
 }
+/* 
+input:checked + .bill {
+  border-color: #f50;
+} */

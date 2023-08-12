@@ -12,7 +12,7 @@ const MoreButton = ({ className, haveBorder, haveText }) => {
        h-fit w-fit border-[1px] border-solid text-xs rounded-[3px] max-h-[25px] hover:border-[#999] flex flex-row item-center bg-white
       ${className}`}
       onClick={() => {
-        dispatch({ type: "APPEND_NOTIFICATION" });
+        dispatch({ type: "APPEND_NOTIFICATION", icon: "warning" });
       }}
     >
       <PiDotsThreeOutlineFill className="text-[16px]" />
