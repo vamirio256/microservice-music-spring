@@ -10,6 +10,7 @@ module.exports = {
         orange: "#f50",
         topbar: "#333",
         secondary: "#f2f2f2",
+        hoverColor: "#f2f2f2",
       },
       backgroundImage: {
         lading_web: "url('/src/assets/images/cover_landing_web.jpg')",
@@ -19,5 +20,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp"), require('tailwind-scrollbar')({ nocompatible: true })],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
 };

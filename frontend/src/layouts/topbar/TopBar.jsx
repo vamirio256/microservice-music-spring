@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { BiLogoSoundcloud, BiMenuAltLeft } from "react-icons/bi";
-import { useLocation } from "react-router-dom";
+import {
+  BiLike,
+  BiLogoSoundcloud,
+  BiMenuAltLeft,
+  BiSolidPlaylist,
+} from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
@@ -9,7 +14,10 @@ import ConfirmModal from "../../components/modals/ConfirmModal";
 import NotificationDropDown from "../../components/drop-downs/NotificationDropDown";
 import { AiOutlineClose } from "react-icons/ai";
 import useScreenDimensions from "../../utils/useScreenDimensions";
-
+import { BsFillPersonFill, BsPeopleFillWho } from "react-icons/bs";
+import { BiSolidPlaylistPlayLists } from "react-icons/bi";
+import { IoMdPeople } from "react-icons/io";
+import { RiArrowDropDownLine } from "react-icons/ri";
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
@@ -17,6 +25,8 @@ const TopBar = () => {
   const isDesktop = useScreenDimensions();
   const [openMenu, setOpenMenu] = useState(false);
   const [isTransition, setIsTransition] = useState(false);
+  const [isShowAccountMenuDropdown, setIsShowAccountMenuDropdown] =
+    useState(false);
 
   useEffect(() => {
     if (isDesktop) {
@@ -30,7 +40,8 @@ const TopBar = () => {
     dispatch({
       type: "OPEN_MODAL_CONFIRM",
       onConfirm: logout,
-      context: "Are you sure to logout right now? There are many tracks waiting you to discover.",
+      context:
+        "Are you sure to logout right now? There are many tracks waiting you to discover.",
       title: "Logout",
     });
   };
@@ -39,7 +50,8 @@ const TopBar = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
   };
-
+  const hoverAccountItem =
+    "flex items-center py-2 pl-2 pr-4 hover:bg-hoverColor";
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="max-w-[1240px] w-full">
@@ -114,17 +126,47 @@ const TopBar = () => {
           </div>
           {/* account infor */}
           <div className="relative flex lg:w-[300px]">
-            <TopBarItem
-              label={user.username}
-              to={`/user/${user.id}`}
-              icon={
-                <img
-                  src={user.avatarUrl}
-                  className="rounded-full w-[20px] h-[20px]"
+            <div>
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() =>
+                  setIsShowAccountMenuDropdown(!isShowAccountMenuDropdown)
+                }
+              >
+                <TopBarItem
+                  label={user.username}
+                  icon={
+                    <img
+                      src={user.avatarUrl}
+                      className="rounded-full w-[20px] h-[20px]"
+                    />
+                  }
+                  classname={"w-full px-0"}
                 />
-              }
-              classname={"w-full "}
-            />
+                <RiArrowDropDownLine color="white" size={25} />
+              </div>
+              {isShowAccountMenuDropdown && (
+                <div
+                  className="absolute bottom-[-145px] left-0 flex flex-col bg-white rounded-sm shadow-md"
+                  onClick={() => setIsShowAccountMenuDropdown(false)}
+                >
+                  <Link className={hoverAccountItem} to={`/user/${user.id}`}>
+                    <BsFillPersonFill /> Profiles
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <BiLike /> Likes
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <BiSolidPlaylist />
+                    PlayLists
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <IoMdPeople />
+                    Who to follow
+                  </Link>
+                </div>
+              )}
+            </div>
             <button onClick={openConfirmModal}>
               <IoLogOut color="white" size={30} />
             </button>
