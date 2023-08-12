@@ -29,6 +29,7 @@ const EditPlaylistModal = () => {
   const editPlaylist = useSelector(
     (state) => state.modalReducer.editPlaylist.isShowed
   );
+
   //playlist redux
   const currentEditPlaylist = useSelector(
     (state) => state.modalReducer.editPlaylist.playlist

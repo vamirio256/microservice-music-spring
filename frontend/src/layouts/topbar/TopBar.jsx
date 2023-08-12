@@ -1,15 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { BiLogoSoundcloud, BiMenuAltLeft } from "react-icons/bi";
-import { useLocation } from "react-router-dom";
+import {
+  BiLike,
+  BiLogoSoundcloud,
+  BiMenuAltLeft,
+  BiSolidPlaylist,
+} from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
 import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import ConfirmModal from "../../components/modals/ConfirmModal";
-import NotificationDropDown from "../../components/drop-downs/NotificationDropDown";
+
 import { AiOutlineClose } from "react-icons/ai";
 import useScreenDimensions from "../../utils/useScreenDimensions";
+import { BsFillPersonFill, BsPeopleFillWho } from "react-icons/bs";
 
+import { IoMdPeople } from "react-icons/io";
+import { RiArrowDropDownLine } from "react-icons/ri";
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
@@ -17,6 +24,8 @@ const TopBar = () => {
   const isDesktop = useScreenDimensions();
   const [openMenu, setOpenMenu] = useState(false);
   const [isTransition, setIsTransition] = useState(false);
+  const [isShowAccountMenuDropdown, setIsShowAccountMenuDropdown] =
+    useState(false);
 
   useEffect(() => {
     if (isDesktop) {
@@ -40,7 +49,8 @@ const TopBar = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
   };
-
+  const hoverAccountItem =
+    "flex items-center py-2 pl-2 pr-4 hover:bg-hoverColor";
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10">
       <div className="max-w-[1240px] w-full">
@@ -109,17 +119,46 @@ const TopBar = () => {
           </div>
           {/* account infor */}
           <div className="relative flex lg:w-[300px]">
-            <TopBarItem
-              label={user.username}
-              to={`/user/${user.id}`}
-              icon={
-                <img
-                  src={user.avatarUrl}
-                  className="rounded-full w-[20px] h-[20px]"
-                />
-              }
-              classname={"w-full "}
-            />
+            <div>
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() =>
+                  setIsShowAccountMenuDropdown(!isShowAccountMenuDropdown)
+                }
+              >
+                <div className="flex">
+                  <div>
+                    <img
+                      src={user.avatarUrl}
+                      className="rounded-full w-[20px] h-[20px] mr-2"
+                    />
+                  </div>
+                  <span className="text-white">{user.username}</span>
+                </div>
+                <RiArrowDropDownLine color="white" size={25} />
+              </div>
+              {isShowAccountMenuDropdown && (
+                <div
+                  className="absolute bottom-[-145px] left-0 flex flex-col bg-white rounded-sm shadow-md"
+                  onClick={() => setIsShowAccountMenuDropdown(false)}
+                >
+                  <Link className={hoverAccountItem} to={`/user/${user.id}`}>
+                    <BsFillPersonFill /> Profiles
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <BiLike /> Likes
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <BiSolidPlaylist />
+                    PlayLists
+                  </Link>
+                  <Link className={hoverAccountItem}>
+                    <IoMdPeople />
+                    Who to follow
+                  </Link>
+                </div>
+              )}
+            </div>
             <button onClick={openConfirmModal}>
               <IoLogOut color="white" size={30} />
             </button>

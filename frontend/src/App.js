@@ -21,6 +21,7 @@ import EditPlaylistModal from "./components/modals/EditPlaylistModal";
 import ConfirmModal from "./components/modals/ConfirmModal";
 import PlaylistPage from "./pages/playlist-page/PlaylistPage";
 import PremiumPage from "./pages/premium-page/PremiumPage";
+import EditUserModal from "./components/modals/EditUserModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -101,6 +102,7 @@ function App() {
           <PlaylistModal />
           <EditPlaylistModal />
           <ConfirmModal />
+          <EditUserModal />
           {location.pathname !== "/premium" && <MediaControl />}
         </>
       )}

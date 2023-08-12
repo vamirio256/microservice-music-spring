@@ -9,7 +9,11 @@ const EditButton = ({ className, playlist }) => {
     <button
       className={`${className} border-[1px] border-solid px-2 py-1 text-xs rounded-sm bg-white hover:border-[#999] flex flex-row item-center mr-2`}
       onClick={() => {
-        dispatch({ type: "OPEN_MODAL_EDIT_PLAYLIST", playlist: playlist });
+        if (playlist)
+          dispatch({ type: "OPEN_MODAL_EDIT_PLAYLIST", playlist: playlist });
+        else {
+          dispatch({ type: "OPEN_MODAL_EDIT_USER" });
+        }
       }}
     >
       <MdEdit className="text-[14px]" />

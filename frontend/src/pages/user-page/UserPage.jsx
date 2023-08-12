@@ -18,6 +18,7 @@ import SideBar from "../../components/side-bar/SideBar";
 import SideBarSection from "../../components/side-bar/SideBarSection";
 import FollowButton from "../../components/buttons/FollowButton";
 import MoreButton from "../../components/buttons/MoreButton";
+import EditButton from "../../components/buttons/EditButton";
 
 const UserPage = () => {
   const [user, setUser] = useState("");
@@ -75,7 +76,7 @@ const UserPage = () => {
           </div>
 
           {/* navigate bar */}
-          <div className="flex justify-between px-8 mt-4 pb-2 border-b">
+          <div className="flex justify-between px-8 mt-4 pb-2 border-b flex-wrap ">
             <TabNavigateBar userId={userId} />
 
             {/* interact button */}
@@ -92,6 +93,7 @@ const UserPage = () => {
                 haveText={true}
                 className={"ml-2"}
               />
+              <EditButton haveBorder={true} haveText={true} />
             </div>
           </div>
 
