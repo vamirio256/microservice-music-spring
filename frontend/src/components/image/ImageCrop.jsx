@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { AiFillCamera, AiOutlineCloseCircle } from "react-icons/ai";
 import { ReactCrop } from "react-image-crop";
 
-export default function ImageCrop({ setFile }) {
+export default function ImageCrop({ setFile, rounded, defaultImage }) {
   const [crop, setCrop] = useState({
     unit: "px",
     width: 150,
@@ -59,6 +59,7 @@ export default function ImageCrop({ setFile }) {
       );
     });
   }
+
   return (
     <div>
       {image ? (
@@ -76,6 +77,7 @@ export default function ImageCrop({ setFile }) {
             crop={crop}
             onChange={onCropChange}
             aspect={1}
+            circularCrop={true}
           >
             <img
               src={URL.createObjectURL(image)}
@@ -89,9 +91,16 @@ export default function ImageCrop({ setFile }) {
           <label
             ref={ref}
             htmlFor="image_upload"
-            className="inline-block cursor-pointer px-2 pt-[150px] w-[200px] lg:px-5 bg-cover pb-5 bg-slate-600 bg-no-repeat bg-center"
+            className={`inline-block cursor-pointer px-2 pt-[150px] w-[200px] lg:px-5 bg-cover pb-5 bg-slate-600 bg-no-repeat bg-center ${
+              defaultImage && "rounded-[50%]"
+            }`}
+            style={{ backgroundImage: `url('${defaultImage}')` }}
           >
-            <span className="bg-red-100 p-2 flex justify-center items-center">
+            <span
+              className={`bg-red-100 p-2 flex justify-center items-center ${
+                defaultImage && "w-[120px] m-auto"
+              }`}
+            >
               <AiFillCamera className="inline" /> Upload file
             </span>
           </label>

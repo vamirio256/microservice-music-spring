@@ -39,7 +39,10 @@ const modalReducer = (
     },
     editPlaylist: {
       isShowed: false,
-      context: "",
+      playlist: [],
+    },
+    editUser: {
+      isShowed: false,
     },
   },
   action
@@ -77,8 +80,14 @@ const modalReducer = (
       });
     case "CLOSE_MODAL_EDIT_PLAYLIST":
       return closeModal(state, "editPlaylist", (state, modal) => {
-        state[modal].track = {};
+        state[modal].playlist = [];
       });
+    case "OPEN_MODAL_EDIT_USER":
+      return openModal(state, "editUser", (state, modal) => {
+        state[modal].user = action.user;
+      });
+    case "CLOSE_MODAL_EDIT_USER":
+      return closeModal(state, "editUser");
     default:
       return state;
   }

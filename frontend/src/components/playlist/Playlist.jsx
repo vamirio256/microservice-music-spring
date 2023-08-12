@@ -164,11 +164,11 @@ const Playlist = ({ playlist, isGradient, haveTitle }) => {
                     title={"Delete playlist"}
                     context={`Are you sure you want to delete ${playlist.title}? This action cannot be undone.`}
                   />
-                  {/* <EditButton
-                  haveBorder={true}
-                  haveText={true}
-                  playlist={playlist}
-                /> */}
+                  <EditButton
+                    haveBorder={true}
+                    haveText={true}
+                    playlist={playlist}
+                  />
                 </div>
               )}
             </div>

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom/dist";
 
 const TabNavigateBar = ({ className, userId }) => {
   return (
-    <div className={`${className}`}>
+    <div className={`${className}  mb-4`}>
       <div className="flex flex-row text-[18px] font-normal tracking-[-0.03em]">
         {/* <NavigateBarItem label={"Overview"} to={`/library`} /> */}
         <NavigateBarItem label={"History"} to={`/library`} />

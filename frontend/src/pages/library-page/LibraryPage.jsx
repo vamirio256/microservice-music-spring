@@ -47,7 +47,7 @@ const LibraryPage = () => {
           )}
         </div>
       )}
-      <Footer className={"mt-8 border-t pt-8"}/>
+      <Footer className={"mt-8 border-t pt-8"} />
     </div>
   );
 };

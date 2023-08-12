@@ -20,6 +20,7 @@ import NotificationList from "./components/notification/NotificationList";
 import EditPlaylistModal from "./components/modals/EditPlaylistModal";
 import ConfirmModal from "./components/modals/ConfirmModal";
 import PlaylistPage from "./pages/playlist-page/PlaylistPage";
+import EditUserModal from "./components/modals/EditUserModal";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -98,6 +99,7 @@ function App() {
           <MediaControl />
           <EditPlaylistModal />
           <ConfirmModal />
+          <EditUserModal />
         </>
       )}
     </div>
