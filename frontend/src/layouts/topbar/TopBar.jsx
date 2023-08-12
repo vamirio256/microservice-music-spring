@@ -10,12 +10,11 @@ import TopBarItem from "./TopBarItem";
 import SearchBar from "./SearchBar";
 import { IoLogOut } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import ConfirmModal from "../../components/modals/ConfirmModal";
-import NotificationDropDown from "../../components/drop-downs/NotificationDropDown";
+
 import { AiOutlineClose } from "react-icons/ai";
 import useScreenDimensions from "../../utils/useScreenDimensions";
 import { BsFillPersonFill, BsPeopleFillWho } from "react-icons/bs";
-import { BiSolidPlaylistPlayLists } from "react-icons/bi";
+
 import { IoMdPeople } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 const TopBar = () => {
@@ -133,16 +132,15 @@ const TopBar = () => {
                   setIsShowAccountMenuDropdown(!isShowAccountMenuDropdown)
                 }
               >
-                <TopBarItem
-                  label={user.username}
-                  icon={
+                <div className="flex">
+                  <div>
                     <img
                       src={user.avatarUrl}
-                      className="rounded-full w-[20px] h-[20px]"
+                      className="rounded-full w-[20px] h-[20px] mr-2"
                     />
-                  }
-                  classname={"w-full px-0"}
-                />
+                  </div>
+                  <span className="text-white">{user.username}</span>
+                </div>
                 <RiArrowDropDownLine color="white" size={25} />
               </div>
               {isShowAccountMenuDropdown && (
