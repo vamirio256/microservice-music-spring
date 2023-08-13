@@ -5,10 +5,8 @@ import { getTrackWithPagination } from "../../apis/track/getTrackWithPagination"
 import loading_gif from "../../assets/images/loading-gif.gif";
 import Playlist from "../../components/playlist/Playlist";
 import SideBar from "../../components/side-bar/SideBar";
-import HomePageTrackHorizontalSwipe from "../../components/track/TrackSwiper";
+import TrackSwiper from "../../components/track/TrackSwiper";
 import TrackWaveform from "../../components/track/TrackWaveform";
-import InfiniteScroll from "react-infinite-scroller";
-import useScreenDimensions from "../../utils/useScreenDimensions";
 
 const HomePage = () => {
   const [popularTracks, setPopularTrack] = useState(null);
@@ -104,7 +102,7 @@ const HomePage = () => {
       >
         {latestTracks && popularTracks ? (
           <>
-            <HomePageTrackHorizontalSwipe playlist={latestTracks} />
+            <TrackSwiper playlist={latestTracks} />
             {/* <Playlist playlist={popularTracks} haveTitle={true} /> */}
             <Playlist
               playlist={popularTracks}

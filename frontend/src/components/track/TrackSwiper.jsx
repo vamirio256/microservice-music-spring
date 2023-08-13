@@ -24,13 +24,13 @@ const TrackSwiper = ({ playlist }) => {
     }
   };
   const button =
-    "absolute  top-[40%]  w-[30px] h-[30px] flex border justify-center items-center rounded-[5px] border-solid border-[#d8d7d7] group hover:border-primary";
+    "absolute z-max top-[35%] bg-white w-[30px] h-[30px] flex border justify-center items-center rounded-[5px] border-solid border-[#d8d7d7] group hover:border-primary ";
   return (
     <>
       {playlist ? (
         <>
           <div className="mb-8">
-            <h2 className="mb-8 font-thin text-xl xl">{playlist.name}</h2>
+            <h2 className="mb-8 font-normal text-xl xl">{playlist.name}</h2>
             <div className="swiper-container relative">
               <div className="swiper-wrapper">
                 <Swiper
@@ -57,11 +57,11 @@ const TrackSwiper = ({ playlist }) => {
                   ))}
                 </Swiper>
               </div>
-              <button onClick={goPrev} className={`left-[-30px] ${button}`}>
-                <GrPrevious size={15} className="group-hover:text-primary" />
+              <button onClick={goPrev} className={`left-[-15px] ${button}`}>
+                <GrPrevious size={13} />
               </button>
-              <button onClick={goNext} className={`right-[-30px] ${button}`}>
-                <GrNext size={15} />
+              <button onClick={goNext} className={`right-[-15px] ${button}`}>
+                <GrNext size={13} />
               </button>
             </div>
           </div>

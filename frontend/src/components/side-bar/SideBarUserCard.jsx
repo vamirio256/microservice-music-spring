@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FollowButton from "../buttons/FollowButton";
 import { Link } from "react-router-dom";
+import Avatar from "../image/Avatar";
 
 const SideBarUserCard = ({ className, user }) => {
   return (
@@ -8,7 +9,7 @@ const SideBarUserCard = ({ className, user }) => {
       {user && (
         <div className={`w-full flex flex-row ${className}`}>
           <Link to={`/user/${user.id}`} className="min-w-fit">
-            <img
+            <Avatar
               src={user.avatarUrl}
               className="h-[50px] w-[50px] rounded-full"
             />

@@ -1,24 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import TabNavigateBar from "./TabNavigateBar";
-import {
-  Navigate,
-  Route,
-  Routes,
-  redirect,
-  useNavigate,
-  useParams,
-} from "react-router-dom/dist";
-import UserPageTracks from "./tabs/UploadedTrackTab";
-import UploadedTrackTab from "./tabs/UploadedTrackTab";
-import PlaylistTab from "./tabs/PlaylistTab";
-import FavoriteTrackTab from "../library-page/tabs/FavoriteTab";
 import { useSelector } from "react-redux";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom/dist";
 import { getUserData } from "../../apis/user/getUserData";
-import SideBar from "../../components/side-bar/SideBar";
-import SideBarSection from "../../components/side-bar/SideBarSection";
+import EditButton from "../../components/buttons/EditButton";
 import FollowButton from "../../components/buttons/FollowButton";
 import MoreButton from "../../components/buttons/MoreButton";
-import EditButton from "../../components/buttons/EditButton";
+import Avatar from "../../components/image/Avatar";
+import SideBar from "../../components/side-bar/SideBar";
+import TabNavigateBar from "./TabNavigateBar";
+import PlaylistTab from "./tabs/PlaylistTab";
+import TrackTab from "./tabs/TrackTab";
 
 const UserPage = () => {
   const [user, setUser] = useState("");
@@ -55,7 +46,7 @@ const UserPage = () => {
             {/* header */}
             <div className="h-64 bg-gradient-to-tl from-[#A19793] to-[#827A60] p-7 flex flex-row items-center">
               <div className="group relative">
-                <img
+                <Avatar
                   src={user.avatarUrl}
                   className="rounded-full w-[200px] h-[200px]"
                 />
@@ -76,7 +67,7 @@ const UserPage = () => {
           </div>
 
           {/* navigate bar */}
-          <div className="flex justify-between px-8 mt-4 pb-2 border-b flex-wrap ">
+          <div className="flex justify-between items-center px-8 py-2 border-b flex-wrap ">
             <TabNavigateBar userId={userId} />
 
             {/* interact button */}
@@ -85,13 +76,13 @@ const UserPage = () => {
                 <FollowButton
                   haveBorder={true}
                   haveText={true}
-                  className={"ml-2"}
+                  className={"mr-2"}
                 />
               )}
               <MoreButton
                 haveBorder={true}
                 haveText={true}
-                className={"ml-2"}
+                className={"mr-2"}
               />
               <EditButton haveBorder={true} haveText={true} />
             </div>
@@ -103,11 +94,18 @@ const UserPage = () => {
               <Routes>
                 <Route
                   index
-                  element={<UploadedTrackTab tracks={user.profile.tracks} />}
+                  element={
+                    <TrackTab tracks={user.profile.tracks} user={user} />
+                  }
                 />
                 <Route
                   path="/playlist"
-                  element={<PlaylistTab playlists={user.profile.playlists} />}
+                  element={
+                    <PlaylistTab
+                      playlists={user.profile.playlists}
+                      user={user}
+                    />
+                  }
                 />
               </Routes>
             </div>

@@ -8,12 +8,10 @@ import { vnpayPayment } from "../../apis/payment/vnpayPayment";
 import Footer from "../../components/footer/Footer";
 
 const PremiumPage = () => {
-  const yearlyBill = 183500;
-  const montlyBill = 1140000;
+  const [bill, setBill] = useState(183500);
+  const [billCycle, setBillCycle] = useState("Monthly");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-  const navigate = useNavigate();
-  //   const [redirectUrl, setRedirectUrl] = useState("");
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -61,6 +59,10 @@ const PremiumPage = () => {
               id="bill-monthly"
               name="bill"
               className="hidden peer"
+              onClick={() => {
+                setBillCycle("Monthly");
+                setBill(183500);
+              }}
             />
             <label
               className="px-5 py-3 cursor-pointer flex border border-[#999] w-full peer-checked:border-[#f50] hover:border-black rounded-[4px]"
@@ -82,6 +84,10 @@ const PremiumPage = () => {
               id="bill-yearly"
               name="bill"
               className="hidden peer"
+              onClick={() => {
+                setBillCycle("Yearly");
+                setBill(1140000);
+              }}
             />
             <label
               className="px-5 py-3 cursor-pointer flex group border border-[#999] peer-checked:border-[#f50] hover:border-black w-full rounded-[4px] mb-3"
@@ -133,9 +139,9 @@ const PremiumPage = () => {
           <div className="w-full bg-[#f3f3f3] p-5 mb-6">
             <div className="grid grid-cols-2 gap-3 mb-5 text-black font-normal text-sm [&>*:nth-child(even)]:text-right">
               <p className="text-xl">Total</p>
-              <p className="text-xl">₫183,500</p>
+              <p className="text-xl">₫{bill}</p>
               <p>Billing cycle</p>
-              <p>Monthly</p>
+              <p>{billCycle}</p>
             </div>
             <p className="mb-5">
               Subscription will automatically renew at ₫183,500 every month,

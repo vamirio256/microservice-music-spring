@@ -14,6 +14,7 @@ const TopBarItem = ({
   const location = useLocation();
   const background_color = location.pathname === to ? "bg-black" : "bg-[#333]";
   const isDesktop = useScreenDimensions();
+
   return (
     <div className="flex flex-row">
       <Link
@@ -25,7 +26,7 @@ const TopBarItem = ({
           }
         }}
       >
-        <span className="mr-3 ">{Icon}</span>
+        <span className="mr-3">{Icon}</span>
         <span>{label}</span>
       </Link>
     </div>

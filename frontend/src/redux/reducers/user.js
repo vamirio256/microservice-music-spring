@@ -3,10 +3,15 @@ const userReducer = (state = {}, action) => {
     case "SET_USER":
       return action.user;
     case "REMOVE_TRACK":
-      state.profile.tracks = state.profile.tracks.filter(
-        (track) => track.id !== action.id
-      );
-      return state;
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          tracks: state.profile.tracks.filter(
+            (track) => track.id !== action.id
+          ),
+        },
+      };
     case "REMOVE_FAVORITE":
       return {
         ...state,

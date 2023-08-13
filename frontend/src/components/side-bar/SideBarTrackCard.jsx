@@ -65,11 +65,11 @@ export const SideBarTrackCard = ({ track }) => {
         </div>
 
         {/* right information */}
-        <div className="pl-2 w-full">
+        <div className="pl-2 w-full flex flex-col justify-between">
           {track.user && (
             <Link
               to={`/user/${track.user.id}`}
-              className={`text-[11px] line-clamp-1 ${
+              className={`username text-[11px] font-extralight line-clamp-1 ${
                 isPlaying ? "text-[#f50]" : "text-[#999]"
               }`}
             >
@@ -85,7 +85,7 @@ export const SideBarTrackCard = ({ track }) => {
             {track.name}
           </Link>
           {/* icon infor */}
-          <div className="grid grid-cols-3 gap-3 items-center text-xs mt-[2px] w-fit">
+          <div className="grid grid-cols-3 gap-3 mt-1 items-center text-xs  w-fit">
             <div className="grid grid-cols-2 gap-0.5 items-center ">
               <IoIosPlay color="#999" />
               <p>{track.listenedTime}</p>

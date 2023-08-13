@@ -37,7 +37,7 @@ const TrackWaveform = ({ track, className, haveOnDelete }) => {
     if (response.ok) {
       dispatch({
         type: "APPEND_NOTIFICATION",
-        text: "Link has been copied to the clipboard!",
+        text: "Track has been deleted!",
         icon: "success",
       });
       dispatch({

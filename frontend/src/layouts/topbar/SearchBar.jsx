@@ -69,11 +69,9 @@ const SearchBar = ({ className }) => {
     };
   };
 
-  const searchBarClasses = classNames("bg-searchbar_gray ", className);
-
   return (
     <div
-      className="relative w-[80%] ml-5 h-8 focus:outline-none order-1 mt-2 lg:order-none lg:w-[200px] xl:w-[400px]"
+      className={`relative w-[80%] h-full focus:outline-none mx-2 order-1 lg:order-none items-center flex lg:w-[200px] xl:w-[400px] ${className}`}
       ref={mySearchRef}
     >
       <input
@@ -81,15 +79,11 @@ const SearchBar = ({ className }) => {
         placeholder="Search"
         value={searchQuery}
         onChange={handleQueryChange}
-        className="w-full h-full rounded-md px-2 py-1 focus:outline-none"
+        className="w-full bg-[#e5e5e5] h-7 rounded-md px-2 py-1 focus:outline-none"
       />
-      <AiOutlineSearch
-        className="absolute right-2 top-2"
-        color="gray"
-        size={20}
-      />
+      <AiOutlineSearch className="absolute m-auto right-2" color="gray" size={20} />
       {display && (
-        <div>
+        <div className="absolute top-11 w-full">
           {searchQuery ? (
             <div className="w-full bg-[#262626] text-white p-5">
               Search for "{searchQuery}"
@@ -105,7 +99,7 @@ const SearchBar = ({ className }) => {
           ) : result ? (
             <div className="p-2 bg-black">
               {result.map((track, index) => (
-                <PlaylistTrackCard track={track} key={index} />
+                <PlaylistTrackCard track={track} key={index} isGradient={true}/>
               ))}
             </div>
           ) : (

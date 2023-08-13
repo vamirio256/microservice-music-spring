@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = ({ className }) => {
   return (
-    <div className={`text-[13px] font-normal ${className}`}>
+    <div className={`text-[13px] font-light ${className}`}>
       <div>
         <a className="cursor-pointer text-gray-300 hover:text-gray-500 mr-2">
           Legal

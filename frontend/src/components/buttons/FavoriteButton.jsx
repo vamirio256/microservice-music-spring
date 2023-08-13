@@ -4,6 +4,7 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import { addFavorite } from "../../apis/user/addFavorite";
 import { removeFavorite } from "../../apis/user/removeFavorite";
 import { useDispatch, useSelector } from "react-redux";
+import { FaHeart } from "react-icons/fa";
 
 const FavoriteButton = ({ track, className, haveBorder, haveText }) => {
   const favoriteList = useSelector(
@@ -58,12 +59,12 @@ const FavoriteButton = ({ track, className, haveBorder, haveText }) => {
         (favoriteTrack) => favoriteTrack.track.id == track.id
       ) ? (
         <button onClick={handleRemoveFavorite} className="flex">
-          <GoHeartFill className="text-[#f50] text-[14px]" />
+          <FaHeart className="text-[#f50] text-[13px]" />
           {haveText && <div className="ml-2">Liked</div>}
         </button>
       ) : (
         <button onClick={handleAddFavorite} className="flex">
-          <GoHeartFill className="text-[14px]" />
+          <FaHeart className="text-[13px]" />
           {haveText && <div className="ml-2">Like</div>}
         </button>
       )}

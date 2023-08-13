@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BiSolidPlaylist } from "react-icons/bi";
+import { PiPlaylistBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FavoriteButton from "../../components/buttons/FavoriteButton";
+import FollowButton from "../../components/buttons/FollowButton";
 import PlaybackTimeLine from "./PlaybackTimeLine";
-import Queue from "./queue/Queue";
 import VolumeControl from "./VolumeControl";
 import LoopButton from "./buttons/LoopButton";
 import NextButton from "./buttons/NextButton";
 import PlayButton from "./buttons/PlayButton";
 import PreviousButton from "./buttons/PreviousButton";
 import ShuffleButton from "./buttons/ShuffleButton";
-import FollowButton from "../../components/buttons/FollowButton";
+import Queue from "./queue/Queue";
 
 const MediaControl = () => {
   const audioRef = useRef(null);
@@ -170,9 +170,8 @@ const MediaControl = () => {
                 className={"!bg-[#f2f2f2] mr-1"}
               />
             )}
-            <BiSolidPlaylist
-              size={15}
-              className="ml-2 cursor-pointer mr-2"
+            <PiPlaylistBold
+              className="text-[17px] ml-2 cursor-pointer mr-2"
               onClick={() => setIsShowed(!isShowed)}
             />
           </div>
