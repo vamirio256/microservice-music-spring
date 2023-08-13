@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiTwotoneSwitcher } from "react-icons/ai";
-import { BsFillPeopleFill, BsFillPersonFill, BsSoundwave } from "react-icons/bs";
+import {
+  BsFillPeopleFill,
+  BsFillPersonFill,
+  BsSoundwave,
+} from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -39,7 +43,9 @@ const UserDropdown = ({ className, user }) => {
 
   return (
     <div
-      className={`${isShowed && "bg-black"} pl-3 relative flex items-center ${className}`}
+      className={`${
+        isShowed && "bg-black"
+      } pl-3 relative flex items-center ${className}`}
       ref={dropdownRef}
     >
       <div>
@@ -62,11 +68,11 @@ const UserDropdown = ({ className, user }) => {
               <BsFillPersonFill className="text-sm mr-2" />
               <span>Profiles</span>
             </Link>
-            <Link className={itemStyle}>
+            <Link className={itemStyle} to={"/library/favorite"}>
               <FaHeart className="text-sm mr-2" />
               <span>Likes</span>
             </Link>
-            <Link className={itemStyle}>
+            <Link className={itemStyle} to={"/library/playlist"}>
               <AiTwotoneSwitcher className="text-sm mr-2" />
               <span>PlayLists</span>
             </Link>
@@ -74,7 +80,7 @@ const UserDropdown = ({ className, user }) => {
               <BsFillPeopleFill className="text-sm mr-2" />
               <span>Following</span>
             </Link>
-            <Link className={itemStyle}>
+            <Link className={itemStyle} to={`/user/${user.id}`}>
               <BsSoundwave className="text-[15px] mr-2" />
               <span>Tracks</span>
             </Link>

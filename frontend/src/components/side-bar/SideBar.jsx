@@ -88,7 +88,7 @@ const SideBar = ({ recommendSection }) => {
 
       {/* mobile*/}
       <SideBarSection header={"Go mobile"} icon={<BiSolidMobile />}>
-        <div className="grid grid-cols-2 gap-5 items-center">
+        <div className="flex items-center flex-wrap">
           <img
             src={apple_store}
             className="max-w-[150px] h-[47px] cursor-pointer"

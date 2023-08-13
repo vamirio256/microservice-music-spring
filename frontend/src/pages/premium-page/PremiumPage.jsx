@@ -29,7 +29,7 @@ const PremiumPage = () => {
   };
 
   return (
-    <div className="w-full px-[5%]">
+    <div className="w-full px-[5%] ">
       <header className="w-full flex justify-between items-center mb-10">
         <Link to="/">
           <BiLogoSoundcloud className="text-[50px]" />{" "}
@@ -46,9 +46,9 @@ const PremiumPage = () => {
 
       <form
         onSubmit={handlePayment}
-        className="text-[13px] flex w-full justify-center"
+        className="text-[13px] flex w-full justify-center flex-wrap"
       >
-        <div className="w-[450px] mr-16">
+        <div className="w-[450px] mx-8">
           <h1 className="text-xl font-normal mb-6">1. Select billing cycle</h1>
 
           {/* monthly */}
@@ -132,7 +132,7 @@ const PremiumPage = () => {
         </div>
 
         {/* review purchase */}
-        <div className="w-[450px] text-[#666]">
+        <div className="w-[450px] text-[#666] mx-8">
           <h1 className="text-xl font-normal text-black mb-6">
             3. Review your purchase
           </h1>

@@ -140,18 +140,21 @@ const MediaControl = () => {
             />
           </div>
           {/* track info */}
-          <div className="flex flex-row mx-3 max-w-[200px]">
-            <img
-              src={playing.track.coverUrl}
-              className="h-[35px] w-[35px] mr-5 border"
-            />
-            <div className="flex flex-col justify-center">
+          <div className="flex flex-row mx-3 max-w-[200px] items-center">
+            <Link to={`/track/${playing.track.id}`}>
+              <img
+                src={playing.track.coverUrl}
+                className="h-[35px] w-[35px] mr-1 lg:mr-5 border"
+              />
+            </Link>
+
+            <div className="flex flex-col justify-center truncate">
               <Link to={`/track/${playing.track.id}`}>
                 {playing.track.name}
               </Link>
               <Link
                 to={`/user/${playing.track.user.id}`}
-                className="username text-[11px] text-gray-400"
+                className="username text-[11px] text-gray-400 truncate"
               >
                 {playing.track.user.username}
               </Link>

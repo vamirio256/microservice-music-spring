@@ -72,7 +72,7 @@ const TrackPage = () => {
     <>
       {track ? (
         <div>
-          <div className="w-full bg-gradient-to-tl from-[#A19793] to-[#827A60] p-5 flex flex-row justify-between items-center">
+          <div className=" w-full bg-gradient-to-tl from-[#A19793] to-[#827A60] p-5 flex flex-row justify-between items-center flex-wrap md:flex-nowrap">
             <div className="w-full h-full flex flex-col justify-start">
               <div className="flex flex-row mb-[150px]">
                 {/* play button */}
@@ -103,12 +103,17 @@ const TrackPage = () => {
             </div>
 
             {/* track cover */}
-            <img src={track.coverUrl} className="w-[340px] h-[340px] ml-5" />
+            <div className="flex justify-center w-full md:w-[500px] mt-5 ">
+              <img
+                src={track.coverUrl}
+                className="w-[200px] h-[200px] md:w-[340px] md:h-[340px] ml-5"
+              />
+            </div>
           </div>
 
           {/* main section */}
-          <div className="flex px-8 mt-5">
-            <div className="w-[72%] border-r-[1px] border-solid pr-8">
+          <div className="flex px-8 mt-5 flex-wrap">
+            <div className="w-full md:w-[72%] md:border-r-[1px] border-solid md:pr-8">
               {/* comment input */}
               <CommentInput
                 className={"mb-4"}
@@ -116,13 +121,13 @@ const TrackPage = () => {
                 setComments={setComments}
               />
               {/* interact button & info*/}
-              <div className={"border-b pb-3 flex justify-between"}>
+              <div className={"border-b pb-3 flex justify-between flex-wrap"}>
                 {/* interact button */}
-                <div className="flex">
+                <div className="flex flex-wrap">
                   <FavoriteButton
                     haveBorder={true}
                     haveText={true}
-                    className={"mr-2"}
+                    className={"mr-2 mb-2"}
                     track={track}
                   />
                   <CopyLinkButton
@@ -197,7 +202,7 @@ const TrackPage = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[28%] pl-8 text-[#999] text-[14px]">
+            <div className="mt-10 md:mt-0 w-full md:w-[28%] pl-8 text-[#999] text-[14px]">
               <SideBar />
             </div>
           </div>

@@ -89,7 +89,7 @@ const TopBar = () => {
             />
           </div>
         </div>
-        <div className="flex max-h-11 justify-between">
+        <div className="flex max-h-11 justify-between relative">
           {/* premium button */}
 
           <UserDropdown user={user} />
