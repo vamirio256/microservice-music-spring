@@ -24,7 +24,7 @@ const TrackSwiper = ({ playlist }) => {
     }
   };
   const button =
-    "absolute z-max top-[35%] bg-white w-[30px] h-[30px] flex border justify-center items-center rounded-[5px] border-solid border-[#d8d7d7] group hover:border-primary ";
+    "absolute top-[35%] bg-white w-[30px] h-[30px] flex border justify-center items-center rounded-[5px] border-solid border-[#d8d7d7] group hover:border-primary z-[1]";
   return (
     <>
       {playlist ? (

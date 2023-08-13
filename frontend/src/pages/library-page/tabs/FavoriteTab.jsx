@@ -12,7 +12,7 @@ const FavoriteTab = () => {
       <div className="mt-8 mb-4">
         <p>Hear the tracks you've liked:</p>
       </div>
-      <div className="grid grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
         {!favorites.length == 0 &&
           favorites.map((fav, index) => (
             <TrackCard track={fav.track} key={index} />

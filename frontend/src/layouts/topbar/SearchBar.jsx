@@ -71,7 +71,7 @@ const SearchBar = ({ className }) => {
 
   return (
     <div
-      className={`relative w-[80%] h-full focus:outline-none mx-2 order-1 lg:order-none items-center flex lg:w-[200px] xl:w-[400px] ${className}`}
+      className={`relative lg:w-full h-full focus:outline-none mx-2 order-1 lg:order-none items-center flex lg:h-11 flex-1 lg:px-5 mt-2 lg:mt-0 ${className}`}
       ref={mySearchRef}
     >
       <input
@@ -81,7 +81,11 @@ const SearchBar = ({ className }) => {
         onChange={handleQueryChange}
         className="w-full bg-[#e5e5e5] h-7 rounded-md px-2 py-1 focus:outline-none"
       />
-      <AiOutlineSearch className="absolute m-auto right-2" color="gray" size={20} />
+      <AiOutlineSearch
+        className="absolute m-auto right-5"
+        color="gray"
+        size={20}
+      />
       {display && (
         <div className="absolute top-11 w-full">
           {searchQuery ? (
@@ -99,7 +103,11 @@ const SearchBar = ({ className }) => {
           ) : result ? (
             <div className="p-2 bg-black">
               {result.map((track, index) => (
-                <PlaylistTrackCard track={track} key={index} isGradient={true}/>
+                <PlaylistTrackCard
+                  track={track}
+                  key={index}
+                  isGradient={true}
+                />
               ))}
             </div>
           ) : (

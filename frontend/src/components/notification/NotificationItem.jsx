@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { BiBell } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
-import { FaExclamation } from "react-icons/fa";
+import { FaBell, FaExclamation } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,6 +46,14 @@ export default function NotificationItem({ item, index }) {
           <div className="w-[40px] h-[40px] bg-[#E16744]">
             <BsCheckLg className="text-[40px] text-white" />
           </div>
+        );
+      default:
+        return (
+          !item.image && (
+            <div className="w-[40px] h-[40px] flex justify-center items-center">
+              <FaBell className="text-[30px] text-primary" />
+            </div>
+          )
         );
     }
   };

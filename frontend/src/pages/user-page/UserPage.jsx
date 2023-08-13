@@ -92,12 +92,7 @@ const UserPage = () => {
             {/* left section */}
             <div className="w-full md:w-[72%] md:border-r-[1px] md:border-solid pt-8 pr-8">
               <Routes>
-                <Route
-                  index
-                  element={
-                    <TrackTab tracks={user.profile.tracks} user={user} />
-                  }
-                />
+                <Route index element={<TrackTab user={user} />} />
                 <Route
                   path="/playlist"
                   element={

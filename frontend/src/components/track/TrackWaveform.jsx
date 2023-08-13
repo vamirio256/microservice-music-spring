@@ -105,7 +105,7 @@ const TrackWaveform = ({ track, className, haveOnDelete }) => {
         </div>
 
         <Waveform audioUrl={track.audioUrl} />
-        <CommentInput className={"mt-5"} />
+        <CommentInput className={"mt-5"} trackId={track.id} />
 
         {/* interact button */}
         <div className="flex mt-3 flex-wrap">

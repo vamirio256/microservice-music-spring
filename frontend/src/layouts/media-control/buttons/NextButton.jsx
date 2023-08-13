@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillSkipEndFill } from "react-icons/bs";
 
-const NextButton = forwardRef((props, ref, className) => {
+const NextButton = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const queue = useSelector((state) => state.queueReducer);
   const playing = useSelector((state) => state.playingReducer);
@@ -42,7 +42,7 @@ const NextButton = forwardRef((props, ref, className) => {
 
   return (
     <button>
-      <BsFillSkipEndFill className={"text-xl ml-5"} onClick={playNext} />
+      <BsFillSkipEndFill className={props.className} onClick={playNext} />
     </button>
   );
 });

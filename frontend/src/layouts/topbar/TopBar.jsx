@@ -30,7 +30,7 @@ const TopBar = () => {
 
   return (
     <div className="sticky flex w-full justify-center items-center bg-[#333] text-sm top-0 z-10 h-11">
-      <div className="max-w-[1240px] w-full max-h-11">
+      <div className="max-w-[1240px] w-full max-h-11 flex justify-between">
         {/* menu icon mobile */}
         <BiMenuAltLeft
           size={40}
@@ -41,22 +41,21 @@ const TopBar = () => {
 
         {/* topbar item menu */}
         <div
-          className={`z-max container items-center flex flex-col lg:grid lg:grid-cols-3 bg-topbar w-[300px] 
+          className={`z-max items-center flex flex-col bg-topbar w-[300px]
           ${
             !openMenu && "ml-[-300px]"
-          } absolute left-0 top-0 ease-in duration-300 h-[100vh] lg:flex-row lg:w-full lg:h-11 transition-[margin-left] lg:transition-none lg:relative`}
+          } absolute left-0 top-0 ease-in duration-300 h-[100vh] lg:flex-row lg:w-full lg:h-11 transition-[margin-left] lg:transition-none lg:relative lg:justify-between`}
         >
           {/* close btn */}
-          <div className="lg:hidden">
+          <div className="lg:hidden block ml-auto">
             <AiOutlineClose
               size={30}
-              className="block ml-auto"
               color="white"
               onClick={() => setOpenMenu(false)}
             />
           </div>
 
-          <div className="flex max-h-11 justify-between">
+          <div className="flex max-h-11 flex-col lg:flex-row w-full z-max">
             <TopBarItem
               setOpenMenu={setOpenMenu}
               icon={<BiLogoSoundcloud color="white" size={50} />}
@@ -76,11 +75,8 @@ const TopBar = () => {
               to={"/library"}
               setOpenMenu={setOpenMenu}
             />
-          </div>
-          {/* search */}
-          <SearchBar />
-          <div className="flex max-h-11 justify-between">
-            {/* premium button */}
+            {/* search */}
+            <SearchBar />
             <TopBarItem
               label={<span className="text-[#f50]">Premium</span>}
               setOpenMenu={setOpenMenu}
@@ -91,11 +87,15 @@ const TopBar = () => {
               to={"/upload"}
               setOpenMenu={setOpenMenu}
             />
-            <UserDropdown user={user} />
-            <NotificationDropDown />
-            <MessageDropDown />
-            <MoreDropDown />
           </div>
+        </div>
+        <div className="flex max-h-11 justify-between">
+          {/* premium button */}
+
+          <UserDropdown user={user} />
+          <NotificationDropDown />
+          <MessageDropDown />
+          <MoreDropDown />
         </div>
       </div>
     </div>

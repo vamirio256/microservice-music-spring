@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "../../apis/track/addComment";
 import { getTrack } from "../../apis/track/getTrack";
 
 const CommentInput = ({ className, trackId, setComments }) => {
   const [comment, setComment] = useState("");
   const user = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const handleAddComment = async (e) => {
     await addComment(comment, trackId);
     const response = await getTrack(trackId);
     const track = await response.json();
-    setComments(track.comments);
+    if (setComments) {
+      setComments(track.comments);
+    } else {
+      dispatch({
+        type: "APPEND_NOTIFICATION",
+        name: track.name,
+        text: "Comment thành công",
+        icon: "success",
+      });
+    }
+    setComment("");
   };
 
   return (

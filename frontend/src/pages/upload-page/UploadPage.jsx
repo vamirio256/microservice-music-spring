@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AiFillCamera,
   AiFillCloseSquare,
@@ -8,10 +8,13 @@ import loadingimage from "../../assets/images/loading-gif.gif";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import ImageCrop from "../../components/image/ImageCrop";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "../../apis/user/getUserData";
+import { func } from "prop-types";
 
 export const UploadPage = () => {
   const fileInputRef = useRef(null);
-  const ref = useRef();
+
   const [upload_display, set_upload_display] = useState(true);
   const [fileMusic, setFileMusic] = useState();
   const [name, setName] = useState("");
@@ -19,17 +22,21 @@ export const UploadPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
+  const idUser = useSelector((state) => state.userReducer.id);
   // file ảnh cop
   const [fileImageCrop, setFileImageCrop] = useState(undefined);
-
+  const cropImageRef = useRef();
   const handleFileMusic = (e) => {
     set_upload_display(false);
 
     setFileMusic(e.target.files[0]);
   };
+
   const uploadUrl = `${process.env.REACT_APP_API_BASE_URL}/tracks`;
   const uploadFile = async () => {
-    if (fileImageCrop == undefined) {
+    console.log(cropImageRef.current.isSettingImageCrop());
+    if (!cropImageRef.current.isSettingImageCrop()) {
       setError("Please choose music image");
       return;
     }
@@ -46,8 +53,10 @@ export const UploadPage = () => {
         type: "application/json",
       })
     );
-    formData.append("cover", fileImageCrop);
+    const imageCropped = await cropImageRef.current.getCroppedImage();
+    formData.append("cover", imageCropped);
     formData.append("audio", fileMusic);
+
     try {
       const response = await fetch(uploadUrl, {
         method: "POST",
@@ -57,10 +66,21 @@ export const UploadPage = () => {
         body: formData,
       });
       if (response.status === 200) {
-        alert("Upload success");
+        const user = await getUserData(idUser);
+        const dataUser = await user.json();
+
+        dispatch({ type: "SET_USER", user: dataUser });
+
         set_upload_display(true);
         fileInputRef.current.value = "";
         setFileImageCrop(undefined);
+        cropImageRef.current.removeImage();
+        dispatch({
+          type: "APPEND_NOTIFICATION",
+          name: name,
+          text: "has been uploaded to your library",
+        });
+        // update user data
       } else {
         alert("Something went wrong");
       }
@@ -149,7 +169,7 @@ export const UploadPage = () => {
           }`}
         >
           {/* image */}
-          <ImageCrop setFile={setFileImageCrop} />
+          <ImageCrop ref={cropImageRef} />
           {/* right infor */}
           <div className="pl-5 w-8/12">
             {/* name */}

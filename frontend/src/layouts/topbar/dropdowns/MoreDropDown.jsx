@@ -54,19 +54,26 @@ const MoreDropDown = ({ className }) => {
     <div
       className={`${
         isShowed && "bg-black"
-      } pl-3 relative flex items-center ${className}`}
+      } px-3 relative flex items-center cursor-pointer ${className}`}
       ref={dropdownRef}
     >
       <div>
-        <PiDotsThreeOutlineFill color="white" size={25} />
+        <PiDotsThreeOutlineFill
+          color="white"
+          size={25}
+          onClick={() => setIsShowed(!isShowed)}
+        />
         {isShowed && (
           <div
-            className="absolute border-b border-x border-[#ccc] top-11 left-0 flex flex-col w-[135px]  bg-white rounded-b-sm font-normal text-xs"
+            className="absolute border-b border-x border-[#ccc] top-11 right-0 flex flex-col w-[100px]  bg-white rounded-b-sm font-normal text-xs shadow-sm"
             onClick={() => setIsShowed(false)}
           >
-            <button onClick={openConfirmModal}>
-              <IoLogOut color="white" size={30} />
-            </button>
+            <div
+              onClick={openConfirmModal}
+              className="hover:bg-hoverColor cursor-pointer flex items-center p-2"
+            >
+              <IoLogOut color="black" size={20} /> Sign out
+            </div>
           </div>
         )}
       </div>

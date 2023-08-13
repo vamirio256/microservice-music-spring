@@ -94,6 +94,9 @@ const MediaControl = () => {
       );
     };
   }, [playing.track, playing.isPlaying]);
+
+  const mediaButton = "text-xl ml-2 lg:ml-5";
+
   return (
     playing.track !== null &&
     playing.track !== undefined && (
@@ -109,19 +112,15 @@ const MediaControl = () => {
           <Queue isShowed={isShowed} setIsShowed={setIsShowed} />
           {/* control button */}
           <div className="flex flex-row">
-            <PreviousButton className={"text-xl ml-5"} />
-            <PlayButton className={"text-xl ml-5"} />
+            <PreviousButton className={mediaButton} />
+            <PlayButton className={mediaButton} />
             <NextButton
-              className={"text-xl ml-5"}
+              className={mediaButton}
               ref={nextButtonRef}
               loop={loop}
             />
-            <ShuffleButton className={"text-xl ml-5"} />
-            <LoopButton
-              className={"text-xl ml-5"}
-              setLoop={setLoop}
-              loop={loop}
-            />
+            <ShuffleButton className={mediaButton} />
+            <LoopButton className={mediaButton} setLoop={setLoop} loop={loop} />
           </div>
 
           {/* track control */}

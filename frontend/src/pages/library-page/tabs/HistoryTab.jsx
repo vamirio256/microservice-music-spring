@@ -10,24 +10,32 @@ const HistoryTab = () => {
 
   return (
     <>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between flex-wrap mb-5">
         <p className="font-normal text-[#999]">Recently played:</p>
         <div>
-          <button className="px-1 py-0.5 border hover:border-[#999] rounded-sm text-xs">Clear all history</button>
-          <input placeholder="Filter" className="rounded-[3px] p-2 border border-[#ccc] outline-none focus:border-[#999] text-xs" />
+          <button className="px-1 py-0.5 border hover:border-[#999] rounded-sm text-xs">
+            Clear all history
+          </button>
+          <input
+            placeholder="Filter"
+            className="rounded-[3px] p-2 border border-[#ccc] outline-none focus:border-[#999] text-xs"
+          />
         </div>
       </div>
-      
-      {/* tracks */}
-      <div className="grid grid-cols-6 gap-6">
-      {!history.length == 0 && (
-        history.map((track, index) => <TrackCard track={track} key={index} />)
-      )}
 
-      {Array.from({ length: Math.max(0, 6 - history.length) }).map((_, index) => (
-          <PlaceholderItem key={index} />
-        ))}
-        </div>
+      {/* tracks */}
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
+        {!history.length == 0 &&
+          history.map((track, index) => (
+            <TrackCard track={track} key={index} />
+          ))}
+
+        {Array.from({ length: Math.max(0, 6 - history.length) }).map(
+          (_, index) => (
+            <PlaceholderItem key={index} />
+          )
+        )}
+      </div>
     </>
   );
 };
